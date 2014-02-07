@@ -1,0 +1,8 @@
+time_box_user:
+    resource: "@TimeBoxUserBundle/Resources/config/routing.yml"
+    prefix:   /
+
+time_box_main:
+    resource: "@TimeBoxMainBundle/Resources/config/routing.yml"
+    prefix:   /
+

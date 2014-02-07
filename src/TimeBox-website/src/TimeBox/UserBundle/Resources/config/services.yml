@@ -1,0 +1,7 @@
+parameters:
+#    time_box_user.example.class: TimeBox\UserBundle\Example
+
+services:
+#    time_box_user.example:
+#        class: %time_box_user.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
