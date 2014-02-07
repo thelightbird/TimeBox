@@ -1,10 +1,10 @@
 # Symfony
 
-src/TimeBox-website/app/bootstrap*
-src/TimeBox-website/vendor/*
-src/TimeBox-website/*/logs/*
-src/TimeBox-website/*/cache/*
-src/TimeBox-website/web/uploads/*
-src/TimeBox-website/web/bundles/*
-src/TimeBox-website/app/config/parameters.ini
-src/TimeBox-website/app/config/parameters.yml
+source/TimeBox-website/app/bootstrap*
+source/TimeBox-website/vendor/*
+source/TimeBox-website/*/logs/*
+source/TimeBox-website/*/cache/*
+source/TimeBox-website/web/uploads/*
+source/TimeBox-website/web/bundles/*
+source/TimeBox-website/app/config/parameters.ini
+source/TimeBox-website/app/config/parameters.yml
