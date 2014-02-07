@@ -1,13 +1,10 @@
-# Bootstrap
-app/bootstrap*
+# Symfony
 
-# Symfony directories
-vendor/*
-*/logs/*
-*/cache/*
-web/uploads/*
-web/bundles/*
-
-# Configuration files
-app/config/parameters.ini
-app/config/parameters.yml
+src/TimeBox-website/app/bootstrap*
+src/TimeBox-website/vendor/*
+src/TimeBox-website/*/logs/*
+src/TimeBox-website/*/cache/*
+src/TimeBox-website/web/uploads/*
+src/TimeBox-website/web/bundles/*
+src/TimeBox-website/app/config/parameters.ini
+src/TimeBox-website/app/config/parameters.yml
