@@ -1,6 +1,7 @@
 # Symfony
 
 source/TimeBox-website/app/bootstrap*
+source/TimeBox-website/bin/*
 source/TimeBox-website/vendor/*
 source/TimeBox-website/*/logs/*
 source/TimeBox-website/*/cache/*
@@ -8,3 +9,4 @@ source/TimeBox-website/web/uploads/*
 source/TimeBox-website/web/bundles/*
 source/TimeBox-website/app/config/parameters.ini
 source/TimeBox-website/app/config/parameters.yml
+source/TimeBox-website/composer.lock
