@@ -1,0 +1,11 @@
+{% extends "TimeBoxUserBundle::layout.html.twig" %}
+
+{% block fos_user_content %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+<div class="fos_user_group_show">
+    <p>{{ 'group.show.name'|trans }}: {{ group.getName() }}</p>
+</div>
+
+{% endblock fos_user_content %}
