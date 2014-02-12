@@ -10,15 +10,23 @@
 <form action="{{ path("fos_user_security_check") }}" method="post">
     <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
 
-    <label for="username">{{ 'security.login.username'|trans }}</label>
-    <input type="text" id="username" name="_username" value="{{ last_username }}" required="required" />
+    <table class="header_connexion">
+        <tr>
+            <td><label for="username">Username </label></td>
+            <td><input tabindex="1" maxlength="30" type="text" id="username" name="_username" value="{{ last_username }}" /></td>
+            <td><a href="{{ path('fos_user_registration_register') }}">Register</a></td>
+        </tr>
+        <tr>
+            <td><label for="password">Password</label></td>
+            <td><input tabindex="2" maxlength="30" type="password" id="password" name="_password" /></td>
+            <td><a href="{{ path('fos_user_resetting_request') }}">Forgotten password</a></td>
+        </tr>
 
-    <label for="password">{{ 'security.login.password'|trans }}</label>
-    <input type="password" id="password" name="_password" required="required" />
-
+    </table>
     <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
     <label for="remember_me">{{ 'security.login.remember_me'|trans }}</label>
 
     <input type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}" />
 </form>
+
 {% endblock fos_user_content %}
