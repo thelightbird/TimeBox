@@ -27,6 +27,11 @@ class Folder
     private $parentId;   
 
     /**
+     * @ORM\ManyToOne(targetEntity="TimeBox\UserBundle\Entity\User")
+     */
+    private $userId;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
@@ -150,5 +155,28 @@ class Folder
     public function getParentId()
     {
         return $this->parentId;
+    }
+
+    /**
+     * Set userId
+     *
+     * @param \TimeBox\UserBundle\Entity\User $userId
+     * @return Folder
+     */
+    public function setUserId(\TimeBox\UserBundle\Entity\User $userId = null)
+    {
+        $this->userId = $userId;
+
+        return $this;
+    }
+
+    /**
+     * Get userId
+     *
+     * @return \TimeBox\UserBundle\Entity\User 
+     */
+    public function getUserId()
+    {
+        return $this->userId;
     }
 }

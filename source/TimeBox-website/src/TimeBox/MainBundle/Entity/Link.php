@@ -27,6 +27,11 @@ class Link
     private $versionId;
 
     /**
+     * @ORM\ManyToOne(targetEntity="TimeBox\UserBundle\Entity\User")
+     */
+    private $userId;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="date", type="datetime")
@@ -89,5 +94,28 @@ class Link
     public function getVersionId()
     {
         return $this->versionId;
+    }
+
+    /**
+     * Set userId
+     *
+     * @param \TimeBox\UserBundle\Entity\User $userId
+     * @return Link
+     */
+    public function setUserId(\TimeBox\UserBundle\Entity\User $userId = null)
+    {
+        $this->userId = $userId;
+
+        return $this;
+    }
+
+    /**
+     * Get userId
+     *
+     * @return \TimeBox\UserBundle\Entity\User 
+     */
+    public function getUserId()
+    {
+        return $this->userId;
     }
 }

@@ -27,6 +27,12 @@ class File
     private $folder;
 
     /**
+     * @ORM\ManyToOne(targetEntity="TimeBox\UserBundle\Entity\User")
+     */
+    private $userId;
+
+
+    /**
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=255)
@@ -150,5 +156,28 @@ class File
     public function getFolder()
     {
         return $this->folder;
+    }
+
+    /**
+     * Set userId
+     *
+     * @param \TimeBox\UserBundle\Entity\User $userId
+     * @return File
+     */
+    public function setUserId(\TimeBox\UserBundle\Entity\User $userId = null)
+    {
+        $this->userId = $userId;
+
+        return $this;
+    }
+
+    /**
+     * Get userId
+     *
+     * @return \TimeBox\UserBundle\Entity\User 
+     */
+    public function getUserId()
+    {
+        return $this->userId;
     }
 }
