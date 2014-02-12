@@ -5,3 +5,10 @@ services:
 #    time_box_user.example:
 #        class: %time_box_user.example.class%
 #        arguments: [@service_id, "plain_value", %parameter%]
+
+    time_box_user_login_manager:
+        class: 'TimeBox\UserBundle\Service\LoginManager'
+        arguments: ['@security.context', '@doctrine']
+        tags:
+            - { name: 'kernel.event_subscriber' }
+            - { name: 'kernel.event_listener', event: 'security.interactive_login' }
