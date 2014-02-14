@@ -54,6 +54,10 @@ class File
     private $isDeleted;
 
 
+    public function __construct()
+    {
+        $this->isDeleted = 0;
+    }
 
 
     /**

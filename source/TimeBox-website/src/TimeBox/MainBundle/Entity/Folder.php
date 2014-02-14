@@ -53,6 +53,11 @@ class Folder
     private $isDeleted;
 
 
+    public function __construct()
+    {
+        $this->date = new \Datetime();
+        $this->isDeleted = 0;
+    }
 
 
     /**
