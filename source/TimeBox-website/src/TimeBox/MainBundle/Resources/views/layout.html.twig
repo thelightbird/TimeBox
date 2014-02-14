@@ -5,10 +5,19 @@
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('css/reset.css') }}" type="text/css" media="screen" />
     <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}" type="text/css" media="screen" />
+    <link rel="stylesheet" href="{{ asset('css/design.css') }}" type="text/css" media="screen" />
     <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Ubuntu' type='text/css'>
 {% endblock %}
 
 {% block body %}
+    {% include "TimeBoxMainBundle:Home:header.html.twig" %}
+
+    {% include "TimeBoxMainBundle:Home:menu.html.twig" %}
+
+    <div class="container">
+        {% block container %}
+        {% endblock %}
+    </div>
 {% endblock %}
 
 {% block javascripts %}

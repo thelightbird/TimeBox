@@ -21,10 +21,10 @@
             <td><input tabindex="2" maxlength="30" type="password" id="password" name="_password" /></td>
             <td><a href="{{ path('fos_user_resetting_request') }}">Forgotten password</a></td>
         </tr>
-
     </table>
-    <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
-    <label for="remember_me">{{ 'security.login.remember_me'|trans }}</label>
+
+    {# <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
+    <label for="remember_me">{{ 'security.login.remember_me'|trans }}</label> #}
 
     <input type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}" />
 </form>

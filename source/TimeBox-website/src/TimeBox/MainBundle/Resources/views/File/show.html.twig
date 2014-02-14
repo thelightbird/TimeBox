@@ -1,0 +1,72 @@
+{% extends "TimeBoxMainBundle::layout.html.twig" %}
+
+{% block container %}
+
+    <div class="actions">
+        <ul>
+            <li>Actions:</li>
+            <li><img src="{{ asset('img/icons/folder-add.png') }}" alt="folder add icon" />New folder</li>
+            <li><img src="{{ asset('img/icons/file-upload.png') }}" alt="upload icon" />Upload a new file</li>
+            <li><img src="{{ asset('img/icons/file-download.png') }}" alt="download icon" />Download</li>
+            <li><img src="{{ asset('img/icons/file-delete.png') }}" alt="file delete icon" />Delete</li>
+            <li><img src="{{ asset('img/icons/link.png') }}" alt="share icon" style="padding-bottom:1px;" />Share</li>
+            <li><img src="{{ asset('img/icons/file-edit.png') }}" alt="rename icon" />Rename</li>
+            <li><img src="{{ asset('img/icons/file-go.png') }}" alt="move icon" />Move</li>
+            <li><img src="{{ asset('img/icons/file-copy.png') }}" alt="copy icon" />Copy</li>
+        </ul>
+    </div>
+
+    <table class="file">
+        <thead>
+            <tr>
+                <td colspan="4">
+                    <span class="fLeft">Drive</span>
+                    <ul class="driveBreadcrumb">
+                        {# TODO Breadcrumb #}
+                    </ul>
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th class="fileType">{# Type #}</th>
+                <th class="fileTitle">Title</th>
+                <th>Size</th>
+                <th>Last Edit</th>
+            </tr>
+            {% for file in files %}
+            <tr class="selected">
+                <td class="fileType">
+                {% if file.type in types %}
+                    <img src="{{ asset('img/icons/file-' ~ file.type ~ '.png') }}" alt="{{ file.type }} icon" />
+                {% else %}
+                    <img src="{{ asset('img/icons/file.png') }}" alt="{{ file.type }} icon" title="{{ file.type }}" />
+                {% endif %}
+                </td>
+                <td class="fileTitle">{{ file.title }}</td>
+                <td>{#{ file.size }#}</td>
+                <td>{#{ file.date }#}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <table class="file">
+        <thead>
+            <tr>
+                <td colspan="3"></td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th>Versions</th>
+                <th>Size</th>
+                <th>Last Edit</th>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}

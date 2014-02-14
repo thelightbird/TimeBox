@@ -1,0 +1,91 @@
+/* Global
+-------------------------------------------------------------- */
+.clear {
+	clear: both;
+}
+.center {
+	text-align: center;
+}
+.fRight {
+	float: right;
+}
+.fLeft {
+	float: left;
+}
+
+/* Header
+-------------------------------------------------------------- */
+header p.userInfos span,
+header p.userInfos a {
+	display: block;
+}
+
+
+/* File
+-------------------------------------------------------------- */
+div.actions ul li {
+	font-family: "Ubuntu";
+	font-size: 12px;
+	height: 20px;
+	display: inline;
+	margin-left: 14px;
+}
+div.actions ul li img {
+	vertical-align: bottom;
+	margin-right: 3px;
+}
+
+table.file {
+	width: 500px;
+	float: left;
+}
+table.file ul.driveBreadcrumb {
+	margin:0px;
+	padding:0px;
+}
+table.file ul.driveBreadcrumb li {
+	background-image: url('../img/bullet.png');
+	background-position: left center;
+	background-repeat: no-repeat;
+	margin-left: 5px;
+	padding-left: 10px;
+	display: inline;
+}
+table.file thead {
+	background-color: #cfe8f5;
+	color: #2a4b5c;
+}
+table.file tr {
+	border: 1px solid #d1d1d1;
+}
+table.file th {
+	font-weight: normal;
+	text-transform: uppercase;
+	border: 1px solid #d1d1d1;
+}
+table.file th,
+table.file td {
+	padding: 10px;
+	font-size: 13px;
+	font-family: "Ubuntu";
+}
+table.file thead th,
+table.file thead td {
+	padding: 5px 10px;
+	font-size: 12px;
+}
+table.file .fileType {
+	width: 20px;
+	padding: 0px;
+	padding-left: 10px;
+	padding-right: 6px;
+	border-right: none;
+}
+table.file .fileTitle {
+	padding-left: 0px;
+	border-left: none;
+}
+table.file tr.selected {
+	background: #dbeff9;
+	background: linear-gradient(to top, #cfe8f5 0%, #ebf8ff 100%);
+}

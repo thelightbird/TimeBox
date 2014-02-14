@@ -1,10 +1,16 @@
-{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-<p align="right"style= "font: bold italic 16pt/12pt serif">{{ app.user.username }}</p>
-<p align="right"style= "font: bold italic 12pt/6pt serif"><a href="{{ path('fos_user_profile_show') }}">Profile</a></p>
-<p align="right"style= "font: bold italic 12pt/12pt serif"><a href="{{ path('fos_user_security_logout') }}">Log out</a></p>
-{% else %}
-	{{ render(controller("FOSUserBundle:Security:login")) }}
-{% endif %}
-
-
-
+<header>
+    <div class="leftBlock">
+        {# <img src="{{ asset('img/logo.png') }}" alt="logo" /> #}
+    </div>
+    <div class="rightBlock">
+    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+        <p class="userInfos">
+            <span>{{ app.user.username }}</span>
+            <a href="{{ path('fos_user_profile_show') }}">Profile</a>
+            <a href="{{ path('fos_user_security_logout') }}">Log out</a>
+        </p>
+    {% else %}
+        {{ render(controller("FOSUserBundle:Security:login")) }}
+    {% endif %}
+    </div>
+</header>
