@@ -6,7 +6,10 @@
         <ul>
             <li>Actions:</li>
             <li><img src="{{ asset('img/icons/folder-add.png') }}" alt="folder add icon" />New folder</li>
-            <li><img src="{{ asset('img/icons/file-upload.png') }}" alt="upload icon" />Upload a new file</li>
+            <li>
+                <img src="{{ asset('img/icons/file-upload.png') }}" alt="upload icon" />
+                <a href="{{ path('time_box_main_file_upload') }}">Upload a new file</a>
+            </li>
             <li><img src="{{ asset('img/icons/file-download.png') }}" alt="download icon" />Download</li>
             <li><img src="{{ asset('img/icons/file-delete.png') }}" alt="file delete icon" />Delete</li>
             <li><img src="{{ asset('img/icons/link.png') }}" alt="share icon" style="padding-bottom:1px;" />Share</li>
@@ -31,8 +34,8 @@
             <tr>
                 <th class="fileType">{# Type #}</th>
                 <th class="fileTitle">Title</th>
-                <th>Size</th>
-                <th>Last Edit</th>
+                <th class="size">Size</th>
+                <th class="lastEdit">Last Edit</th>
             </tr>
             {% for file in files %}
             <tr class="selected">
@@ -43,9 +46,17 @@
                     <img src="{{ asset('img/icons/file.png') }}" alt="{{ file.type }} icon" title="{{ file.type }}" />
                 {% endif %}
                 </td>
-                <td class="fileTitle">{{ file.title }}</td>
-                <td>{#{ file.size }#}</td>
-                <td>{#{ file.date }#}</td>
+                <td class="fileTitle">{{ file.name }}</td>
+                <td class="size">
+                {% if file.size > 1000000  %}
+                    {{ file.size // 1000000 + 1 }} mo
+                {% elseif file.size > 1000  %}
+                    {{ file.size // 1000 + 1 }} ko
+                {% else %}
+                    {{ file.size }} o
+                {% endif %}
+                </td>
+                <td class="lastEdit">{{ file.date|date('Y/m/d H:i') }}</td>
             </tr>
             {% endfor %}
         </tbody>

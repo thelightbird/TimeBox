@@ -5,3 +5,7 @@ time_box_main_homepage:
 time_box_main_file:
     pattern:  /file
     defaults: { _controller: TimeBoxMainBundle:File:show }
+
+time_box_main_file_upload:
+    pattern:  /file/upload
+    defaults: { _controller: TimeBoxMainBundle:File:upload }

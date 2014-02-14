@@ -24,12 +24,12 @@ class Link
     /**
      * @ORM\OneToOne(targetEntity="TimeBox\MainBundle\Entity\Version")
      */
-    private $versionId;
+    private $version;
 
     /**
      * @ORM\ManyToOne(targetEntity="TimeBox\UserBundle\Entity\User")
      */
-    private $userId;
+    private $user;
 
     /**
      * @var \DateTime
@@ -43,7 +43,6 @@ class Link
     {
         $this->date = new \Datetime();
     }
-
 
     /**
      * Get id
@@ -79,48 +78,48 @@ class Link
     }
 
     /**
-     * Set versionId
+     * Set version
      *
-     * @param \TimeBox\MainBundle\Entity\Version $versionId
+     * @param \TimeBox\MainBundle\Entity\Version $version
      * @return Link
      */
-    public function setVersionId(\TimeBox\MainBundle\Entity\Version $versionId = null)
+    public function setVersion(\TimeBox\MainBundle\Entity\Version $version = null)
     {
-        $this->versionId = $versionId;
+        $this->version = $version;
 
         return $this;
     }
 
     /**
-     * Get versionId
+     * Get version
      *
      * @return \TimeBox\MainBundle\Entity\Version 
      */
-    public function getVersionId()
+    public function getVersion()
     {
-        return $this->versionId;
+        return $this->version;
     }
 
     /**
-     * Set userId
+     * Set user
      *
-     * @param \TimeBox\UserBundle\Entity\User $userId
+     * @param \TimeBox\UserBundle\Entity\User $user
      * @return Link
      */
-    public function setUserId(\TimeBox\UserBundle\Entity\User $userId = null)
+    public function setUser(\TimeBox\UserBundle\Entity\User $user = null)
     {
-        $this->userId = $userId;
+        $this->user = $user;
 
         return $this;
     }
 
     /**
-     * Get userId
+     * Get user
      *
      * @return \TimeBox\UserBundle\Entity\User 
      */
-    public function getUserId()
+    public function getUser()
     {
-        return $this->userId;
+        return $this->user;
     }
 }

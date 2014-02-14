@@ -4,6 +4,11 @@ namespace TimeBox\MainBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
+
+use TimeBox\MainBundle\Entity\File;
+use TimeBox\MainBundle\Entity\Version;
 
 class FileController extends Controller
 {
@@ -24,9 +29,7 @@ class FileController extends Controller
 
         $em = $this->getDoctrine()->getManager();
 
-        $files = $em->getRepository('TimeBoxMainBundle:File')->findBy(array(
-            "userId" => $user
-        ));
+        $files = $em->getRepository('TimeBoxMainBundle:File')->getRootFiles($user);
 
         $types = array(
             "avi", "bmp", "css", "doc", "gif", "htm", "jpg", "js", "mov", "mp3", "mp4",
@@ -37,5 +40,44 @@ class FileController extends Controller
             "files" => $files,
             "types" => $types
         ));
+    }
+
+    /**
+     * @Template()
+     */
+    public function uploadAction(Request $request)
+    {
+        $user = $this->getConnectedUser();
+
+        $file = new File();
+        $form = $this->createFormBuilder($file)
+            ->add('file')
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+
+            $file->setUser($user);
+            $file->setUploadName();
+            $file->setUploadType();
+            $size = $file->getUploadSize();
+
+
+            $version = new Version();
+            $version->setDate(new \DateTime);
+            $version->setFile($file);
+            $version->setSize($size);
+            $version->setDisplayId(0);
+
+            $em->persist($file);
+            $em->persist($version);
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('time_box_main_file'));
+        }
+
+        return array('form' => $form->createView());
     }
 }

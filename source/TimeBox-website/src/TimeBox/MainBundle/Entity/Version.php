@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table()
  * @ORM\Entity
+ * @ORM\Entity(repositoryClass="TimeBox\MainBundle\Entity\VersionRepository")
  */
 class Version
 {
@@ -22,9 +23,9 @@ class Version
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="TimeBox\MainBundle\Entity\File")
+     * @ORM\ManyToOne(targetEntity="TimeBox\MainBundle\Entity\File", inversedBy="version")
      */
-    private $fileId;
+    private $file;
 
     /**
      * @var integer
@@ -50,14 +51,14 @@ class Version
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="string", length=255)
+     * @ORM\Column(name="description", type="string", length=255, nullable=true)
      */
     private $description;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="comment", type="string", length=255)
+     * @ORM\Column(name="comment", type="string", length=255, nullable=true)
      */
     private $comment;
 
@@ -66,7 +67,6 @@ class Version
     {
         $this->date = new \Datetime();
     }
-
 
     /**
      * Get id
@@ -194,25 +194,25 @@ class Version
     }
 
     /**
-     * Set fileId
+     * Set file
      *
-     * @param \TimeBox\MainBundle\Entity\File $fileId
+     * @param \TimeBox\MainBundle\Entity\File $file
      * @return Version
      */
-    public function setFileId(\TimeBox\MainBundle\Entity\File $fileId = null)
+    public function setFile(\TimeBox\MainBundle\Entity\File $file = null)
     {
-        $this->fileId = $fileId;
+        $this->file = $file;
 
         return $this;
     }
 
     /**
-     * Get fileId
+     * Get file
      *
      * @return \TimeBox\MainBundle\Entity\File 
      */
-    public function getFileId()
+    public function getFile()
     {
-        return $this->fileId;
+        return $this->file;
     }
 }

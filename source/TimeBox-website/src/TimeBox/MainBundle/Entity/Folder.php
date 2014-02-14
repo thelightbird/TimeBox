@@ -24,12 +24,12 @@ class Folder
     /**
      * @ORM\ManyToOne(targetEntity="TimeBox\MainBundle\Entity\Folder")
      */
-    private $parentId;   
+    private $parent;   
 
     /**
      * @ORM\ManyToOne(targetEntity="TimeBox\UserBundle\Entity\User")
      */
-    private $userId;
+    private $user;
 
     /**
      * @var string
@@ -58,7 +58,6 @@ class Folder
         $this->date = new \Datetime();
         $this->isDeleted = 0;
     }
-
 
     /**
      * Get id
@@ -140,48 +139,48 @@ class Folder
     }
 
     /**
-     * Set parentId
+     * Set parent
      *
-     * @param \TimeBox\MainBundle\Entity\Folder $parentId
+     * @param \TimeBox\MainBundle\Entity\Folder $parent
      * @return Folder
      */
-    public function setParentId(\TimeBox\MainBundle\Entity\Folder $parentId = null)
+    public function setParent(\TimeBox\MainBundle\Entity\Folder $parent = null)
     {
-        $this->parentId = $parentId;
+        $this->parent = $parent;
 
         return $this;
     }
 
     /**
-     * Get parentId
+     * Get parent
      *
      * @return \TimeBox\MainBundle\Entity\Folder 
      */
-    public function getParentId()
+    public function getParent()
     {
-        return $this->parentId;
+        return $this->parent;
     }
 
     /**
-     * Set userId
+     * Set user
      *
-     * @param \TimeBox\UserBundle\Entity\User $userId
+     * @param \TimeBox\UserBundle\Entity\User $user
      * @return Folder
      */
-    public function setUserId(\TimeBox\UserBundle\Entity\User $userId = null)
+    public function setUser(\TimeBox\UserBundle\Entity\User $user = null)
     {
-        $this->userId = $userId;
+        $this->user = $user;
 
         return $this;
     }
 
     /**
-     * Get userId
+     * Get user
      *
      * @return \TimeBox\UserBundle\Entity\User 
      */
-    public function getUserId()
+    public function getUser()
     {
-        return $this->userId;
+        return $this->user;
     }
 }

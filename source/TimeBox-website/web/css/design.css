@@ -85,6 +85,11 @@ table.file .fileTitle {
 	padding-left: 0px;
 	border-left: none;
 }
+table.file .size,
+table.file .lastEdit {
+	width: 100px;
+	text-align: center;
+}
 table.file tr.selected {
 	background: #dbeff9;
 	background: linear-gradient(to top, #cfe8f5 0%, #ebf8ff 100%);

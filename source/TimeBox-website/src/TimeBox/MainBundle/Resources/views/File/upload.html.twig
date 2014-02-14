@@ -1,0 +1,9 @@
+{% extends "TimeBoxMainBundle::layout.html.twig" %}
+
+{% block container %}
+    <h1>Upload File</h1>
+    <form action="#" method="post" {{ form_enctype(form) }}>
+        {{ form_widget(form) }}
+        <input class="btn btn-primary" type="submit" value="Upload Media" />
+    </form>
+{% endblock %}
