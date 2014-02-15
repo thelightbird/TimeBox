@@ -16,7 +16,7 @@ class FileRepository extends EntityRepository
     {
         $query = $this->getEntityManager()
             ->createQuery('
-                SELECT f.name, f.type, MAX(v.date) as date, v.size
+                SELECT f.id, f.name, f.type, MAX(v.date) as date, v.size
                 FROM TimeBoxMainBundle:File f
                 JOIN f.version v
                 WHERE f.user = :user
