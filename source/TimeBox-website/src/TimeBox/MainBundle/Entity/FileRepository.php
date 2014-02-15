@@ -12,16 +12,27 @@ use Doctrine\ORM\EntityRepository;
  */
 class FileRepository extends EntityRepository
 {
-    public function getRootFiles($user)
+    public function getRootFiles($user, $folderId)
     {
+        $param = array(
+            'user' => $user
+        );
+        if (is_null($folderId)) {
+            $sql = 'AND f.folder IS NULL';
+        }
+        else {
+            $sql = 'AND f.folder = :folderId';
+            $param['folderId'] = $folderId;
+        }
         $query = $this->getEntityManager()
             ->createQuery('
                 SELECT f.name, f.type, MAX(v.date) as date, v.size
                 FROM TimeBoxMainBundle:File f
                 JOIN f.version v
                 WHERE f.user = :user
+                '.$sql.'
                 GROUP BY f.id
-              ')->setParameter('user', $user);
+              ')->setParameters($param);
         try {
             return $query->getResult();
         } catch (\Doctrine\ORM\NoResultException $e) {

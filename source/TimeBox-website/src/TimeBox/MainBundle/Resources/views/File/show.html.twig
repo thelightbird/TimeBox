@@ -22,10 +22,12 @@
     <table class="file">
         <thead>
             <tr>
-                <td colspan="4">
-                    <span class="fLeft">Drive</span>
-                    <ul class="driveBreadcrumb">
-                        {# TODO Breadcrumb #}
+                <td colspan="4" class="driveBreadcrumb">
+                    <span class="fLeft"><a href="{{ path('time_box_main_file') }}">Drive</a></span>
+                    <ul>
+                        {% for folder in breadcrumb %}
+                            <li><a href="{{ path('time_box_main_file', {'folderId':folder.id}) }}">{{ folder.name }}</a></li>
+                        {% endfor %}
                     </ul>
                 </td>
             </tr>
@@ -37,6 +39,18 @@
                 <th class="size">Size</th>
                 <th class="lastEdit">Last Edit</th>
             </tr>
+            {% for folder in folders %}
+            <tr>
+                <td class="fileType">
+                    <img src="{{ asset('img/icons/folder.png') }}" alt="folder icon" />
+                </td>
+                <td class="fileTitle">
+                    <a href="{{ path('time_box_main_file', {'folderId': folder.id}) }}">{{ folder.name }}</a>
+                </td>
+                <td class="size"></td>
+                <td class="lastEdit"></td>
+            </tr>
+            {% endfor %}
             {% for file in files %}
             <tr class="selected">
                 <td class="fileType">
