@@ -23,13 +23,28 @@ class FileController extends Controller
         return $user;
     }
 
-    public function showAction()
+    public function showAction($folderId)
     {
         $user = $this->getConnectedUser();
 
         $em = $this->getDoctrine()->getManager();
 
-        $files = $em->getRepository('TimeBoxMainBundle:File')->getRootFiles($user);
+        $files = $em->getRepository('TimeBoxMainBundle:File')->getRootFiles($user, $folderId);
+        $folders = $em->getRepository('TimeBoxMainBundle:Folder')->findByParent($folderId);
+
+        $breadcrumb = array();
+        if (!is_null($folderId)) {
+            $currentFolder = $em->getRepository('TimeBoxMainBundle:Folder')->find($folderId);
+            if (!is_null($currentFolder)) {
+                $breadcrumb[] = $currentFolder;
+                $parent = $currentFolder->getParent();
+                while (!is_null($parent)) {
+                    $breadcrumb[] = $parent;
+                    $parent = $parent->getParent();
+                }
+                $breadcrumb = array_reverse($breadcrumb);
+            }
+        }
 
         $types = array(
             "avi", "bmp", "css", "doc", "gif", "htm", "jpg", "js", "mov", "mp3", "mp4",
@@ -39,7 +54,9 @@ class FileController extends Controller
         return $this->render('TimeBoxMainBundle:File:show.html.twig', array(
             "files" => $files,
             "types" => $types,
-            "user" => $user
+            "user" => $user,
+            "folders" => $folders,
+            "breadcrumb" => $breadcrumb
         ));
     }
 

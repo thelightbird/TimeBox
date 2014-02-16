@@ -3,8 +3,10 @@ time_box_main_homepage:
     defaults: { _controller: TimeBoxMainBundle:Home:index }
 
 time_box_main_file:
-    pattern:  /file
-    defaults: { _controller: TimeBoxMainBundle:File:show }
+    pattern:  /file/{folderId}
+    defaults: { _controller: TimeBoxMainBundle:File:show, folderId: null }
+    requirements:
+        folderId:  \d+
 
 time_box_main_file_upload:
     pattern:  /file/upload

@@ -39,11 +39,11 @@ table.file {
 	width: 500px;
 	float: left;
 }
-table.file ul.driveBreadcrumb {
+table.file .driveBreadcrumb ul {
 	margin:0px;
 	padding:0px;
 }
-table.file ul.driveBreadcrumb li {
+table.file .driveBreadcrumb ul li {
 	background-image: url('../img/bullet.png');
 	background-position: left center;
 	background-repeat: no-repeat;
@@ -51,9 +51,12 @@ table.file ul.driveBreadcrumb li {
 	padding-left: 10px;
 	display: inline;
 }
+table.file .driveBreadcrumb,
+table.file .driveBreadcrumb a {
+	color: #2a4b5c;
+}
 table.file thead {
 	background-color: #cfe8f5;
-	color: #2a4b5c;
 }
 table.file tr {
 	border: 1px solid #d1d1d1;
