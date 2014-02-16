@@ -61,6 +61,8 @@
             {% endfor %}
         </tbody>
     </table>
+
+    <!--
     <table id="tbVersions" class="file">
         <thead>
             <tr>
@@ -80,6 +82,11 @@
             </tr>
         </tbody>
     </table>
+    -->
+    <div id="tbVersions" class="file">
+    </div>
+
+    
 {% endblock %}
 
 {% block javascripts %}
@@ -88,8 +95,12 @@
     <script>
         $(document).ready(function() {
             $("tr.selected").click(function(){
-                //Load the Versions of the clicked file.
-            })
+                var fileId = event.target.id;
+                var route = "{{ path('time_box_main_file_versions_index', {'fileId' : "PLACE_IT_HERE"} ) }}";
+                window.location = route.replace("PLACE_IT_HERE", fileId);
+
+                $("#tbVersions").load(route);
+            });
         });
     </script>
 {% endblock %}

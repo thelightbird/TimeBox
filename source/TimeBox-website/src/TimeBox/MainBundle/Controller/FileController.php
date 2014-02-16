@@ -38,7 +38,8 @@ class FileController extends Controller
 
         return $this->render('TimeBoxMainBundle:File:show.html.twig', array(
             "files" => $files,
-            "types" => $types
+            "types" => $types,
+            "user" => $user
         ));
     }
 
