@@ -112,9 +112,8 @@
         $(document).ready(function() {
             $( "li.FileRelatedAction" ).hide( 0 );
             $("tr.file").click(function(){
-                $("tr.file").each(function(){
-                    $(this).removeClass("selected");
-                });
+                
+                $(this).siblings().removeClass("selected");
 
                 $(this).toggleClass("selected");
                 if($(this).hasClass("selected"))
