@@ -20,6 +20,20 @@ header p.userInfos a {
 	display: block;
 }
 
+.header_idbox {
+	background: #DDD;
+	border-radius: 0 0 10px 10px;
+	float: right;
+}
+
+.header_idbox_links {
+	padding-top: 16px;
+}
+
+.header_idbox_links a {
+	font-size: smaller;
+	padding: 7px 0;
+}
 
 /* File
 -------------------------------------------------------------- */
