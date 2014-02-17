@@ -12,6 +12,8 @@ time_box_main_file_upload:
     pattern:  /file/upload
     defaults: { _controller: TimeBoxMainBundle:File:upload }
 
-time_box_main_file_versions_index:
-    pattern: /file/{fileId}/versions/index
-    defaults: { _controller: TimeBoxMainBundle:Versions:index}
+time_box_main_file_versions:
+    pattern: /file/versions
+    defaults: { _controller: TimeBoxMainBundle:Version:index }
+    requirements:
+        _method:  POST

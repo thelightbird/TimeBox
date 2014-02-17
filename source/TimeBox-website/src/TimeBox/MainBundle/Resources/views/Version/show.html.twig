@@ -1,0 +1,43 @@
+<tr class="version">
+    <td colspan="2">
+        <ul class="version">
+        {% for version in versions %}
+            {% if loop.first %}
+                <li class="selected">
+            {%- else -%}
+                <li>
+            {%- endif -%}
+            v{{ version.displayId }} - {{ version.comment is not null ? version.comment : version.description }}
+            </li>
+        {% endfor %}
+        </ul>
+    </td>
+    <td class="size">
+        <ul class="versionInfos">
+        {% for version in versions %}
+            <li>
+                {% if version.size > 1000000  %}
+                    {{ version.size // 1000000 + 1 }} mo
+                {% elseif version.size > 1000  %}
+                    {{ version.size // 1000 + 1 }} ko
+                {% else %}
+                    {{ version.size }} o
+                {% endif %}
+            </li>
+        {% endfor %}
+        </ul>
+    </td>
+    <td class="lastEdit">
+        <ul class="versionInfos">
+        {% for version in versions %}
+            <li>
+                {%- if "now"|date("Y/m/d") == version.date|date('Y/m/d') %}
+                    {{ version.date|date('H:i') }}
+                {% else %}
+                    {{ version.date|date('Y/m/d') }}
+                {% endif -%}
+            </li>
+        {% endfor %}
+        </ul>
+    </td>
+</tr>

@@ -4,13 +4,10 @@ namespace TimeBox\MainBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Component\HttpFoundation\Request;
 
-use TimeBox\MainBundle\Entity\File;
 use TimeBox\MainBundle\Entity\Version;
 
-class VersionsController extends Controller
+class VersionController extends Controller
 {
 
     public function getConnectedUser()
@@ -24,24 +21,20 @@ class VersionsController extends Controller
         return $user;
     }
 
-    public function indexAction($fileId)
+    public function indexAction()
     {
-
         $user = $this->getConnectedUser();
 
         $em = $this->getDoctrine()->getManager();
 
-        $versions = $em->getRepository('TimeBoxMainBundle:Version')->getVersionsOfFile($fileId, $user);
+        $fileId = $this->get('request')->request->get('fileId');
+        if (!is_numeric($fileId)) {
+            return new Response('');
+        }
+        $versions = $em->getRepository('TimeBoxMainBundle:Version')->getFileVersions($user, $fileId);
 
-        $types = array(
-            "avi", "bmp", "css", "doc", "gif", "htm", "jpg", "js", "mov", "mp3", "mp4",
-            "mpg", "pdf", "php", "png", "ppt", "rar", "txt", "xls", "xml", "zip"
-        );
-
-        return $this->render('TimeBoxMainBundle:Versions:index.html.twig', array(
+        return $this->render('TimeBoxMainBundle:Version:show.html.twig', array(
             "versions" => $versions
         ));
     }
-
-    
 }

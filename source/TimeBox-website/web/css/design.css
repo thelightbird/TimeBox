@@ -58,6 +58,9 @@ table.file .driveBreadcrumb a {
 table.file thead {
 	background-color: #cfe8f5;
 }
+table.file thead tr {
+	height:28px;
+}
 table.file tr {
 	border: 1px solid #d1d1d1;
 }
@@ -96,4 +99,33 @@ table.file .lastEdit {
 table.file tr.selected {
 	background: #dbeff9;
 	background: linear-gradient(to top, #cfe8f5 0%, #ebf8ff 100%);
+}
+table.file ul.version {
+	margin:0px;
+	background-image: url('../img/version_ul_bg.png');
+	background-position: 11px center;
+	background-repeat: repeat-y;
+}
+table.file ul.version li {
+	background-image: url('../img/version_bullet.png');
+	background-position: left center;
+	background-repeat: no-repeat;
+	margin-left: 5px;
+	padding-left: 18px;
+	display: block;
+	line-height: 40px;
+}
+table.file ul.version li.selected {
+	background-image: url('../img/version_bullet_selected.png');
+}
+table.file tr.version td {
+	padding-top: 0px;
+	padding-bottom: 0px;
+}
+table.file tr.version ul {
+	margin-bottom:10px;
+}
+table.file ul.versionInfos {
+	display: block;
+	line-height: 40px;
 }

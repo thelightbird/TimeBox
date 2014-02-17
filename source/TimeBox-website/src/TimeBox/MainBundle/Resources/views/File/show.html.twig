@@ -52,7 +52,7 @@
             </tr>
             {% endfor %}
             {% for file in files %}
-            <tr class="file">
+            <tr data-id="{{ file.id }}" class="file">
                 <td class="fileType">
                 {% if file.type in types %}
                     <img src="{{ asset('img/icons/file-' ~ file.type ~ '.png') }}" alt="{{ file.type }} icon" />
@@ -60,7 +60,7 @@
                     <img src="{{ asset('img/icons/file.png') }}" alt="{{ file.type }} icon" title="{{ file.type }}" />
                 {% endif %}
                 </td>
-                <td id="{{file.id}}" class="fileTitle">{{ file.name }}</td>
+                <td class="fileTitle">{{ file.name }}</td>
                 <td class="size">
                 {% if file.size > 1000000  %}
                     {{ file.size // 1000000 + 1 }} mo
@@ -70,69 +70,59 @@
                     {{ file.size }} o
                 {% endif %}
                 </td>
-                <td class="lastEdit">{{ file.date|date('Y/m/d H:i') }}</td>
+                <td class="lastEdit">
+                {% if "now"|date("Y/m/d") == file.date|date('Y/m/d') %}
+                    {{ file.date|date('H:i') }}
+                {% else %}
+                    {{ file.date|date('Y/m/d') }}
+                {% endif %}
+                </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
 
-    <!--
-    <table id="tbVersions" class="file">
-        <thead>
-            <tr>
-                <td colspan="3"></td>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <th>Versions</th>
-                <th>Size</th>
-                <th>Last Edit</th>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-        </tbody>
-    </table>
-    -->
     <div id="tbVersions" class="file">
     </div>
-
-    
 {% endblock %}
 
 {% block javascripts %}
- {{ parent() }}
+    {{ parent() }}
     <script src="{{ asset('js/jquery-1.10.2.js') }}" type="text/javascript"></script>
 
     <script>
-    //*
         $(document).ready(function() {
             $( "li.FileRelatedAction" ).hide( 0 );
             $("tr.file").click(function(){
-                $("tr.file").each(function(){
-                    $(this).removeClass("selected");
-                });
+                $(this).siblings().removeClass("selected");
 
                 $(this).toggleClass("selected");
-                if($(this).hasClass("selected"))
+                if ($(this).hasClass("selected")) {
                     $( "li.FileRelatedAction" ).show( "slow" );
-                else
+
+                    $("tr.version ul").slideUp(function() {
+                        $("tr.version").remove();
+                    });
+                    var fileId = $(this).attr('data-id');
+                    $.ajax({
+                        url: "{{ path('time_box_main_file_versions') }}",
+                        context: this,
+                        type: "POST",
+                        data: {'fileId': fileId},
+                        success: function( data ) {
+                            $(this).after( data );
+                            $("tr.version ul").hide().slideDown();
+                        }
+                    });
+                }
+                else {
                     $( "li.FileRelatedAction" ).hide( "slow" );
 
-                
-                /*
-                var fileId = event.target.id;
-                var route = "{{ path('time_box_main_file_versions_index', {'fileId' : "PLACE_IT_HERE"} ) }}";
-                window.location = route.replace("PLACE_IT_HERE", fileId);
-
-                $("#tbVersions").load(route);
-                //*/
+                    $("tr.version ul").slideUp(function() {
+                        $("tr.version").remove();
+                    });
+                }
             });
         });
-    //*/
     </script>
-
 {% endblock %}

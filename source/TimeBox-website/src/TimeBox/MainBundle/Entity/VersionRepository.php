@@ -12,18 +12,20 @@ use Doctrine\ORM\EntityRepository;
  */
 class VersionRepository extends EntityRepository
 {
-	public function getVersionsOfFile($user, $fileId)
+	public function getFileVersions($user, $fileId)
     {
         $query = $this->getEntityManager()
             ->createQuery('
-                SELECT v.id, v.displayId, v.size, v.date, v.description, v.comment
-                FROM TimeBoxMainBundle:File f, TimeBoxMainBundle:Version v
-
+                SELECT v
+                FROM TimeBoxMainBundle:Version v
+                JOIN v.file f
                 WHERE f.user = :user
-                AND f.id = :fileId
-                AND f.id = v.file
-                ORDER BY v.date
-              ')->setParameter('user', $user)->setParameter('fileId', $fileId);
+                AND v.file = :fileId
+                ORDER BY v.date DESC
+            ')->setParameters(array(
+               'user'   => $user,
+               'fileId' => $fileId
+            ));
         try {
             return $query->getResult();
         } catch (\Doctrine\ORM\NoResultException $e) {
