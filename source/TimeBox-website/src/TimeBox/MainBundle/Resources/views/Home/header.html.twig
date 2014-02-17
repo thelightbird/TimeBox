@@ -1,8 +1,8 @@
 <header>
-    <div class="leftBlock">
+    <div class="leftBlock col-md-8">
         {# <img src="{{ asset('img/logo.png') }}" alt="logo" /> #}
     </div>
-    <div class="rightBlock">
+    <div class="rightBlock header_idbox col-md-4">
     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
         <p class="userInfos">
             <span>{{ app.user.username }}</span>
