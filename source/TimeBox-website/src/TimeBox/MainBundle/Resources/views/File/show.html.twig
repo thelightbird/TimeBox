@@ -10,12 +10,12 @@
                 <img src="{{ asset('img/icons/file-upload.png') }}" alt="upload icon" />
                 <a href="{{ path('time_box_main_file_upload') }}">Upload a new file</a>
             </li>
-            <li><img src="{{ asset('img/icons/file-download.png') }}" alt="download icon" />Download</li>
-            <li><img src="{{ asset('img/icons/file-delete.png') }}" alt="file delete icon" />Delete</li>
-            <li><img src="{{ asset('img/icons/link.png') }}" alt="share icon" style="padding-bottom:1px;" />Share</li>
-            <li><img src="{{ asset('img/icons/file-edit.png') }}" alt="rename icon" />Rename</li>
-            <li><img src="{{ asset('img/icons/file-go.png') }}" alt="move icon" />Move</li>
-            <li><img src="{{ asset('img/icons/file-copy.png') }}" alt="copy icon" />Copy</li>
+            <li class="FileRelatedAction"><img src="{{ asset('img/icons/file-download.png') }}" alt="download icon" />Download</li>
+            <li class="FileRelatedAction"><img src="{{ asset('img/icons/file-delete.png') }}" alt="file delete icon" />Delete</li>
+            <li class="FileRelatedAction"><img src="{{ asset('img/icons/link.png') }}" alt="share icon" style="padding-bottom:1px;" />Share</li>
+            <li class="FileRelatedAction"><img src="{{ asset('img/icons/file-edit.png') }}" alt="rename icon" />Rename</li>
+            <li class="FileRelatedAction"><img src="{{ asset('img/icons/file-go.png') }}" alt="move icon" />Move</li>
+            <li class="FileRelatedAction"><img src="{{ asset('img/icons/file-copy.png') }}" alt="copy icon" />Copy</li>
         </ul>
     </div>
 
@@ -32,7 +32,7 @@
                 </td>
             </tr>
         </thead>
-        <tbody>
+        <tbody class="selectable">
             <tr>
                 <th class="fileType">{# Type #}</th>
                 <th class="fileTitle">Title</th>
@@ -105,11 +105,24 @@
 
 {% block javascripts %}
  {{ parent() }}
-    <script src="{{ asset('js/jquery.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/jquery-1.10.2.js') }}" type="text/javascript"></script>
+
     <script>
+    //*
         $(document).ready(function() {
+            $( "li.FileRelatedAction" ).hide( 0 );
             $("tr.file").click(function(){
+                $("tr.file").each(function(){
+                    $(this).removeClass("selected");
+                });
+
                 $(this).toggleClass("selected");
+                if($(this).hasClass("selected"))
+                    $( "li.FileRelatedAction" ).show( "slow" );
+                else
+                    $( "li.FileRelatedAction" ).hide( "slow" );
+
+                
                 /*
                 var fileId = event.target.id;
                 var route = "{{ path('time_box_main_file_versions_index', {'fileId' : "PLACE_IT_HERE"} ) }}";
@@ -119,5 +132,7 @@
                 //*/
             });
         });
+    //*/
     </script>
+
 {% endblock %}
