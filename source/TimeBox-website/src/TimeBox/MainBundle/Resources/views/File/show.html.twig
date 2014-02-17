@@ -52,7 +52,7 @@
             </tr>
             {% endfor %}
             {% for file in files %}
-            <tr class="selected">
+            <tr class="file">
                 <td class="fileType">
                 {% if file.type in types %}
                     <img src="{{ asset('img/icons/file-' ~ file.type ~ '.png') }}" alt="{{ file.type }} icon" />
@@ -108,12 +108,15 @@
     <script src="{{ asset('js/jquery.js') }}" type="text/javascript"></script>
     <script>
         $(document).ready(function() {
-            $("tr.selected").click(function(){
+            $("tr.file").click(function(){
+                $(this).toggleClass("selected");
+                /*
                 var fileId = event.target.id;
                 var route = "{{ path('time_box_main_file_versions_index', {'fileId' : "PLACE_IT_HERE"} ) }}";
                 window.location = route.replace("PLACE_IT_HERE", fileId);
 
                 $("#tbVersions").load(route);
+                //*/
             });
         });
     </script>
