@@ -2,6 +2,10 @@ time_box_main_homepage:
     pattern:  /
     defaults: { _controller: TimeBoxMainBundle:Home:index }
 
+time_box_main_login:
+    pattern:  /login
+    defaults: { _controller: TimeBoxMainBundle:Home:index }
+
 time_box_main_file:
     pattern:  /file/{folderId}
     defaults: { _controller: TimeBoxMainBundle:File:show, folderId: null }

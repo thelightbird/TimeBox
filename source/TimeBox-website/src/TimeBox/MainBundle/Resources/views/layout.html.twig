@@ -10,13 +10,17 @@
 {% endblock %}
 
 {% block body %}
-    {% include "TimeBoxMainBundle:Home:header.html.twig" %}
+    <div class="wrapper">
+        {% include "TimeBoxMainBundle:Home:header.html.twig" %}
 
-    {% include "TimeBoxMainBundle:Home:menu.html.twig" %}
-
-    <div class="container">
-        {% block container %}
+        {% block menu %}
+            {% include "TimeBoxMainBundle:Home:menu.html.twig" %}
         {% endblock %}
+
+        <div class="container">
+            {% block container %}
+            {% endblock %}
+        </div>
     </div>
 {% endblock %}
 

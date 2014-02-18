@@ -12,11 +12,15 @@
 .fLeft {
 	float: left;
 }
+.wrapper {
+	width: 1000px;
+	margin: 0 auto;
+}
 
 /* Header
 -------------------------------------------------------------- */
-header p.userInfos span,
-header p.userInfos a {
+header div.userInfos span,
+header div.userInfos a {
 	display: block;
 }
 
@@ -37,31 +41,26 @@ header p.userInfos a {
 
 /* Navigation menu
 -------------------------------------------------------------- */
-
-#menu ul {
+#menu {
 	margin: 20px;
 }
 
 #menu ul li {
-	border: 1px solid #DDD;
-	display: inline;
+	float: left;
 	margin-right: -1px;
-	padding: 10px;
 }
 
 #menu ul li a {
+	border: 1px solid #DDD;
+	display: block;
 	color: black;
-	font-size: larger;
-	font-weight: lighter;
-	margin: -10px;
-	padding: 10px;
-}
-
-#menu ul li:hover {
-	background: #EEE;	
+	font-family: "Ubuntu";
+	font-size: 1em;
+	padding: 10px 20px;
 }
 
 #menu ul li a:hover {
+	background: #EEE;
 	text-decoration: none;
 }
 
