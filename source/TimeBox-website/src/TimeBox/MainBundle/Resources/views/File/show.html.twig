@@ -1,11 +1,15 @@
 {% extends "TimeBoxMainBundle::layout.html.twig" %}
 
+
 {% block container %}
+
 
     <div class="actions">
         <ul>
             <li>Actions:</li>
-            <li><img src="{{ asset('img/icons/folder-add.png') }}" alt="folder add icon" />New folder</li>
+            <li>
+                <a href=""><img src="{{ asset('img/icons/folder-add.png') }}" alt="folder add icon" />New folder</a>
+            </li>
             <li>
                 <img src="{{ asset('img/icons/file-upload.png') }}" alt="upload icon" />
                 <a href="{{ path('time_box_main_file_upload') }}">Upload a new file</a>
@@ -18,6 +22,7 @@
             <li class="FileRelatedAction"><img src="{{ asset('img/icons/file-copy.png') }}" alt="copy icon" />Copy</li>
         </ul>
     </div>
+
 
     <table class="file">
         <thead>
@@ -53,6 +58,7 @@
             {% endfor %}
             {% for file in files %}
             <tr data-id="{{ file.id }}" class="file">
+                <td><img src="{{ asset('img/icons/checkbox.png') }}"/></td>
                 <td class="fileType">
                 {% if file.type in types %}
                     <img src="{{ asset('img/icons/file-' ~ file.type ~ '.png') }}" alt="{{ file.type }} icon" />
@@ -82,13 +88,16 @@
         </tbody>
     </table>
 
+
     <div id="tbVersions" class="file">
     </div>
 {% endblock %}
 
+
 {% block javascripts %}
     {{ parent() }}
     <script src="{{ asset('js/jquery-1.10.2.js') }}" type="text/javascript"></script>
+
 
     <script>
         $(document).ready(function() {
@@ -96,9 +105,11 @@
             $("tr.file").click(function() {
                 $(this).siblings().removeClass("selected");
 
+
                 $(this).toggleClass("selected");
                 if ($(this).hasClass("selected")) {
                     $( "li.FileRelatedAction" ).show( "slow" );
+
 
                     $("tr.version ul").slideUp(function() {
                         $("tr.version").remove();
@@ -118,6 +129,7 @@
                 else {
                     $( "li.FileRelatedAction" ).hide( "slow" );
 
+
                     $("tr.version ul").slideUp(function() {
                         $("tr.version").remove();
                     });
@@ -126,3 +138,4 @@
         });
     </script>
 {% endblock %}
+
