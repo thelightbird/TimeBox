@@ -1,17 +1,10 @@
 {% extends "TimeBoxMainBundle::layout.html.twig" %}
 
-
 {% block container %}
-
 
     <div class="actions">
         <ul>
             <li>Actions:</li>
-
-            <li>
-                <a href=""><img src="{{ asset('img/icons/folder-add.png') }}" alt="folder add icon" />New folder</a>
-            </li>
-
             <li>
                 <a href=""><img src="{{ asset('img/icons/folder-add.png') }}" alt="folder add icon" />New folder</a>
             </li>
@@ -39,11 +32,10 @@
         </ul>
     </div>
 
-
     <table class="file">
         <thead>
             <tr>
-                <td colspan="4" class="driveBreadcrumb">
+                <td colspan="5" class="driveBreadcrumb">
                     <span class="fLeft"><a href="{{ path('time_box_main_file') }}">Drive</a></span>
                     <ul>
                         {% for folder in breadcrumb %}
@@ -55,6 +47,7 @@
         </thead>
         <tbody class="selectable">
             <tr>
+                <th class="fileCheckbox">{# Checkbox #}</th>
                 <th class="fileType">{# Type #}</th>
                 <th class="fileTitle">Title</th>
                 <th class="size">Size</th>
@@ -62,6 +55,7 @@
             </tr>
             {% for folder in folders %}
             <tr>
+                <td class="fileCheckbox"></td>
                 <td class="fileType">
                     <img src="{{ asset('img/icons/folder.png') }}" alt="folder icon" />
                 </td>
@@ -74,7 +68,7 @@
             {% endfor %}
             {% for file in files %}
             <tr data-id="{{ file.id }}" class="file">
-                <td><img src="{{ asset('img/icons/checkbox.png') }}"/></td>
+                <td class="fileCheckbox checkboxImg"></td>
                 <td class="fileType">
                 {% if file.type in types %}
                     <img src="{{ asset('img/icons/file-' ~ file.type ~ '.png') }}" alt="{{ file.type }} icon" />
@@ -103,10 +97,6 @@
             {% endfor %}
         </tbody>
     </table>
-
-
-    <div id="tbVersions" class="file">
-    </div>
 {% endblock %}
 
 
@@ -114,18 +104,15 @@
     {{ parent() }}
     <script src="{{ asset('js/jquery-1.10.2.js') }}" type="text/javascript"></script>
 
-
     <script>
         $(document).ready(function() {
             $( "li.FileRelatedAction" ).hide();
             $("tr.file").click(function() {
                 $(this).siblings().removeClass("selected");
 
-
                 $(this).toggleClass("selected");
                 if ($(this).hasClass("selected")) {
                     $( "li.FileRelatedAction" ).slideDown( "slow" );
-
 
                     $("tr.version ul").slideUp(function() {
                         $("tr.version").remove();
@@ -145,7 +132,6 @@
                 else {
                     $( "li.FileRelatedAction" ).slideUp( "slow" );
 
-
                     $("tr.version ul").slideUp(function() {
                         $("tr.version").remove();
                     });
@@ -154,4 +140,3 @@
         });
     </script>
 {% endblock %}
-
