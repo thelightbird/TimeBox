@@ -71,16 +71,31 @@ header p.userInfos a {
 
 /* File
 -------------------------------------------------------------- */
+div.actions {
+	width: 200px;
+	float: left;
+}
 div.actions ul li {
 	font-family: "Ubuntu";
 	font-size: 12px;
-	height: 20px;
-	display: inline;
-	margin-left: 14px;
+	display: block;
+	height: 26px;
+	line-height: 26px;
 }
 div.actions ul li img {
-	vertical-align: bottom;
-	margin-right: 3px;
+	vertical-align: -5px;
+	margin-right: 5px;
+}
+div.actions ul li img.shareIcon {
+	padding-bottom: 1px;
+	padding-left: 3px;
+	padding-right: 2px;
+}
+div.actions ul li.FileRelatedAction {
+	display: block;
+}
+div.actions ul li a {
+	display: inline-block;
 }
 
 table.file {
