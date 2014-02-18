@@ -38,18 +38,18 @@ header p.userInfos a {
 /* Navigation menu
 -------------------------------------------------------------- */
 
-.main_menu ul {
+#menu ul {
 	margin: 20px;
 }
 
-.main_menu ul li {
+#menu ul li {
 	border: 1px solid #DDD;
 	display: inline;
 	margin-right: -1px;
 	padding: 10px;
 }
 
-.main_menu ul li a {
+#menu ul li a {
 	color: black;
 	font-size: larger;
 	font-weight: lighter;
@@ -57,15 +57,15 @@ header p.userInfos a {
 	padding: 10px;
 }
 
-.main_menu ul li:hover {
+#menu ul li:hover {
 	background: #EEE;	
 }
 
-.main_menu ul li a:hover {
+#menu ul li a:hover {
 	text-decoration: none;
 }
 
-.main_menu ul li a:active {
+#menu ul li a:active {
 	color: #AAA;
 }
 
