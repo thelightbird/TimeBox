@@ -1,5 +1,3 @@
-{% extends "TimeBoxUserBundle::layout.html.twig" %}
-
 {% trans_default_domain 'FOSUserBundle' %}
 
 {% block fos_user_content %}
@@ -7,45 +5,41 @@
     <div>{{ error|trans }}</div>
 {% endif %}
 
-<div class="container">
-    <div class="row">
-        <div class="header_idbox col-xs-12 col-sm-4">
+<div class="header_idbox row">
 
-            <div class="col-sm-8">
-                <form action="{{ path("fos_user_security_check") }}" method="post">
-                    <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+    <div class="col-sm-8">
+        <form action="{{ path("fos_user_security_check") }}" method="post">
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
 
-                    <div class="form-group">
-                        <label for="username" class="sr-only">Username</label>
-                        <input class="form-control col-sm-9" tabindex="1" maxlength="30"
-                            type="text" id="username" name="_username" placeholder="Username" value="{{ last_username }}"/>
-                    </div>
+            <div class="form-group">
+                <label for="username" class="sr-only">Username</label>
+                <input class="form-control col-sm-9" tabindex="1" maxlength="30"
+                    type="text" id="username" name="_username" placeholder="Username" value="{{ last_username }}"/>
+            </div>
 
-                    <div class="form-group">
-                        <label for="password" class="sr-only">Password</label>
-                        <input class="form-control col-sm-9" tabindex="2" maxlength="30"
-                            type="password" id="password" name="_password" placeholder="Password"/>
-                    </div>
+            <div class="form-group">
+                <label for="password" class="sr-only">Password</label>
+                <input class="form-control col-sm-9" tabindex="2" maxlength="30"
+                    type="password" id="password" name="_password" placeholder="Password"/>
+            </div>
 
-                    <div class="form-group">
-                        <div>
-                            <input class="btn btn-default" type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}" />
-                        </div>
-                        {#<div>
-                            <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
-                            <label for="remember_me">{{ 'security.login.remember_me'|trans }}</label>
-                        </div>#}
-                    </div>
-                </form>
-            </div><!-- /col-sm-8 -->
+            <div class="form-group">
+                <div>
+                    <input class="btn btn-default" type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}" />
+                </div>
+                {#<div>
+                    <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
+                    <label for="remember_me">{{ 'security.login.remember_me'|trans }}</label>
+                </div>#}
+            </div>
+        </form>
+    </div><!-- /col-sm-8 -->
 
-            <div class="header_idbox_links col-sm-4">
-                <a href="{{ path('fos_user_registration_register') }}" class="col-xs-12">Register</a>
-                <a href="{{ path('fos_user_resetting_request') }}" class="col-xs-12">Forgotten password ?</a>
-            </div><!-- /header_idbox_links -->
-         
-        </div><!-- /header_idbox -->
-    </div>
-</div>
+    <div class="header_idbox_links col-sm-4">
+        <a href="{{ path('fos_user_registration_register') }}" class="col-xs-12">Register</a>
+        <a href="{{ path('fos_user_resetting_request') }}" class="col-xs-12">Forgotten password ?</a>
+    </div><!-- /header_idbox_links -->
+     
+</div><!-- /header_idbox -->
 
 {% endblock fos_user_content %}

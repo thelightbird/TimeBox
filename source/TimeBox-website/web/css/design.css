@@ -12,11 +12,15 @@
 .fLeft {
 	float: left;
 }
+.wrapper {
+	width: 1000px;
+	margin: 0 auto;
+}
 
 /* Header
 -------------------------------------------------------------- */
-header p.userInfos span,
-header p.userInfos a {
+header div.userInfos span,
+header div.userInfos a {
 	display: block;
 }
 
@@ -37,50 +41,60 @@ header p.userInfos a {
 
 /* Navigation menu
 -------------------------------------------------------------- */
-
-.main_menu ul {
+#menu {
 	margin: 20px;
 }
 
-.main_menu ul li {
-	border: 1px solid #DDD;
-	display: inline;
+#menu ul li {
+	float: left;
 	margin-right: -1px;
-	padding: 10px;
 }
 
-.main_menu ul li a {
+#menu ul li a {
+	border: 1px solid #DDD;
+	display: block;
 	color: black;
-	font-size: larger;
-	font-weight: lighter;
-	margin: -10px;
-	padding: 10px;
+	font-family: "Ubuntu";
+	font-size: 1em;
+	padding: 10px 20px;
 }
 
-.main_menu ul li:hover {
-	background: #EEE;	
-}
-
-.main_menu ul li a:hover {
+#menu ul li a:hover {
+	background: #EEE;
 	text-decoration: none;
 }
 
-.main_menu ul li a:active {
+#menu ul li a:active {
 	color: #AAA;
 }
 
 /* File
 -------------------------------------------------------------- */
+div.actions {
+	width: 200px;
+	float: left;
+}
 div.actions ul li {
 	font-family: "Ubuntu";
 	font-size: 12px;
-	height: 20px;
-	display: inline;
-	margin-left: 14px;
+	display: block;
+	height: 26px;
+	line-height: 26px;
 }
 div.actions ul li img {
-	vertical-align: bottom;
-	margin-right: 3px;
+	vertical-align: -5px;
+	margin-right: 5px;
+}
+div.actions ul li img.shareIcon {
+	padding-bottom: 1px;
+	padding-left: 3px;
+	padding-right: 2px;
+}
+div.actions ul li.FileRelatedAction {
+	display: block;
+}
+div.actions ul li a {
+	display: inline-block;
 }
 
 table.file {

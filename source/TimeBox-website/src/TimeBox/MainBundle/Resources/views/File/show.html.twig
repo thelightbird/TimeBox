@@ -7,19 +7,36 @@
     <div class="actions">
         <ul>
             <li>Actions:</li>
+<<<<<<< HEAD
+            <li>
+                <a href=""><img src="{{ asset('img/icons/folder-add.png') }}" alt="folder add icon" />New folder</a>
+            </li>
+=======
+>>>>>>> b7b5aadff2c5914ad191e3e642f21d0e567d1c1d
             <li>
                 <a href=""><img src="{{ asset('img/icons/folder-add.png') }}" alt="folder add icon" />New folder</a>
             </li>
             <li>
-                <img src="{{ asset('img/icons/file-upload.png') }}" alt="upload icon" />
-                <a href="{{ path('time_box_main_file_upload') }}">Upload a new file</a>
+                <a href="{{ path('time_box_main_file_upload') }}"><img src="{{ asset('img/icons/file-upload.png') }}" alt="upload icon" />Upload a new file</a>
             </li>
-            <li class="FileRelatedAction"><img src="{{ asset('img/icons/file-download.png') }}" alt="download icon" />Download</li>
-            <li class="FileRelatedAction"><img src="{{ asset('img/icons/file-delete.png') }}" alt="file delete icon" />Delete</li>
-            <li class="FileRelatedAction"><img src="{{ asset('img/icons/link.png') }}" alt="share icon" style="padding-bottom:1px;" />Share</li>
-            <li class="FileRelatedAction"><img src="{{ asset('img/icons/file-edit.png') }}" alt="rename icon" />Rename</li>
-            <li class="FileRelatedAction"><img src="{{ asset('img/icons/file-go.png') }}" alt="move icon" />Move</li>
-            <li class="FileRelatedAction"><img src="{{ asset('img/icons/file-copy.png') }}" alt="copy icon" />Copy</li>
+            <li class="FileRelatedAction">
+                <a href=""><img src="{{ asset('img/icons/file-download.png') }}" alt="download icon" />Download</a>
+            </li>
+            <li class="FileRelatedAction">
+                <a href=""><img src="{{ asset('img/icons/link.png') }}" alt="share icon" class="shareIcon" />Share</a>
+            </li>
+            <li class="FileRelatedAction">
+                <a href=""><img src="{{ asset('img/icons/file-edit.png') }}" alt="rename icon" />Rename</a>
+            </li>
+            <li class="FileRelatedAction">
+                <a href=""><img src="{{ asset('img/icons/file-delete.png') }}" alt="file delete icon" />Delete</a>
+            </li>
+            <li class="FileRelatedAction">
+                <a href=""><img src="{{ asset('img/icons/file-go.png') }}" alt="move icon" />Move</a>
+            </li>
+            <li class="FileRelatedAction">
+                <a href=""><img src="{{ asset('img/icons/file-copy.png') }}" alt="copy icon" />Copy</a>
+            </li>
         </ul>
     </div>
 
@@ -101,14 +118,14 @@
 
     <script>
         $(document).ready(function() {
-            $( "li.FileRelatedAction" ).hide( 0 );
+            $( "li.FileRelatedAction" ).hide();
             $("tr.file").click(function() {
                 $(this).siblings().removeClass("selected");
 
 
                 $(this).toggleClass("selected");
                 if ($(this).hasClass("selected")) {
-                    $( "li.FileRelatedAction" ).show( "slow" );
+                    $( "li.FileRelatedAction" ).slideDown( "slow" );
 
 
                     $("tr.version ul").slideUp(function() {
@@ -127,7 +144,7 @@
                     });
                 }
                 else {
-                    $( "li.FileRelatedAction" ).hide( "slow" );
+                    $( "li.FileRelatedAction" ).slideUp( "slow" );
 
 
                     $("tr.version ul").slideUp(function() {
