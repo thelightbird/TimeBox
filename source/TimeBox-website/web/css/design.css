@@ -195,8 +195,8 @@ table.file .lastEdit {
 	text-align: center;
 }
 table.file tr.selected {
-	background: #dbeff9;
-	background: linear-gradient(to top, #cfe8f5 0%, #ebf8ff 100%);
+	background: #F4E0FF;
+	background: linear-gradient(to top, #F2DAFF 0%, #F6E7FF 100%);
 }
 table.file ul.version {
 	margin:0px;
