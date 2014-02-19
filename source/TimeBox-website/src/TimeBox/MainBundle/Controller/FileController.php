@@ -55,6 +55,7 @@ class FileController extends Controller
             "files" => $files,
             "types" => $types,
             "user" => $user,
+            "folderId" => $folderId,
             "folders" => $folders,
             "breadcrumb" => $breadcrumb
         ));
