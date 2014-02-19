@@ -3,7 +3,7 @@
 {% block container %}
 
     <div class="actions">
-        <ul>   
+        <ul>
             <li>Actions:</li>
             <li>
                 <a href="{{ path('time_box_main_folder_new', { 'parentFolderId':folderId }) }}"><img src="{{ asset('img/icons/folder-add.png') }}" alt="folder add icon" />New folder</a>
@@ -20,8 +20,8 @@
             <li class="FileRelatedAction">
                 <a href=""><img src="{{ asset('img/icons/file-edit.png') }}" alt="rename icon" />Rename</a>
             </li>
-            <li class="FileRelatedAction">
-                <a href=""><img src="{{ asset('img/icons/file-delete.png') }}" alt="file delete icon" />Delete</a>
+            <li class="FileRelatedAction delete">
+                <a href="{{ path('time_box_main_file', {'folderId':folderId}) }}"><img src="{{ asset('img/icons/file-delete.png') }}" alt="file delete icon" />Delete</a>
             </li>
             <li class="FileRelatedAction">
                 <a href=""><img src="{{ asset('img/icons/file-go.png') }}" alt="move icon" />Move</a>
@@ -54,7 +54,7 @@
                 <th class="lastEdit">Last Edit</th>
             </tr>
             {% for folder in folders %}
-            <tr class="folder">
+            <tr data-id="{{ folder.id }}" class="folder">
                 <td class="fileCheckbox checkboxImg"></td>
                 <td class="fileType">
                     <img src="{{ asset('img/icons/folder.png') }}" alt="folder icon" />
@@ -150,6 +150,32 @@
                 }
 
                 selectedItemAction();
+            });
+
+            $(".delete").click(function(evt) {
+                var foldersId = new Array();
+                $('table.file tr.folder.selected').each(function() {
+                    foldersId.push( $(this).attr('data-id') );
+                });
+
+                var filesId = new Array();
+                $('table.file tr.file.selected').each(function() {
+                    filesId.push( $(this).attr('data-id') );
+                });
+
+                $.ajax({
+                    url: "{{ path('time_box_main_file_delete') }}",
+                    type: "POST",
+                    data: {
+                        'filesId': JSON.stringify(filesId),
+                        'foldersId': JSON.stringify(foldersId),
+                        'currentFolderId': '{{ folderId }}'
+                    },
+                    success: function( data ) {
+                        window.location.replace(data);
+                    }
+                });
+                return false;
             });
         });
 

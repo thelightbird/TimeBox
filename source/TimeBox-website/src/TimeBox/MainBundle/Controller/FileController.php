@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 use TimeBox\MainBundle\Entity\File;
 use TimeBox\MainBundle\Entity\Version;
@@ -29,8 +30,11 @@ class FileController extends Controller
 
         $em = $this->getDoctrine()->getManager();
 
-        $files = $em->getRepository('TimeBoxMainBundle:File')->getRootFiles($user, $folderId);
-        $folders = $em->getRepository('TimeBoxMainBundle:Folder')->findByParent($folderId);
+        $files = $em->getRepository('TimeBoxMainBundle:File')->getRootFiles($user, $folderId, 0);
+        $folders = $em->getRepository('TimeBoxMainBundle:Folder')->findBy(array(
+            'parent' => $folderId,
+            'isDeleted' => 0
+        ));
 
         $breadcrumb = array();
         if (!is_null($folderId)) {
@@ -59,6 +63,51 @@ class FileController extends Controller
             "folders" => $folders,
             "breadcrumb" => $breadcrumb
         ));
+    }
+
+    public function deleteAction()
+    {
+        $user = $this->getConnectedUser();
+
+        $em = $this->getDoctrine()->getManager();
+
+        $currentFolderId = null;
+
+        $request = $this->get('request');
+        if ($request->getMethod() == 'POST') {
+            $foldersId = $request->request->get('foldersId');
+            $foldersId = json_decode($foldersId);
+            $filesId = $request->request->get('filesId');
+            $filesId = json_decode($filesId);
+            $currentFolderId = $request->request->get('currentFolderId');
+
+            if (!is_null($filesId) && sizeof($filesId)>0) {
+                $filesToDelete = $em->getRepository('TimeBoxMainBundle:File')->findBy(array(
+                    'id'   => $filesId,
+                    'user' => $user
+                ));
+                foreach ($filesToDelete as $file) {
+                    $file->setIsDeleted(true);
+                }
+                $em->flush($filesToDelete);
+            }
+
+            if (!is_null($foldersId) && sizeof($foldersId)>0) {
+                $foldersToDelete = $em->getRepository('TimeBoxMainBundle:Folder')->findBy(array(
+                    'id'   => $foldersId,
+                    'user' => $user
+                ));
+                foreach ($foldersToDelete as $folder) {
+                    $folder->setIsDeleted(true);
+                }
+                $em->flush($foldersToDelete);
+            }
+        }
+
+        $url = $this->get('router')->generate('time_box_main_file', array(
+            'folderId' => $currentFolderId
+        ));
+        return new Response($url);
     }
 
     /**

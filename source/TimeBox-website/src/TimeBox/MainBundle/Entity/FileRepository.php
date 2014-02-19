@@ -12,10 +12,11 @@ use Doctrine\ORM\EntityRepository;
  */
 class FileRepository extends EntityRepository
 {
-    public function getRootFiles($user, $folderId)
+    public function getRootFiles($user, $folderId, $isDeleted)
     {
         $param = array(
-            'user' => $user
+            'user' => $user,
+            'isDeleted' => $isDeleted
         );
         if (is_null($folderId)) {
             $sql = 'AND f.folder IS NULL';
@@ -30,6 +31,7 @@ class FileRepository extends EntityRepository
                 FROM TimeBoxMainBundle:File f
                 JOIN f.version v
                 WHERE f.user = :user
+                AND f.isDeleted = :isDeleted
                 '.$sql.'
                 GROUP BY f.id
               ')->setParameters($param);
