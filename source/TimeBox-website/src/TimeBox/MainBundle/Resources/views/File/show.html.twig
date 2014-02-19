@@ -1,8 +1,6 @@
 {% extends "TimeBoxMainBundle::layout.html.twig" %}
 
-
 {% block container %}
-
 
     <div class="actions">
         <ul>   
@@ -34,11 +32,10 @@
         </ul>
     </div>
 
-
     <table class="file">
         <thead>
             <tr>
-                <td colspan="4" class="driveBreadcrumb">
+                <td colspan="5" class="driveBreadcrumb">
                     <span class="fLeft"><a href="{{ path('time_box_main_file') }}">Drive</a></span>
                     <ul>
                         {% for folder in breadcrumb %}
@@ -50,6 +47,7 @@
         </thead>
         <tbody class="selectable">
             <tr>
+                <th class="fileCheckbox">{# Checkbox #}</th>
                 <th class="fileType">{# Type #}</th>
                 <th class="fileTitle">Title</th>
                 <th class="size">Size</th>
@@ -57,6 +55,7 @@
             </tr>
             {% for folder in folders %}
             <tr>
+                <td class="fileCheckbox"></td>
                 <td class="fileType">
                     <img src="{{ asset('img/icons/folder.png') }}" alt="folder icon" />
                 </td>
@@ -69,7 +68,7 @@
             {% endfor %}
             {% for file in files %}
             <tr data-id="{{ file.id }}" class="file">
-                <td><img src="{{ asset('img/icons/checkbox.png') }}"/></td>
+                <td class="fileCheckbox checkboxImg"></td>
                 <td class="fileType">
                 {% if file.type in types %}
                     <img src="{{ asset('img/icons/file-' ~ file.type ~ '.png') }}" alt="{{ file.type }} icon" />
@@ -98,10 +97,6 @@
             {% endfor %}
         </tbody>
     </table>
-
-
-    <div id="tbVersions" class="file">
-    </div>
 {% endblock %}
 
 
@@ -109,44 +104,86 @@
     {{ parent() }}
     <script src="{{ asset('js/jquery-1.10.2.js') }}" type="text/javascript"></script>
 
-
     <script>
         $(document).ready(function() {
             $( "li.FileRelatedAction" ).hide();
-            $("tr.file").click(function() {
-                $(this).siblings().removeClass("selected");
 
+            $("td.checkboxImg").click(function(evt) {
+                $(this).parent().toggleClass("selected");
+                fileSelectedAction();
+                return false;
+            });
 
-                $(this).toggleClass("selected");
-                if ($(this).hasClass("selected")) {
-                    $( "li.FileRelatedAction" ).slideDown( "slow" );
+            $("tr.file").click(function(evt) {
+                var nbSelected = $('tr.file.selected').length;
 
-
-                    $("tr.version ul").slideUp(function() {
-                        $("tr.version").remove();
-                    });
-                    var fileId = $(this).attr('data-id');
-                    $.ajax({
-                        url: "{{ path('time_box_main_file_versions') }}",
-                        context: this,
-                        type: "POST",
-                        data: {'fileId': fileId},
-                        success: function( data ) {
-                            $(this).after( data );
-                            $("tr.version ul").hide().slideDown();
+                if (evt.ctrlKey) {
+                    $(this).toggleClass("selected");
+                }
+                else if (evt.shiftKey) {
+                    var firstIndex = $('tr.file.selected').first().index();
+                    var lastIndex = $(this).index();
+                    if (lastIndex < firstIndex) {
+                        firstIndex += lastIndex;
+                        lastIndex = Math.abs(firstIndex - lastIndex);
+                        firstIndex -= lastIndex;
+                    }
+                    $("tr.file").each(function( index ) {
+                        var i = $(this).index();
+                        if (i >= firstIndex && i <= lastIndex) {
+                            $(this).addClass("selected");
                         }
                     });
+
                 }
                 else {
-                    $( "li.FileRelatedAction" ).slideUp( "slow" );
-
-
-                    $("tr.version ul").slideUp(function() {
-                        $("tr.version").remove();
-                    });
+                    if (nbSelected == 0) {
+                        $(this).toggleClass("selected");
+                    }
+                    else if (nbSelected == 1) {
+                        $(this).siblings().removeClass("selected");
+                        $(this).toggleClass("selected");
+                    }
+                    else if (nbSelected > 0) {
+                        $(this).siblings().removeClass("selected");
+                    }
                 }
+
+                fileSelectedAction();
             });
         });
+
+        function fileSelectedAction() {
+            var nbSelected = $('tr.file.selected').length;
+            if (nbSelected == 1) {
+                $( "li.FileRelatedAction" ).slideDown( "slow" );
+                hideVersions();
+
+                var fileId = $('tr.file.selected').attr('data-id');
+                $.ajax({
+                    url: "{{ path('time_box_main_file_versions') }}",
+                    type: "POST",
+                    data: {'fileId': fileId},
+                    success: function( data ) {
+                        $('tr.file.selected').after( data );
+                        $("tr.version ul").hide().slideDown();
+                    }
+                });
+            }
+            else if (nbSelected > 1) {
+                $( "li.FileRelatedAction" ).slideDown( "slow" );
+                hideVersions();
+            }
+            else {
+                $( "li.FileRelatedAction" ).slideUp( "slow" );
+                hideVersions();
+            }
+        }
+
+        function hideVersions() {
+            $("tr.version ul").slideUp(function() {
+                $("tr.version").remove();
+            });
+        }
     </script>
 {% endblock %}
-

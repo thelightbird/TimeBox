@@ -120,11 +120,18 @@ table.file .driveBreadcrumb a {
 table.file thead {
 	background-color: #cfe8f5;
 }
-table.file thead tr {
-	height:28px;
-}
 table.file tr {
 	border: 1px solid #d1d1d1;
+	/* disable text selection */
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+table.file tr:hover {
+    cursor: default;
 }
 table.file th {
 	font-weight: normal;
@@ -136,18 +143,47 @@ table.file td {
 	padding: 10px;
 	font-size: 13px;
 	font-family: "Ubuntu";
+	line-height: 18px;
+	height: 100%;
+	vertical-align: middle;
 }
 table.file thead th,
 table.file thead td {
 	padding: 5px 10px;
 	font-size: 12px;
 }
+table.file img {
+	display:block;
+}
 table.file .fileType {
 	width: 20px;
 	padding: 0px;
-	padding-left: 10px;
 	padding-right: 6px;
 	border-right: none;
+	border-left: none;
+}
+table.file .fileCheckbox {
+	width: 30px;
+	text-align: center;
+	border-right: none;
+	vertical-align: middle;
+	height: 100%;
+}
+table.file td.checkboxImg {
+	background-image: url('../img/checkbox.png');
+	background-position: center center;
+	background-repeat: no-repeat;
+}
+table.file tr.selected td.checkboxImg {
+	background-image: url('../img/checkbox_checked.png');
+	cursor: pointer;
+}
+table.file .checkboxImg:hover {
+	background-image: url('../img/checkbox_hover.png');
+	cursor: pointer;
+}
+table.file tr.selected td.checkboxImg:hover {
+	background-image: url('../img/checkbox_checked_hover.png');
 }
 table.file .fileTitle {
 	padding-left: 0px;
@@ -183,6 +219,7 @@ table.file ul.version li.selected {
 table.file tr.version td {
 	padding-top: 0px;
 	padding-bottom: 0px;
+	padding-left: 0px;
 }
 table.file tr.version ul {
 	margin-bottom:10px;
