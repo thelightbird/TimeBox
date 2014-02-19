@@ -54,8 +54,8 @@
                 <th class="lastEdit">Last Edit</th>
             </tr>
             {% for folder in folders %}
-            <tr>
-                <td class="fileCheckbox"></td>
+            <tr class="folder">
+                <td class="fileCheckbox checkboxImg"></td>
                 <td class="fileType">
                     <img src="{{ asset('img/icons/folder.png') }}" alt="folder icon" />
                 </td>
@@ -110,25 +110,25 @@
 
             $("td.checkboxImg").click(function(evt) {
                 $(this).parent().toggleClass("selected");
-                fileSelectedAction();
+                selectedItemAction();
                 return false;
             });
 
-            $("tr.file").click(function(evt) {
-                var nbSelected = $('tr.file.selected').length;
+            $("table.file tr.file, table.file tr.folder").click(function(evt) {
+                var nbSelectedItem = $('tr.selected').length;
 
                 if (evt.ctrlKey) {
                     $(this).toggleClass("selected");
                 }
                 else if (evt.shiftKey) {
-                    var firstIndex = $('tr.file.selected').first().index();
+                    var firstIndex = $('table.file tr.selected').first().index();
                     var lastIndex = $(this).index();
                     if (lastIndex < firstIndex) {
                         firstIndex += lastIndex;
                         lastIndex = Math.abs(firstIndex - lastIndex);
                         firstIndex -= lastIndex;
                     }
-                    $("tr.file").each(function( index ) {
+                    $("table.file tr.file, table.file tr.folder").each(function( index ) {
                         var i = $(this).index();
                         if (i >= firstIndex && i <= lastIndex) {
                             $(this).addClass("selected");
@@ -137,40 +137,43 @@
 
                 }
                 else {
-                    if (nbSelected == 0) {
+                    if (nbSelectedItem == 0) {
                         $(this).toggleClass("selected");
                     }
-                    else if (nbSelected == 1) {
+                    else if (nbSelectedItem == 1) {
                         $(this).siblings().removeClass("selected");
                         $(this).toggleClass("selected");
                     }
-                    else if (nbSelected > 0) {
+                    else if (nbSelectedItem > 0) {
                         $(this).siblings().removeClass("selected");
                     }
                 }
 
-                fileSelectedAction();
+                selectedItemAction();
             });
         });
 
-        function fileSelectedAction() {
-            var nbSelected = $('tr.file.selected').length;
-            if (nbSelected == 1) {
+        function selectedItemAction() {
+            var nbSelectedItem = $('table.file tr.selected').length;
+            var nbSelectedFile = $('table.file tr.file.selected').length;
+            if (nbSelectedItem == 1) {
                 $( "li.FileRelatedAction" ).slideDown( "slow" );
                 hideVersions();
 
-                var fileId = $('tr.file.selected').attr('data-id');
-                $.ajax({
-                    url: "{{ path('time_box_main_file_versions') }}",
-                    type: "POST",
-                    data: {'fileId': fileId},
-                    success: function( data ) {
-                        $('tr.file.selected').after( data );
-                        $("tr.version ul").hide().slideDown();
-                    }
-                });
+                if (nbSelectedFile == 1) {
+                    var fileId = $('table.file tr.file.selected').attr('data-id');
+                    $.ajax({
+                        url: "{{ path('time_box_main_file_versions') }}",
+                        type: "POST",
+                        data: {'fileId': fileId},
+                        success: function( data ) {
+                            $('tr.file.selected').after( data );
+                            $("tr.version ul").hide().slideDown();
+                        }
+                    });
+                }
             }
-            else if (nbSelected > 1) {
+            else if (nbSelectedItem > 1) {
                 $( "li.FileRelatedAction" ).slideDown( "slow" );
                 hideVersions();
             }
