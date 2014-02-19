@@ -107,36 +107,83 @@
     <script>
         $(document).ready(function() {
             $( "li.FileRelatedAction" ).hide();
-            $("tr.file").click(function() {
-                $(this).siblings().removeClass("selected");
 
-                $(this).toggleClass("selected");
-                if ($(this).hasClass("selected")) {
-                    $( "li.FileRelatedAction" ).slideDown( "slow" );
+            $("td.checkboxImg").click(function(evt) {
+                $(this).parent().toggleClass("selected");
+                fileSelectedAction();
+                return false;
+            });
 
-                    $("tr.version ul").slideUp(function() {
-                        $("tr.version").remove();
-                    });
-                    var fileId = $(this).attr('data-id');
-                    $.ajax({
-                        url: "{{ path('time_box_main_file_versions') }}",
-                        context: this,
-                        type: "POST",
-                        data: {'fileId': fileId},
-                        success: function( data ) {
-                            $(this).after( data );
-                            $("tr.version ul").hide().slideDown();
+            $("tr.file").click(function(evt) {
+                var nbSelected = $('tr.file.selected').length;
+
+                if (evt.ctrlKey) {
+                    $(this).toggleClass("selected");
+                }
+                else if (evt.shiftKey) {
+                    var firstIndex = $('tr.file.selected').first().index();
+                    var lastIndex = $(this).index();
+                    if (lastIndex < firstIndex) {
+                        firstIndex += lastIndex;
+                        lastIndex = Math.abs(firstIndex - lastIndex);
+                        firstIndex -= lastIndex;
+                    }
+                    $("tr.file").each(function( index ) {
+                        var i = $(this).index();
+                        if (i >= firstIndex && i <= lastIndex) {
+                            $(this).addClass("selected");
                         }
                     });
+
                 }
                 else {
-                    $( "li.FileRelatedAction" ).slideUp( "slow" );
-
-                    $("tr.version ul").slideUp(function() {
-                        $("tr.version").remove();
-                    });
+                    if (nbSelected == 0) {
+                        $(this).toggleClass("selected");
+                    }
+                    else if (nbSelected == 1) {
+                        $(this).siblings().removeClass("selected");
+                        $(this).toggleClass("selected");
+                    }
+                    else if (nbSelected > 0) {
+                        $(this).siblings().removeClass("selected");
+                    }
                 }
+
+                fileSelectedAction();
             });
         });
+
+        function fileSelectedAction() {
+            var nbSelected = $('tr.file.selected').length;
+            if (nbSelected == 1) {
+                $( "li.FileRelatedAction" ).slideDown( "slow" );
+                hideVersions();
+
+                var fileId = $('tr.file.selected').attr('data-id');
+                $.ajax({
+                    url: "{{ path('time_box_main_file_versions') }}",
+                    type: "POST",
+                    data: {'fileId': fileId},
+                    success: function( data ) {
+                        $('tr.file.selected').after( data );
+                        $("tr.version ul").hide().slideDown();
+                    }
+                });
+            }
+            else if (nbSelected > 1) {
+                $( "li.FileRelatedAction" ).slideDown( "slow" );
+                hideVersions();
+            }
+            else {
+                $( "li.FileRelatedAction" ).slideUp( "slow" );
+                hideVersions();
+            }
+        }
+
+        function hideVersions() {
+            $("tr.version ul").slideUp(function() {
+                $("tr.version").remove();
+            });
+        }
     </script>
 {% endblock %}

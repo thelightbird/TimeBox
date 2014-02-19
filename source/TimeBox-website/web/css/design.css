@@ -122,9 +122,16 @@ table.file thead {
 }
 table.file tr {
 	border: 1px solid #d1d1d1;
+	/* disable text selection */
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
-table.file thead tr {
-
+table.file tr:hover {
+    cursor: default;
 }
 table.file th {
 	font-weight: normal;
@@ -162,13 +169,21 @@ table.file .fileCheckbox {
 	vertical-align: middle;
 	height: 100%;
 }
-table.file .checkboxImg {
+table.file td.checkboxImg {
 	background-image: url('../img/checkbox.png');
 	background-position: center center;
 	background-repeat: no-repeat;
 }
-table.file tr.selected .checkboxImg {
+table.file tr.selected td.checkboxImg {
 	background-image: url('../img/checkbox_checked.png');
+	cursor: pointer;
+}
+table.file .checkboxImg:hover {
+	background-image: url('../img/checkbox_hover.png');
+	cursor: pointer;
+}
+table.file tr.selected td.checkboxImg:hover {
+	background-image: url('../img/checkbox_checked_hover.png');
 }
 table.file .fileTitle {
 	padding-left: 0px;
