@@ -21,3 +21,7 @@ time_box_main_file_versions:
     defaults: { _controller: TimeBoxMainBundle:Version:index }
     requirements:
         _method:  POST
+
+time_box_main_folder_new:
+    pattern:  /folder/new/{parentFolderId}
+    defaults: { _controller: TimeBoxMainBundle:Folder:new, parentFolderId: null }
