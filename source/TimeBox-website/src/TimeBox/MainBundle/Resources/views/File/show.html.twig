@@ -11,7 +11,7 @@
             <li>
                 <a href="{{ path('time_box_main_file_upload') }}"><img src="{{ asset('img/icons/file-upload.png') }}" alt="upload icon" />Upload a new file</a>
             </li>
-            <li class="FileRelatedAction">
+            <li class="FileRelatedAction download">
                 <a href=""><img src="{{ asset('img/icons/file-download.png') }}" alt="download icon" />Download</a>
             </li>
             <li class="FileRelatedAction">
@@ -152,16 +152,10 @@
                 selectedItemAction();
             });
 
-            $(".delete").click(function(evt) {
-                var foldersId = new Array();
-                $('table.file tr.folder.selected').each(function() {
-                    foldersId.push( $(this).attr('data-id') );
-                });
-
-                var filesId = new Array();
-                $('table.file tr.file.selected').each(function() {
-                    filesId.push( $(this).attr('data-id') );
-                });
+            $(".delete").click(function() {
+                var itemSelectedId = getSelectedItemId();
+                var foldersId = itemSelectedId[0];
+                var filesId = itemSelectedId[1];
 
                 $.ajax({
                     url: "{{ path('time_box_main_file_delete') }}",
@@ -177,7 +171,38 @@
                 });
                 return false;
             });
+
+            $(".download").click(function() {
+                var itemSelectedId = getSelectedItemId();
+                var foldersId = itemSelectedId[0];
+                var filesId = itemSelectedId[1];
+
+                $.ajax({
+                    url: "{{ path('time_box_main_file_download') }}",
+                    type: "POST",
+                    data: {
+                        'filesId': JSON.stringify(filesId),
+                        'foldersId': JSON.stringify(foldersId)
+                    }
+                });
+                return false;
+            });
+
         });
+
+        function getSelectedItemId() {
+            var foldersId = new Array();
+            $('table.file tr.folder.selected').each(function() {
+                foldersId.push( $(this).attr('data-id') );
+            });
+
+            var filesId = new Array();
+            $('table.file tr.file.selected').each(function() {
+                filesId.push( $(this).attr('data-id') );
+            });
+
+            return new Array(foldersId, filesId);
+        }
 
         function selectedItemAction() {
             var nbSelectedItem = $('table.file tr.selected').length;
