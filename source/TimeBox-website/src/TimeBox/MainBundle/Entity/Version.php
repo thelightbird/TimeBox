@@ -23,7 +23,7 @@ class Version
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="TimeBox\MainBundle\Entity\File", inversedBy="version")
+     * @ORM\ManyToOne(targetEntity="TimeBox\MainBundle\Entity\File", inversedBy="version", cascade={"remove"})
      */
     private $file;
 

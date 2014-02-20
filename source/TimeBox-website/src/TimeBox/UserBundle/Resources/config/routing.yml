@@ -1,0 +1,3 @@
+time_box_user_delete:
+    pattern:  /profile/delete
+    defaults: { _controller: TimeBoxUserBundle:DeleteUser:delete }

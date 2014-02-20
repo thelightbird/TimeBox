@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Link
  *
  * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="TimeBox\MainBundle\Entity\LinkRepository")
  */
 class Link
 {
@@ -27,7 +27,7 @@ class Link
     private $version;
 
     /**
-     * @ORM\ManyToOne(targetEntity="TimeBox\UserBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="TimeBox\UserBundle\Entity\User", cascade={"remove"})
      */
     private $user;
 

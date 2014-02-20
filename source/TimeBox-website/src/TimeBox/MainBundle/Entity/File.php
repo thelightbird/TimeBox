@@ -26,7 +26,7 @@ class File
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="TimeBox\MainBundle\Entity\Folder")
+     * @ORM\ManyToOne(targetEntity="TimeBox\MainBundle\Entity\Folder", cascade={"remove"})
      */
     private $folder;
 
@@ -376,5 +376,38 @@ class File
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * Add version
+     *
+     * @param \TimeBox\MainBundle\Entity\Version $version
+     * @return File
+     */
+    public function addVersion(\TimeBox\MainBundle\Entity\Version $version)
+    {
+        $this->version[] = $version;
+
+        return $this;
+    }
+
+    /**
+     * Remove version
+     *
+     * @param \TimeBox\MainBundle\Entity\Version $version
+     */
+    public function removeVersion(\TimeBox\MainBundle\Entity\Version $version)
+    {
+        $this->version->removeElement($version);
+    }
+
+    /**
+     * Get version
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getVersion()
+    {
+        return $this->version;
     }
 }

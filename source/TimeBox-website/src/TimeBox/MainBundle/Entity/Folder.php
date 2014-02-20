@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Folder
  *
  * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="TimeBox\MainBundle\Entity\FolderRepository")
  */
 class Folder
 {
@@ -27,7 +27,7 @@ class Folder
     private $parent;   
 
     /**
-     * @ORM\ManyToOne(targetEntity="TimeBox\UserBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="TimeBox\UserBundle\Entity\User", cascade={"remove"})
      */
     private $user;
 
