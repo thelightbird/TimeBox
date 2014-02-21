@@ -1,0 +1,11 @@
+{% import 'TimeBoxMainBundle:Macro:folderTree.html.twig' as macros %}
+
+<ul>
+{% for folder in folders %}
+    {% if folder.parent is null %}
+    <li>{{ folder.name }}
+        {{ macros.folderTree(folders, folder.id, loop.revindex) }}
+    </li>
+    {% endif %}
+{% endfor %}
+</ul>
