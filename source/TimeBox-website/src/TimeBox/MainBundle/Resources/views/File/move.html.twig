@@ -6,11 +6,11 @@
     <ul class="folderTree">
         <li>/</li>
     {% for folder in folders %}
-        {% if folder.parent is null %}
+        {% if folder.parent is null and folder.id not in foldersId %}
         <li data-id="{{ folder.id }}">
             {{- folder.name -}}
         </li>
-        {{ macros.folderTree(folders, folder.id, loop.revindex, loop.revindex) }}
+        {{ macros.folderTree(folders, foldersId, folder.id, loop.revindex, loop.revindex) }}
         {% endif %}
     {% endfor %}
     </ul>
