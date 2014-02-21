@@ -23,7 +23,7 @@
             <li class="FileRelatedAction delete">
                 <a href="{{ path('time_box_main_file', {'folderId':folderId}) }}"><img src="{{ asset('img/icons/file-delete.png') }}" alt="file delete icon" />Delete</a>
             </li>
-            <li class="FileRelatedAction">
+            <li class="FileRelatedAction move">
                 <a href=""><img src="{{ asset('img/icons/file-go.png') }}" alt="move icon" />Move</a>
             </li>
             <li class="FileRelatedAction">
@@ -176,7 +176,28 @@
                 return false;
             });
 
+            $(".move").click(function() {
+                var itemSelectedId = getSelectedItemId();
+                var foldersId = itemSelectedId[0];
+                var filesId = itemSelectedId[1];
+
+                $.ajax({
+                    url: "{{ path('time_box_main_file_move') }}",
+                    type: "POST",
+                    data: {
+                        'filesId': JSON.stringify(filesId),
+                        'foldersId': JSON.stringify(foldersId),
+                        'currentFolderId': '{{ folderId }}'
+                    },
+                    success: function( data ) {
+                        $(".container").html(data);
+                    }
+                });
+                return false;
+            });
+
             $(".download").click(function() {
+                {#
                 var itemSelectedId = getSelectedItemId();
                 var foldersId = itemSelectedId[0];
                 var filesId = itemSelectedId[1];
@@ -190,6 +211,7 @@
                     }
                 });
                 return false;
+                #}
             });
 
         });
