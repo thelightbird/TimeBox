@@ -28,6 +28,10 @@ time_box_main_file_delete:
     requirements:
         _method:  POST
 
+time_box_main_file_move:
+    pattern:  /file/move
+    defaults: { _controller: TimeBoxMainBundle:File:move }
+
 time_box_main_folder_new:
     pattern:  /folder/new/{parentFolderId}
     defaults: { _controller: TimeBoxMainBundle:Folder:new, parentFolderId: null }

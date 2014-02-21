@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 use TimeBox\MainBundle\Entity\File;
+use TimeBox\MainBundle\Entity\Folder;
 use TimeBox\MainBundle\Entity\Version;
 
 class FileController extends Controller
@@ -108,6 +109,44 @@ class FileController extends Controller
             'folderId' => $currentFolderId
         ));
         return new Response($url);
+    }
+
+    public function moveAction()
+    {
+        $user = $this->getConnectedUser();
+        $em = $this->getDoctrine()->getManager();
+
+        $request = $this->get('request');
+        if ($request->getMethod() == 'POST') {
+            $currentFolderId = $request->request->get('currentFolderId');
+            $moveFolderId = $request->request->get('moveFolderId');
+            $foldersId = $request->request->get('foldersId');
+            $foldersId = json_decode($foldersId);
+
+            if (!is_null($moveFolderId)) {
+                return $this->redirect($this->generateUrl('time_box_main_file', array(
+                    'folderId' => $folderId
+                )));
+            }
+
+            $foldersId = json_encode($foldersId);
+
+            $folders = $em->getRepository('TimeBoxMainBundle:Folder')->findBy(
+                array(
+                    'user'=>$user
+                ),
+                array(
+                    'parent' => 'ASC',
+                    'name' => 'ASC'
+                )
+            );
+            return $this->render('TimeBoxMainBundle:Folder:show.html.twig', array(
+                'folders' => $folders,
+                'foldersId' => $foldersId,
+                'folderId' => $currentFolderId
+            ));
+        }
+        return new Response('');
     }
 
     /**
