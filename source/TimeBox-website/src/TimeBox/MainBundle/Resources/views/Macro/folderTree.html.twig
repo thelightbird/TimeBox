@@ -1,0 +1,13 @@
+{% macro folderTree(folders, id, cpt) %}
+    {%- for folder in folders -%}
+        {%- if folder.parent is not null and folder.parent.id == id -%}
+        <ul>
+            <li>{{ folder.name }}
+            {% if cpt > 0 -%}
+                {{ _self.folderTree(folders, folder.id, cpt-1) }}
+            {% endif -%}
+            </li>
+        </ul>
+        {%- endif -%}
+    {%- endfor -%}
+{% endmacro %}
