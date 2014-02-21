@@ -4,6 +4,7 @@ namespace TimeBox\MainBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -122,28 +123,63 @@ class FileController extends Controller
             $moveFolderId = $request->request->get('moveFolderId');
             $foldersId = $request->request->get('foldersId');
             $foldersId = json_decode($foldersId);
+            $filesId = $request->request->get('filesId');
+            $filesId = json_decode($filesId);
 
             if (!is_null($moveFolderId)) {
+                $parent = null;
+                if (is_numeric($moveFolderId)) {
+                    $parent = $em->getRepository('TimeBoxMainBundle:Folder')->findOneById($moveFolderId);
+                    if (!$parent) {
+                        throw $this->createNotFoundException('Unable to find Folder entity.');
+                    }
+                }
+
+                $files = $em->getRepository('TimeBoxMainBundle:File')->findBy(array(
+                    'user' => $user,
+                    'id' => $filesId
+                ));
+                $folders = $em->getRepository('TimeBoxMainBundle:Folder')->findBy(array(
+                    'user' => $user,
+                    'id' => $foldersId
+                ));
+
+                if (!is_null($files) && sizeof($files) > 0) {
+                    foreach ($files as $file) {
+                        is_null($parent) ? $file->setFolder() : $file->setFolder($parent);
+                    }
+                }
+                if (!is_null($folders) && sizeof($folders) > 0) {
+                    foreach ($folders as $folder) {
+                        is_null($parent) ? $folder->setParent() : $folder->setParent($parent);
+                    }
+                }
+
+                $em->flush();
+
                 return $this->redirect($this->generateUrl('time_box_main_file', array(
-                    'folderId' => $folderId
+                    'folderId' => $moveFolderId
                 )));
             }
 
+            $filesId = json_encode($filesId);
             $foldersId = json_encode($foldersId);
 
             $folders = $em->getRepository('TimeBoxMainBundle:Folder')->findBy(
                 array(
-                    'user'=>$user
+                    'user' => $user
                 ),
                 array(
                     'parent' => 'ASC',
                     'name' => 'ASC'
                 )
             );
-            return $this->render('TimeBoxMainBundle:Folder:show.html.twig', array(
-                'folders' => $folders,
-                'foldersId' => $foldersId,
-                'folderId' => $currentFolderId
+
+            return $this->render('TimeBoxMainBundle:File:move.html.twig', array(
+                'folders'   => $folders,
+                'folderId'  => $currentFolderId,
+                'filesId'   => $filesId,
+                'foldersId' => $foldersId
             ));
         }
         return new Response('');

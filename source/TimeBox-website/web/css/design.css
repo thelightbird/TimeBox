@@ -228,3 +228,21 @@ table.file ul.versionInfos {
 	display: block;
 	line-height: 40px;
 }
+
+ul.folderTree {
+	width: 500px;
+	margin: 20px;
+	border: 1px solid #ddd;
+	border-top: none;
+}
+ul.folderTree li {
+	border-top: 1px solid #ddd;
+	margin-top: 0px;
+	padding: 10px 20px;
+	font-size: 12px;
+	font-family: 'Ubuntu';
+}
+ul.folderTree li.selected {
+	background: #F4E0FF;
+	background: linear-gradient(to top, #F2DAFF 0%, #F6E7FF 100%);
+}

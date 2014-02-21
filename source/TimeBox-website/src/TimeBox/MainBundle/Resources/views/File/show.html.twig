@@ -186,7 +186,7 @@
                         'currentFolderId': '{{ folderId }}'
                     },
                     success: function( data ) {
-                        window.location.replace(data);
+                        $(".container").html(data);
                     }
                 });
                 return false;

@@ -1,11 +1,37 @@
 {% import 'TimeBoxMainBundle:Macro:folderTree.html.twig' as macros %}
 
-<ul>
-{% for folder in folders %}
-    {% if folder.parent is null %}
-    <li>{{ folder.name }}
-        {{ macros.folderTree(folders, folder.id, loop.revindex) }}
-    </li>
-    {% endif %}
-{% endfor %}
-</ul>
+<h3>Select the folder to move files</h3>
+
+<form class="move" action="{{ path('time_box_main_file_move') }}" method="post">
+    <ul class="folderTree">
+        <li>/</li>
+    {% for folder in folders %}
+        {% if folder.parent is null %}
+        <li data-id="{{ folder.id }}">
+            {{- folder.name -}}
+        </li>
+        {{ macros.folderTree(folders, folder.id, loop.revindex, loop.revindex) }}
+        {% endif %}
+    {% endfor %}
+    </ul>
+
+    <input type="hidden" name="moveFolderId" value=""/>
+    <input type="hidden" name="filesId" value="{{ filesId }}"/>
+    <input type="hidden" name="foldersId" value="{{ foldersId }}"/>
+    <input type="hidden" name="currentFolderId" value="{{ folderId }}"/>
+    <input class="btn btn-primary" type="submit" value="Ok"/>
+</form>
+
+<script type="text/javascript">
+    $("ul.folderTree li").click(function() {
+        $(this).siblings().removeClass("selected");
+        $(this).addClass("selected");
+        $("input[name=moveFolderId]").val( $(this).attr('data-id') );
+    });
+    $("form.move").submit(function() {
+        if ($("ul.folderTree li.selected").length != 1) {
+            alert("Please select a folder.");
+            return false;
+        }
+    });
+</script>
