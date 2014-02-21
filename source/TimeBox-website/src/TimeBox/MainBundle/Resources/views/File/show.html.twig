@@ -115,6 +115,10 @@
             });
 
             $("table.file tr.file, table.file tr.folder").click(function(evt) {
+                if (event.target.nodeName == 'A') {
+                    return true;
+                }
+
                 var nbSelectedItem = $('tr.selected').length;
 
                 if (evt.ctrlKey) {
