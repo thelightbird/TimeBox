@@ -110,12 +110,14 @@
 
             $("td.checkboxImg").click(function(evt) {
                 $(this).parent().toggleClass("selected");
-                selectedItemAction();
+                if (!ajaxRunning) {
+                    selectedItemAction();
+                }
                 return false;
             });
 
             $("table.file tr.file, table.file tr.folder").click(function(evt) {
-                if (event.target.nodeName == 'A') {
+                if (evt.target.nodeName == 'A') {
                     return true;
                 }
 
@@ -138,7 +140,6 @@
                             $(this).addClass("selected");
                         }
                     });
-
                 }
                 else {
                     if (nbSelectedItem == 0) {
@@ -153,7 +154,9 @@
                     }
                 }
 
-                selectedItemAction();
+                if (!ajaxRunning) {
+                    selectedItemAction();
+                }
             });
 
             $(".delete").click(function() {
@@ -216,6 +219,8 @@
 
         });
 
+        var ajaxRunning = false;
+
         function getSelectedItemId() {
             var foldersId = new Array();
             $('table.file tr.folder.selected').each(function() {
@@ -234,34 +239,40 @@
             var nbSelectedItem = $('table.file tr.selected').length;
             var nbSelectedFile = $('table.file tr.file.selected').length;
             if (nbSelectedItem == 1) {
-                $( "li.FileRelatedAction" ).slideDown( "slow" );
+                $( "li.FileRelatedAction" ).stop(false, true).slideDown( "slow" );
                 hideVersions();
 
                 if (nbSelectedFile == 1) {
                     var fileId = $('table.file tr.file.selected').attr('data-id');
+                    ajaxRunning = true;
                     $.ajax({
                         url: "{{ path('time_box_main_file_versions') }}",
                         type: "POST",
                         data: {'fileId': fileId},
                         success: function( data ) {
-                            $('tr.file.selected').after( data );
-                            $("tr.version ul").hide().slideDown();
+                            nbSelectedFile = $('table.file tr.file.selected').length;
+                            if (nbSelectedFile == 1) {
+                                $('tr.file.selected[data-id='+fileId+']').after( data );
+                                $("tr.version ul").hide().stop(false, true).slideDown();
+                            }
+                        }, complete: function() {
+                            ajaxRunning = false;
                         }
                     });
                 }
             }
             else if (nbSelectedItem > 1) {
-                $( "li.FileRelatedAction" ).slideDown( "slow" );
+                $( "li.FileRelatedAction" ).stop(false, true).slideDown( "slow" );
                 hideVersions();
             }
             else {
-                $( "li.FileRelatedAction" ).slideUp( "slow" );
+                $( "li.FileRelatedAction" ).stop(false, true).slideUp( "slow" );
                 hideVersions();
             }
         }
 
         function hideVersions() {
-            $("tr.version ul").slideUp(function() {
+            $("tr.version ul").stop(false, true).slideUp(function() {
                 $("tr.version").remove();
             });
         }
