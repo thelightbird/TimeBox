@@ -109,7 +109,24 @@
             $( "li.FileRelatedAction" ).hide();
 
             $("td.checkboxImg").click(function(evt) {
-                $(this).parent().toggleClass("selected");
+                if (evt.shiftKey) {
+                    var firstIndex = $('table.file tr.selected').first().index();
+                    var lastIndex = $(this).parent('tr').index();
+                    if (lastIndex < firstIndex) {
+                        firstIndex += lastIndex;
+                        lastIndex = Math.abs(firstIndex - lastIndex);
+                        firstIndex -= lastIndex;
+                    }
+                    $("table.file tr.file, table.file tr.folder").each(function() {
+                        var i = $(this).index();
+                        if (i >= firstIndex && i <= lastIndex) {
+                            $(this).addClass("selected");
+                        }
+                    });
+                }
+                else {
+                    $(this).parent().toggleClass("selected");
+                }
                 selectedItemAction();
                 return false;
             });
@@ -132,7 +149,7 @@
                         lastIndex = Math.abs(firstIndex - lastIndex);
                         firstIndex -= lastIndex;
                     }
-                    $("table.file tr.file, table.file tr.folder").each(function( index ) {
+                    $("table.file tr.file, table.file tr.folder").each(function() {
                         var i = $(this).index();
                         if (i >= firstIndex && i <= lastIndex) {
                             $(this).addClass("selected");
