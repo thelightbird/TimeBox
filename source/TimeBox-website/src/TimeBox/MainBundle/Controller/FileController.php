@@ -35,6 +35,7 @@ class FileController extends Controller
         $files = $em->getRepository('TimeBoxMainBundle:File')->getRootFiles($user, $folderId, 0);
         $folders = $em->getRepository('TimeBoxMainBundle:Folder')->findBy(array(
             'parent' => $folderId,
+            'user' => $user,
             'isDeleted' => 0
         ));
 
