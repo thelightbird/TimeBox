@@ -208,14 +208,37 @@ class FileController extends Controller
             $file->setUploadType();
             $size = $file->getUploadSize();
 
+            $existingFile = $em->getRepository('TimeBoxMainBundle:File')->findOneBy(array(
+                'user' => $file->getUser(),
+                'folder' => $file->getFolder(),
+                'name' => $file->getName(),
+                'type' => $file->getType()
+                ));
+
+            $versionDisplayId = 0;
+
+            if($existingFile == null){
+                $em->persist($file);
+                $em->flush();
+            }
+            else{
+                $file = $existingFile;
+                $lastVersion = $em->getRepository('TimeBoxMainBundle:Version')->findOneBy(array(
+                    'file' => $file),
+                array(
+                    'displayId' => 'DESC'));;
+
+                $versionDisplayId = $lastVersion->getDisplayId() + 1;
+            }
+            
 
             $version = new Version();
             $version->setDate(new \DateTime);
             $version->setFile($file);
             $version->setSize($size);
-            $version->setDisplayId(0);
+            $version->setDisplayId($versionDisplayId);
 
-            $em->persist($file);
+            
             $em->persist($version);
             $em->flush();
 
