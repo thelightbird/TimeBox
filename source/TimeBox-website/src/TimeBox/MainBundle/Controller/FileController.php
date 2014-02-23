@@ -13,6 +13,8 @@ use TimeBox\MainBundle\Entity\File;
 use TimeBox\MainBundle\Entity\Folder;
 use TimeBox\MainBundle\Entity\Version;
 
+use TimeBox\MainBundle\Form\FileType;
+
 class FileController extends Controller
 {
     public function getConnectedUser()
@@ -194,14 +196,19 @@ class FileController extends Controller
         $user = $this->getConnectedUser();
 
         $file = new File();
-        $form = $this->createFormBuilder($file)
-            ->add('file')
+        $version = new Version();
+        $form = $this->createFormBuilder($version)
+            ->add('file', new FileType)
+            ->add('description', 'textarea')
+            ->add('comment', 'textarea')
             ->getForm();
 
         $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+
+            $file = $version->getFile();
 
             $file->setUser($user);
             $file->setUploadName();
@@ -232,7 +239,6 @@ class FileController extends Controller
             }
             
 
-            $version = new Version();
             $version->setDate(new \DateTime);
             $version->setFile($file);
             $version->setSize($size);
