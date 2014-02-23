@@ -199,8 +199,7 @@ class FileController extends Controller
         $version = new Version();
         $form = $this->createFormBuilder($version)
             ->add('file', new FileType)
-            ->add('description', 'textarea')
-            ->add('comment', 'textarea')
+            ->add('comment', 'textarea', array('required' => false))
             ->getForm();
 
         $form->handleRequest($request);
