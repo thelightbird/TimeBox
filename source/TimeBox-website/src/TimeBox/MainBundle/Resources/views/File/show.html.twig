@@ -110,9 +110,7 @@
 
             $("td.checkboxImg").click(function(evt) {
                 $(this).parent().toggleClass("selected");
-                if (!ajaxRunning) {
-                    selectedItemAction();
-                }
+                selectedItemAction();
                 return false;
             });
 
@@ -154,9 +152,7 @@
                     }
                 }
 
-                if (!ajaxRunning) {
-                    selectedItemAction();
-                }
+                selectedItemAction();
             });
 
             $(".delete").click(function() {
@@ -219,7 +215,7 @@
 
         });
 
-        var ajaxRunning = false;
+        var ajaxRequest = null;
 
         function getSelectedItemId() {
             var foldersId = new Array();
@@ -244,8 +240,10 @@
 
                 if (nbSelectedFile == 1) {
                     var fileId = $('table.file tr.file.selected').attr('data-id');
-                    ajaxRunning = true;
-                    $.ajax({
+                    if (ajaxRequest != null) {
+                        ajaxRequest.abort();
+                    }
+                    ajaxRequest = $.ajax({
                         url: "{{ path('time_box_main_file_versions') }}",
                         type: "POST",
                         data: {'fileId': fileId},
@@ -255,8 +253,7 @@
                                 $('tr.file.selected[data-id='+fileId+']').after( data );
                                 $("tr.version ul").hide().stop(false, true).slideDown();
                             }
-                        }, complete: function() {
-                            ajaxRunning = false;
+                            ajaxRequest = null;
                         }
                     });
                 }
@@ -272,8 +269,9 @@
         }
 
         function hideVersions() {
-            $("tr.version ul").stop(false, true).slideUp(function() {
-                $("tr.version").remove();
+            $("tr.version").addClass("toDelete");
+            $("tr.version ul").slideUp(function() {
+                $("tr.version.toDelete").remove();
             });
         }
     </script>
