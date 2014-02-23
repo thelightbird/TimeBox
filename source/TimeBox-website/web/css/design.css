@@ -229,9 +229,14 @@ table.file ul.versionInfos {
 	line-height: 40px;
 }
 
-ul.folderTree {
+form.move div {
 	width: 500px;
+	overflow: auto;
 	margin: 20px;
+}
+ul.folderTree {
+	float: left;
+	min-width: 500px;
 	border: 1px solid #ddd;
 	border-top: none;
 }
@@ -241,6 +246,7 @@ ul.folderTree li {
 	padding: 10px 20px;
 	font-size: 12px;
 	font-family: 'Ubuntu';
+	display: block;
 }
 ul.folderTree li.selected {
 	background: #F4E0FF;

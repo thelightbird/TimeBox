@@ -3,17 +3,19 @@
 <h3>Select the folder to move files</h3>
 
 <form class="move" action="{{ path('time_box_main_file_move') }}" method="post">
-    <ul class="folderTree">
-        <li>/</li>
-    {% for folder in folders %}
-        {% if folder.parent is null and folder.id not in foldersId %}
-        <li data-id="{{ folder.id }}">
-            {{- folder.name -}}
-        </li>
-        {{ macros.folderTree(folders, foldersId, folder.id, loop.revindex, loop.revindex) }}
-        {% endif %}
-    {% endfor %}
-    </ul>
+    <div>
+        <ul class="folderTree">
+            <li>/</li>
+        {% for folder in folders %}
+            {% if folder.parent is null and folder.id not in foldersId %}
+            <li data-id="{{ folder.id }}">
+                {{- folder.name -}}
+            </li>
+            {{ macros.folderTree(folders, foldersId, folder.id, loop.revindex, loop.revindex) }}
+            {% endif %}
+        {% endfor %}
+        </ul>
+    </div>
 
     <input type="hidden" name="moveFolderId" value=""/>
     <input type="hidden" name="filesId" value="{{ filesId }}"/>
