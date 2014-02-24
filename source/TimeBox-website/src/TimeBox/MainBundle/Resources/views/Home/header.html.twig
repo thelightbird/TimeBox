@@ -5,6 +5,12 @@
     <div class="fRight">
     {% if is_granted("IS_AUTHENTICATED_FULLY") %}
         <div class="userInfos">
+            <div class="storage">
+                <p>0 o / 50 mo</p>
+                <div class="bar">
+                    <div></div>
+                </div>
+            </div>
             <span>Logged in as {{ app.user.username }}</span>
             <a class="btn btn-primary" href="{{ path('fos_user_security_logout') }}">Log out</a>
         </div>
