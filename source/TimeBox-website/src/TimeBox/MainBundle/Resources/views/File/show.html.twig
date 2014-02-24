@@ -9,7 +9,7 @@
                 <a href="{{ path('time_box_main_folder_new', { 'parentFolderId':folderId }) }}"><img src="{{ asset('img/icons/folder-add.png') }}" alt="folder add icon" />New folder</a>
             </li>
             <li>
-                <a href="{{ path('time_box_main_file_upload') }}"><img src="{{ asset('img/icons/file-upload.png') }}" alt="upload icon" />Upload a new file</a>
+                <a href="{{ path('time_box_main_file_upload', { 'folderId':folderId }) }}"><img src="{{ asset('img/icons/file-upload.png') }}" alt="upload icon" />Upload a new file</a>
             </li>
             <li class="FileRelatedAction download">
                 <a href=""><img src="{{ asset('img/icons/file-download.png') }}" alt="download icon" />Download</a>

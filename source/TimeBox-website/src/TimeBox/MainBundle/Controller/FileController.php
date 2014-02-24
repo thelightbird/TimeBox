@@ -191,7 +191,7 @@ class FileController extends Controller
     /**
      * @Template()
      */
-    public function uploadAction(Request $request)
+    public function uploadAction(Request $request, $folderId)
     {
         $user = $this->getConnectedUser();
 
@@ -209,6 +209,14 @@ class FileController extends Controller
 
             $file = $version->getFile();
 
+            $folderId = $request->request->get('folderId');
+            if (is_numeric($folderId)) {
+                $folder = $em->getRepository('TimeBoxMainBundle:Folder')->findOneById($folderId);
+                if ($folderId) {
+                    $file->setFolder($folder);
+                }
+            }
+
             $file->setUser($user);
             $file->setUploadName();
             $file->setUploadType();
@@ -219,37 +227,37 @@ class FileController extends Controller
                 'folder' => $file->getFolder(),
                 'name' => $file->getName(),
                 'type' => $file->getType()
-                ));
+            ));
 
             $versionDisplayId = 0;
 
-            if($existingFile == null){
+            if ($existingFile == null) {
                 $em->persist($file);
                 $em->flush();
             }
-            else{
+            else {
                 $file = $existingFile;
-                $lastVersion = $em->getRepository('TimeBoxMainBundle:Version')->findOneBy(array(
-                    'file' => $file),
-                array(
-                    'displayId' => 'DESC'));;
+                $lastVersion = $em->getRepository('TimeBoxMainBundle:Version')->findOneBy(
+                    array('file' => $file),
+                    array('displayId' => 'DESC'));;
 
                 $versionDisplayId = $lastVersion->getDisplayId() + 1;
             }
-            
 
             $version->setDate(new \DateTime);
             $version->setFile($file);
             $version->setSize($size);
             $version->setDisplayId($versionDisplayId);
 
-            
             $em->persist($version);
             $em->flush();
 
             return $this->redirect($this->generateUrl('time_box_main_file'));
         }
 
-        return array('form' => $form->createView());
+        return array(
+            'form' => $form->createView(),
+            'folderId' => $folderId
+        );
     }
 }

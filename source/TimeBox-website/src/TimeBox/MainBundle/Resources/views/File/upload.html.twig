@@ -1,9 +1,26 @@
 {% extends "TimeBoxMainBundle::layout.html.twig" %}
 
 {% block container %}
-    <h1>Upload File</h1>
-    <form action="#" method="post" {{ form_enctype(form) }}>
-        {{ form_widget(form) }}
-        <input class="btn btn-primary" type="submit" value="Upload Media" />
-    </form>
+    <h3>Upload File</h3>
+
+    <div class="col-xs-6 col-sm-4">
+        <form action="#" method="post" {{ form_enctype(form) }}>
+
+            <div class="form-group">
+                {{ form_label(form.file.file, "File", { 'label_attr': { 'class': 'sr-only' } }) }}
+                {{ form_errors(form.file.file, { 'attr': {'class': 'alert alert-danger'} }) }}
+                {{ form_widget(form.file.file, { 'attr': {'placeholder': 'File'} }) }}
+            </div>
+            <div class="form-group">
+                {{ form_label(form.comment, "Comment", { 'label_attr': { 'class': 'sr-only' } }) }}
+                {{ form_errors(form.comment, { 'attr': {'class': 'alert alert-danger'} }) }}
+                {{ form_widget(form.comment, { 'attr': {'class': 'form-control', 'placeholder': 'Comment'} }) }}
+            </div>
+            <div class="form-group">
+                {{ form_widget(form) }}
+                <input type="hidden" name="folderId" value="{{ folderId }}" />
+                <input class="btn btn-primary" type="submit" value="Upload Media" />
+            </div>
+        </form>
+    </div>
 {% endblock %}
