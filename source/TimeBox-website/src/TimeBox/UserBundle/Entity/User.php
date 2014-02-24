@@ -54,11 +54,19 @@ class User extends BaseUser
      */
     private $registrationDate;
 
+    /**
+     * @var \Integer
+     *
+     * @ORM\Column(name="storage", type="integer")
+     */
+    private $storage;
+
 
     public function __construct()
     {
         parent::__construct();
         $this->registrationDate = new \Datetime();
+        $this->storage = 0;
     }
 
     /**
@@ -128,5 +136,28 @@ class User extends BaseUser
     public function getRegistrationDate()
     {
         return $this->registrationDate;
+    }
+
+    /**
+     * Set storage
+     *
+     * @param integer $storage
+     * @return User
+     */
+    public function setStorage($storage)
+    {
+        $this->storage = $storage;
+
+        return $this;
+    }
+
+    /**
+     * Get storage
+     *
+     * @return integer 
+     */
+    public function getStorage()
+    {
+        return $this->storage;
     }
 }

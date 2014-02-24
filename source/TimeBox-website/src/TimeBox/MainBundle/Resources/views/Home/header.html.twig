@@ -6,9 +6,18 @@
     {% if is_granted("IS_AUTHENTICATED_FULLY") %}
         <div class="userInfos">
             <div class="storage">
-                <p>0 o / 50 mo</p>
+                <p>
+                {% if app.user.storage > 1000000  %}
+                    {{ app.user.storage // 1000000 + 1 }} mo
+                {% elseif app.user.storage > 1000  %}
+                    {{ app.user.storage // 1000 + 1 }} ko
+                {% else %}
+                    {{ app.user.storage }} o
+                {% endif %}
+                     / 50 mo
+                </p>
                 <div class="bar">
-                    <div></div>
+                    <div style="width: {{ ( app.user.storage // 1000000 + 1 ) * 2 }}%;"></div>
                 </div>
             </div>
             <span>Logged in as {{ app.user.username }}</span>

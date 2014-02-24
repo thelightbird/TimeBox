@@ -249,6 +249,9 @@ class FileController extends Controller
             $version->setSize($size);
             $version->setDisplayId($versionDisplayId);
 
+            $user->setStorage($user->getStorage() + $size);
+
+            $em->persist($user);
             $em->persist($version);
             $em->flush();
 
