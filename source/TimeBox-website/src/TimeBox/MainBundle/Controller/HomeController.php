@@ -11,6 +11,6 @@ class HomeController extends Controller
         if ($this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY')) {
             return $this->redirect($this->generateUrl('time_box_main_file'));
         }
-        return $this->render('TimeBoxMainBundle:Home:index.html.twig');
+        return $this->redirect($this->generateUrl('fos_user_registration_register'));
     }
 }

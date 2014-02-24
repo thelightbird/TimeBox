@@ -1,12 +1,26 @@
 {% extends "TimeBoxUserBundle::layout.html.twig" %}
 
+{% block menu %}
+    {% include "TimeBoxMainBundle:Home:menu.html.twig" %}
+{% endblock %}
+
 {% block fos_user_content %}
 
 {% trans_default_domain 'FOSUserBundle' %}
 
-<div class="fos_user_user_show">
-    <p>{{ 'profile.show.username'|trans }}: {{ user.username }}</p>
-    <p>{{ 'profile.show.email'|trans }}: {{ user.email }}</p>
+<h3>Profile</h3>
+
+<div>
+	<table class="table userProfile">
+		<tr>
+			<td>{{ 'profile.show.username'|trans }}</td>
+			<td>{{ user.username }}</td>
+		</tr>
+		<tr>
+			<td>{{ 'profile.show.email'|trans }}</td>
+			<td>{{ user.email }}</td>
+		</tr>
+	<table>
 </div>
 
 {% endblock fos_user_content %}

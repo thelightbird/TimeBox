@@ -19,24 +19,112 @@
 
 /* Header
 -------------------------------------------------------------- */
+header {
+	height: 100px;
+	line-height: 100px;
+}
+header div img {
+	display: inline-block !important;
+	vertical-align: middle !important;
+}
+
 header div.userInfos span,
 header div.userInfos a {
-	display: block;
+	display: inline-block;
+	margin-right: 30px;
 }
 
 .header_idbox {
-	background: #DDD;
-	border-radius: 0 0 10px 10px;
 	float: right;
 }
 
-.header_idbox_links {
-	padding-top: 16px;
+
+/* Home page
+-------------------------------------------------------------- */
+div.titleContainer {
+	width: 100%;
+	height: 300px;
+	background-image: url('../img/background1.png');
+	background-repeat: repeat-x;
+	background-position: center;
+}
+div.titleContainer h1 {
+	margin: 0px;
+	padding: 0px;
+	padding-top: 133px;
+	font-family: 'Ubuntu';
+	font-size: 30px;
+	font-weight: 300;
+	text-align: center;
+	color: white;
 }
 
-.header_idbox_links a {
-	font-size: smaller;
-	padding: 7px 0;
+ul.functionality {
+	margin: 30px auto;
+	text-align: center;
+}
+ul.functionality li {
+	display: inline-block;
+	vertical-align: top;
+	width: 150px;
+	margin: 10px 50px;
+}
+ul.functionality li img {
+	display: block;
+	margin: auto;
+	width: 100px;
+	height: 100px;
+}
+ul.functionality li span {
+	display: block;
+	margin: 10px 0px;
+	font-family: 'Ubuntu';
+	font-size: 15px;
+	font-weight: 500;
+}
+ul.functionality li p {
+	display: block;
+	font-size: 12px;
+}
+div.connection {
+	width: 42%;
+	min-width: 300px;
+	display: inline-block;
+	vertical-align: top;
+	border: 1px solid #e6e6e6;
+	margin: 10px;
+	text-align: center;
+}
+@media screen and (max-width: 799px) {
+	div.connection {
+		width: auto;
+		margin: 0px 10px;
+		display: block;
+		border: 1px solid #e6e6e6;
+		margin: 10px;
+		text-align: center;
+	}
+}
+div.connection h3 {
+	text-align: center;
+}
+
+div.connection .loginForm,
+div.connection .registerForm {
+	text-align: center;
+}
+div.connection .loginForm div.form-group,
+div.connection .registerForm div.form-group {
+	margin: 15px auto;
+	width: 240px;
+}
+div.connection .loginForm a.headerLink {
+	font-size: 12px;
+}
+
+
+.bottom {
+	margin-bottom: 300px;
 }
 
 /* Navigation menu
@@ -67,6 +155,15 @@ header div.userInfos a {
 #menu ul li a:active {
 	color: #AAA;
 }
+
+
+/* User profile
+-------------------------------------------------------------- */
+table.userProfile {
+	border: 1px solid #ddd;
+	width: 500px;
+}
+
 
 /* File
 -------------------------------------------------------------- */
@@ -131,7 +228,7 @@ table.file tr {
 	user-select: none;
 }
 table.file tr:hover {
-    cursor: default;
+	cursor: default;
 }
 table.file th {
 	font-weight: normal;

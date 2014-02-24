@@ -1,5 +1,9 @@
 {% extends "TimeBoxUserBundle::layout.html.twig" %}
 
+{% block menu %}
+    {% include "TimeBoxMainBundle:Home:menu.html.twig" %}
+{% endblock %}
+
 {% trans_default_domain 'FOSUserBundle' %}
 
 {% block fos_user_content %}
