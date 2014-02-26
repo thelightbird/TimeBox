@@ -28,9 +28,15 @@ time_box_main_file_move:
     pattern:  /file/move
     defaults: { _controller: TimeBoxMainBundle:File:move }
 
+time_box_main_file_deleted:
+    pattern:  /file/deleted/{folderId}
+    defaults: { _controller: TimeBoxMainBundle:File:show, folderId: null, isDeleted: 1 }
+    requirements:
+        folderId:  \d+
+
 time_box_main_file:
     pattern:  /file/{folderId}
-    defaults: { _controller: TimeBoxMainBundle:File:show, folderId: null }
+    defaults: { _controller: TimeBoxMainBundle:File:show, folderId: null, isDeleted: 0 }
     requirements:
         folderId:  \d+
 

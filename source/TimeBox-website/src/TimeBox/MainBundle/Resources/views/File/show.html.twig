@@ -2,6 +2,11 @@
 
 {% block container %}
 
+    {% set fileDeleted = '' %}
+    {% if isDeleted %}
+        {% set fileDeleted = '_deleted' %}
+    {% endif %}
+
     <div class="actions">
         <ul>
             <li>Actions:</li>
@@ -21,7 +26,7 @@
                 <a href=""><img src="{{ asset('img/icons/file-edit.png') }}" alt="rename icon" />Rename</a>
             </li>
             <li class="FileRelatedAction delete">
-                <a href="{{ path('time_box_main_file', {'folderId':folderId}) }}"><img src="{{ asset('img/icons/file-delete.png') }}" alt="file delete icon" />Delete</a>
+                <a href="{{ path('time_box_main_file' ~ fileDeleted, {'folderId':folderId}) }}"><img src="{{ asset('img/icons/file-delete.png') }}" alt="file delete icon" />Delete</a>
             </li>
             <li class="FileRelatedAction move">
                 <a href=""><img src="{{ asset('img/icons/file-go.png') }}" alt="move icon" />Move</a>
@@ -36,10 +41,14 @@
         <thead>
             <tr>
                 <td colspan="5" class="driveBreadcrumb">
-                    <span class="fLeft"><a href="{{ path('time_box_main_file') }}">Drive</a></span>
+                    <span class="fLeft">
+                        <a href="{{ path('time_box_main_file' ~ fileDeleted) }}">
+                            {%- if isDeleted -%} Recycle bin {%- else -%} Drive {%- endif -%}
+                        </a>
+                    </span>
                     <ul>
                         {% for folder in breadcrumb %}
-                            <li><a href="{{ path('time_box_main_file', {'folderId':folder.id}) }}">{{ folder.name }}</a></li>
+                            <li><a href="{{ path('time_box_main_file' ~ fileDeleted, {'folderId': folder.id}) }}">{{ folder.name }}</a></li>
                         {% endfor %}
                     </ul>
                 </td>
@@ -60,7 +69,7 @@
                     <img src="{{ asset('img/icons/folder.png') }}" alt="folder icon" />
                 </td>
                 <td class="fileTitle">
-                    <a href="{{ path('time_box_main_file', {'folderId': folder.id}) }}">{{ folder.name }}</a>
+                    <a href="{{ path('time_box_main_file' ~ fileDeleted, {'folderId': folder.id}) }}">{{ folder.name }}</a>
                 </td>
                 <td class="size"></td>
                 <td class="lastEdit"></td>
@@ -76,7 +85,7 @@
                     <img src="{{ asset('img/icons/file.png') }}" alt="{{ file.type }} icon" title="{{ file.type }}" />
                 {% endif %}
                 </td>
-                <td class="fileTitle">{{ file.name }}</td>
+                <td class="fileTitle">{{ file.name }}{% if file.type is not null %}.{{ file.type }}{% endif %}</td>
                 <td class="size">
                 {% if file.size > 1000000  %}
                     {{ file.size // 1000000 + 1 }} mo

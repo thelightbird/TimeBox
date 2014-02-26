@@ -28,17 +28,17 @@ class FileController extends Controller
         return $user;
     }
 
-    public function showAction($folderId)
+    public function showAction($folderId, $isDeleted)
     {
         $user = $this->getConnectedUser();
 
         $em = $this->getDoctrine()->getManager();
 
-        $files = $em->getRepository('TimeBoxMainBundle:File')->getRootFiles($user, $folderId, 0);
+        $files = $em->getRepository('TimeBoxMainBundle:File')->getRootFiles($user, $folderId, $isDeleted);
         $folders = $em->getRepository('TimeBoxMainBundle:Folder')->findBy(array(
             'parent' => $folderId,
             'user' => $user,
-            'isDeleted' => 0
+            'isDeleted' => $isDeleted
         ));
 
         $breadcrumb = array();
@@ -66,7 +66,8 @@ class FileController extends Controller
             "user" => $user,
             "folderId" => $folderId,
             "folders" => $folders,
-            "breadcrumb" => $breadcrumb
+            "breadcrumb" => $breadcrumb,
+            "isDeleted" => $isDeleted
         ));
     }
 
