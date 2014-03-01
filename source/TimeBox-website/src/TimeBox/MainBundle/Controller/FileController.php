@@ -86,6 +86,8 @@ class FileController extends Controller
             $filesId = $request->request->get('filesId');
             $filesId = json_decode($filesId);
             $currentFolderId = $request->request->get('currentFolderId');
+            $permanentDelete = $request->request->get('permanentDelete');
+            $permanentDelete = ($permanentDelete == "true") ? true : false;
 
             if (!is_null($filesId) && sizeof($filesId)>0) {
                 $filesToDelete = $em->getRepository('TimeBoxMainBundle:File')->findBy(array(
@@ -93,8 +95,15 @@ class FileController extends Controller
                     'user' => $user
                 ));
                 foreach ($filesToDelete as $file) {
-                    $file->setIsDeleted(true);
-                    $file->setFolder();
+                    if ($permanentDelete) {
+                        $user->setStorage(max($user->getStorage() - $file->getTotalSize(), 0));
+                        $em->persist($user);
+                        $em->remove($file);
+                    }
+                    else {
+                        $file->setIsDeleted(true);
+                        $file->setFolder();
+                    }
                 }
                 $em->flush();
             }
@@ -105,8 +114,13 @@ class FileController extends Controller
                     'user' => $user
                 ));
                 foreach ($foldersToDelete as $folder) {
-                    $folder->setParent();
-                    $this->manageFolderContent($folder, true);
+                    if ($permanentDelete) {
+                        $em->remove($folder);
+                    }
+                    else {
+                        $folder->setParent();
+                        $this->manageFolderContent($folder, true);
+                    }
                 }
                 $em->flush();
             }
@@ -262,14 +276,17 @@ class FileController extends Controller
             $versionDisplayId = 0;
 
             if ($existingFile == null) {
+                $file->setTotalSize($size);
                 $em->persist($file);
                 $em->flush();
             }
             else {
                 $file = $existingFile;
+                $file->setTotalSize($file->getTotalSize() + $size);
                 $lastVersion = $em->getRepository('TimeBoxMainBundle:Version')->findOneBy(
                     array('file' => $file),
-                    array('displayId' => 'DESC'));;
+                    array('displayId' => 'DESC')
+                );
 
                 $versionDisplayId = $lastVersion->getDisplayId() + 1;
             }
@@ -279,7 +296,7 @@ class FileController extends Controller
             $version->setSize($size);
             $version->setDisplayId($versionDisplayId);
 
-            $user->setStorage($user->getStorage() + $size);
+            $user->setStorage(max($user->getStorage() + $size, 0));
 
             $em->persist($user);
             $em->persist($version);

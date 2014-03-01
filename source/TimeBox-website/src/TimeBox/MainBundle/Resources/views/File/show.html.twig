@@ -3,26 +3,28 @@
 {% block container %}
 
     {% set fileDeleted = '' %}
+    {% set hideAction = '' %}
     {% if isDeleted %}
         {% set fileDeleted = '_deleted' %}
+        {% set hideAction = ' hide' %}
     {% endif %}
 
     <div class="actions">
-        <ul>
+        <ul {% if isDeleted %}class="FileRelatedAction"{% endif %}>
             <li>Actions:</li>
-            <li>
+            <li class="{{ hideAction }}">
                 <a href="{{ path('time_box_main_folder_new', { 'parentFolderId':folderId }) }}"><img src="{{ asset('img/icons/folder-add.png') }}" alt="folder add icon" />New folder</a>
             </li>
-            <li>
+            <li class="{{ hideAction }}">
                 <a href="{{ path('time_box_main_file_upload', { 'folderId':folderId }) }}"><img src="{{ asset('img/icons/file-upload.png') }}" alt="upload icon" />Upload a new file</a>
             </li>
-            <li class="FileRelatedAction download">
+            <li class="FileRelatedAction download {{ hideAction }}">
                 <a href=""><img src="{{ asset('img/icons/file-download.png') }}" alt="download icon" />Download</a>
             </li>
-            <li class="FileRelatedAction">
+            <li class="FileRelatedAction {{ hideAction }}">
                 <a href=""><img src="{{ asset('img/icons/link.png') }}" alt="share icon" class="shareIcon" />Share</a>
             </li>
-            <li class="FileRelatedAction">
+            <li class="FileRelatedAction {{ hideAction }}">
                 <a href=""><img src="{{ asset('img/icons/file-edit.png') }}" alt="rename icon" />Rename</a>
             </li>
             <li class="FileRelatedAction delete">
@@ -36,9 +38,6 @@
                     Move
                     {%- endif -%}
                 </a>
-            </li>
-            <li class="FileRelatedAction">
-                <a href=""><img src="{{ asset('img/icons/file-copy.png') }}" alt="copy icon" />Copy</a>
             </li>
         </ul>
     </div>
@@ -93,12 +92,12 @@
                 </td>
                 <td class="fileTitle">{{ file.name }}{% if file.type is not null %}.{{ file.type }}{% endif %}</td>
                 <td class="size">
-                {% if file.size > 1000000  %}
-                    {{ file.size // 1000000 + 1 }} mo
-                {% elseif file.size > 1000  %}
-                    {{ file.size // 1000 + 1 }} ko
+                {% if file.totalSize > 1000000  %}
+                    {{ file.totalSize // 1000000 + 1 }} mo
+                {% elseif file.totalSize > 1000  %}
+                    {{ file.totalSize // 1000 + 1 }} ko
                 {% else %}
-                    {{ file.size }} o
+                    {{ file.totalSize }} o
                 {% endif %}
                 </td>
                 <td class="lastEdit">
@@ -119,7 +118,7 @@
     {{ parent() }}
     <script>
         $(document).ready(function() {
-            $( "li.FileRelatedAction" ).hide();
+            $( ".FileRelatedAction" ).hide();
 
             $("td.checkboxImg").click(function(evt) {
                 if (evt.shiftKey) {
@@ -186,6 +185,12 @@
             });
 
             $(".delete").click(function() {
+                var permanentDelete = false;
+                {% if isDeleted %}
+                    if (confirm('Are you sure to permanently delete selected files and folders?') == false)
+                        return false;
+                    permanentDelete = true;
+                {% endif %}
                 var itemSelectedId = getSelectedItemId();
                 var foldersId = itemSelectedId[0];
                 var filesId = itemSelectedId[1];
@@ -196,7 +201,8 @@
                     data: {
                         'filesId': JSON.stringify(filesId),
                         'foldersId': JSON.stringify(foldersId),
-                        'currentFolderId': '{{ folderId }}'
+                        'currentFolderId': '{{ folderId }}',
+                        'permanentDelete': permanentDelete
                     },
                     success: function( data ) {
                         window.location.replace(data);
@@ -265,7 +271,7 @@
             var nbSelectedItem = $('table.file tr.selected').length;
             var nbSelectedFile = $('table.file tr.file.selected').length;
             if (nbSelectedItem == 1) {
-                $( "li.FileRelatedAction" ).stop(false, true).slideDown( "slow" );
+                $( ".FileRelatedAction" ).stop(false, true).slideDown( "slow" );
                 hideVersions();
 
                 if (nbSelectedFile == 1) {
@@ -289,11 +295,11 @@
                 }
             }
             else if (nbSelectedItem > 1) {
-                $( "li.FileRelatedAction" ).stop(false, true).slideDown( "slow" );
+                $( ".FileRelatedAction" ).stop(false, true).slideDown( "slow" );
                 hideVersions();
             }
             else {
-                $( "li.FileRelatedAction" ).stop(false, true).slideUp( "slow" );
+                $( ".FileRelatedAction" ).stop(false, true).slideUp( "slow" );
                 hideVersions();
             }
         }

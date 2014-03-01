@@ -37,10 +37,9 @@ class File
     private $user;
 
     /**
-     * @ORM\OneToMany(targetEntity="TimeBox\MainBundle\Entity\Version", mappedBy="file")
+     * @ORM\OneToMany(targetEntity="TimeBox\MainBundle\Entity\Version", mappedBy="file", cascade={"remove"})
      */
     private $version;
-
 
     /**
      * @var string
@@ -57,16 +56,18 @@ class File
     private $type;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="totalSize", type="integer")
+     */
+    private $totalSize;
+
+    /**
      * @var boolean
      *
      * @ORM\Column(name="isDeleted", type="boolean")
      */
     private $isDeleted;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $path;
 
     /**
      * @Assert\File(maxSize="6000000")
@@ -82,7 +83,7 @@ class File
     }
 
 
-  /**
+    /**
      * Sets file.
      *
      * @param UploadedFile $file
@@ -90,13 +91,6 @@ class File
     public function setFile(UploadedFile $file = null)
     {
         $this->file = $file;
-        // check if we have an old image path
-        if (is_file($this->getAbsolutePath())) {
-            // store the old name to delete after the update
-            $this->temp = $this->getAbsolutePath();
-        } else {
-            $this->path = 'initial';
-        }
     }
 
     /**
@@ -110,17 +104,6 @@ class File
     }
 
     /**
-     * @ORM\PrePersist()
-     * @ORM\PreUpdate()
-     */
-    public function preUpload()
-    {
-        if (null !== $this->getFile()) {
-            $this->path = $this->getFile()->guessExtension();
-        }
-    }
-
-    /**
      * @ORM\PostPersist()
      * @ORM\PostUpdate()
      */
@@ -130,20 +113,12 @@ class File
             return;
         }
 
-        // check if we have an old image
-        if (isset($this->temp)) {
-            // delete the old image
-            unlink($this->temp);
-            // clear the temp image path
-            $this->temp = null;
-        }
-
         // you must throw an exception here if the file cannot be moved
         // so that the entity is not persisted to the database
         // which the UploadedFile move() method does
         $this->getFile()->move(
             $this->getUploadRootDir(),
-            $this->id.'.'.$this->getFile()->guessExtension()
+            $this->id
         );
 
         $this->setFile(null);
@@ -169,16 +144,12 @@ class File
 
     public function getAbsolutePath()
     {
-        return null === $this->path
-            ? null
-            : $this->getUploadRootDir().'/'.$this->id.'.'.$this->path;
+        return $this->getUploadRootDir().'/'.$this->id;
     }
 
     public function getWebPath()
     {
-        return null === $this->path
-            ? null
-            : $this->getUploadDir().'/'.$this->id.'.'.$this->path;
+        return $this->getUploadDir().'/'.$this->id;
     }
 
     protected function getUploadRootDir()
@@ -311,29 +282,6 @@ class File
     }
 
     /**
-     * Set path
-     *
-     * @param string $path
-     * @return File
-     */
-    public function setPath($path)
-    {
-        $this->path = $path;
-
-        return $this;
-    }
-
-    /**
-     * Get path
-     *
-     * @return string 
-     */
-    public function getPath()
-    {
-        return $this->path;
-    }
-
-    /**
      * Set folder
      *
      * @param \TimeBox\MainBundle\Entity\Folder $folder
@@ -410,5 +358,28 @@ class File
     public function getVersion()
     {
         return $this->version;
+    }
+
+    /**
+     * Set size
+     *
+     * @param integer $totalSize
+     * @return File
+     */
+    public function setTotalSize($totalSize)
+    {
+        $this->totalSize = $totalSize;
+
+        return $this;
+    }
+
+    /**
+     * Get totalSize
+     *
+     * @return integer 
+     */
+    public function getTotalSize()
+    {
+        return $this->totalSize;
     }
 }

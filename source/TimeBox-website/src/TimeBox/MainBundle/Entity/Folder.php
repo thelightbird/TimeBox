@@ -23,7 +23,7 @@ class Folder
     private $id;
 
     /**
-     * @ORM\OneToMany(targetEntity="TimeBox\MainBundle\Entity\Folder", mappedBy="parent", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="TimeBox\MainBundle\Entity\Folder", mappedBy="parent", cascade={"persist", "remove"})
      */
     private $children;
 
