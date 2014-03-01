@@ -106,7 +106,7 @@ class FileController extends Controller
                 ));
                 foreach ($foldersToDelete as $folder) {
                     $folder->setParent();
-                    $this->deleteFolderContent($folder);
+                    $this->manageFolderContent($folder, true);
                 }
                 $em->flush();
             }
@@ -118,20 +118,27 @@ class FileController extends Controller
         return new Response($url);
     }
 
-    private function deleteFolderContent($folder)
+    /**
+     * Delete or restore folder contents.
+     *
+     * @param Folder  $folder The entity
+     * @param Boolean $bool   true:  delete
+     *                        false: restore
+     */
+    private function manageFolderContent($folder, $bool)
     {
-        $folder->setIsDeleted(true);
+        $folder->setIsDeleted($bool);
         $files = $folder->getFiles();
         $children = $folder->getChildren();
         if (!is_null($files) && sizeof($files)>0) {
             foreach($files as $file) {
-                $file->setIsDeleted(true);
+                $file->setIsDeleted($bool);
             }
         }
         if (!is_null($children) && sizeof($children)>0) {
             foreach($children as $child) {
-                $child->setIsDeleted(true);
-                $this->deleteFolderContent($child);
+                $child->setIsDeleted($bool);
+                $this->manageFolderContent($child, $bool);
             }
         }
     }
@@ -171,11 +178,13 @@ class FileController extends Controller
                 if (!is_null($files) && sizeof($files) > 0) {
                     foreach ($files as $file) {
                         is_null($parent) ? $file->setFolder() : $file->setFolder($parent);
+                        $file->setIsDeleted(false);
                     }
                 }
                 if (!is_null($folders) && sizeof($folders) > 0) {
                     foreach ($folders as $folder) {
                         is_null($parent) ? $folder->setParent() : $folder->setParent($parent);
+                        $this->manageFolderContent($folder, false);
                     }
                 }
 

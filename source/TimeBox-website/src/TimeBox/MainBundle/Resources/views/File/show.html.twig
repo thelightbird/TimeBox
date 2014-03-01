@@ -29,7 +29,13 @@
                 <a href="{{ path('time_box_main_file' ~ fileDeleted, {'folderId':folderId}) }}"><img src="{{ asset('img/icons/file-delete.png') }}" alt="file delete icon" />Delete</a>
             </li>
             <li class="FileRelatedAction move">
-                <a href=""><img src="{{ asset('img/icons/file-go.png') }}" alt="move icon" />Move</a>
+                <a href=""><img src="{{ asset('img/icons/file-go.png') }}" alt="move icon" />
+                    {%- if isDeleted -%}
+                    Restore
+                    {%- else -%}
+                    Move
+                    {%- endif -%}
+                </a>
             </li>
             <li class="FileRelatedAction">
                 <a href=""><img src="{{ asset('img/icons/file-copy.png') }}" alt="copy icon" />Copy</a>
