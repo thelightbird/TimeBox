@@ -94,8 +94,9 @@ class FileController extends Controller
                 ));
                 foreach ($filesToDelete as $file) {
                     $file->setIsDeleted(true);
+                    $file->setFolder();
                 }
-                $em->flush($filesToDelete);
+                $em->flush();
             }
 
             if (!is_null($foldersId) && sizeof($foldersId)>0) {
@@ -104,9 +105,10 @@ class FileController extends Controller
                     'user' => $user
                 ));
                 foreach ($foldersToDelete as $folder) {
-                    $folder->setIsDeleted(true);
+                    $folder->setParent();
+                    $this->deleteFolderContent($folder);
                 }
-                $em->flush($foldersToDelete);
+                $em->flush();
             }
         }
 
@@ -114,6 +116,24 @@ class FileController extends Controller
             'folderId' => $currentFolderId
         ));
         return new Response($url);
+    }
+
+    private function deleteFolderContent($folder)
+    {
+        $folder->setIsDeleted(true);
+        $files = $folder->getFiles();
+        $children = $folder->getChildren();
+        if (!is_null($files) && sizeof($files)>0) {
+            foreach($files as $file) {
+                $file->setIsDeleted(true);
+            }
+        }
+        if (!is_null($children) && sizeof($children)>0) {
+            foreach($children as $child) {
+                $child->setIsDeleted(true);
+                $this->deleteFolderContent($child);
+            }
+        }
     }
 
     public function moveAction()

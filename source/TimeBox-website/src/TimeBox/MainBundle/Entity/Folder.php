@@ -3,6 +3,7 @@
 namespace TimeBox\MainBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Folder
@@ -22,9 +23,20 @@ class Folder
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="TimeBox\MainBundle\Entity\Folder")
+     * @ORM\OneToMany(targetEntity="TimeBox\MainBundle\Entity\Folder", mappedBy="parent", cascade={"persist"})
      */
-    private $parent;   
+    private $children;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="TimeBox\MainBundle\Entity\Folder", inversedBy="children")
+     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id")
+     */
+    private $parent;
+
+    /**
+     * @ORM\OneToMany(targetEntity="TimeBox\MainBundle\Entity\File", mappedBy="folder")
+     */
+    private $files;
 
     /**
      * @ORM\ManyToOne(targetEntity="TimeBox\UserBundle\Entity\User", cascade={"remove"})
@@ -57,7 +69,10 @@ class Folder
     {
         $this->date = new \Datetime();
         $this->isDeleted = 0;
+        $this->files = new ArrayCollection();
+        $this->folder = new ArrayCollection();
     }
+
 
     /**
      * Get id
@@ -139,6 +154,39 @@ class Folder
     }
 
     /**
+     * Add children
+     *
+     * @param \TimeBox\MainBundle\Entity\Folder $children
+     * @return Folder
+     */
+    public function addChild(\TimeBox\MainBundle\Entity\Folder $children)
+    {
+        $this->children[] = $children;
+
+        return $this;
+    }
+
+    /**
+     * Remove children
+     *
+     * @param \TimeBox\MainBundle\Entity\Folder $children
+     */
+    public function removeChild(\TimeBox\MainBundle\Entity\Folder $children)
+    {
+        $this->children->removeElement($children);
+    }
+
+    /**
+     * Get children
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getChildren()
+    {
+        return $this->children;
+    }
+
+    /**
      * Set parent
      *
      * @param \TimeBox\MainBundle\Entity\Folder $parent
@@ -159,6 +207,39 @@ class Folder
     public function getParent()
     {
         return $this->parent;
+    }
+
+    /**
+     * Add files
+     *
+     * @param \TimeBox\MainBundle\Entity\File $files
+     * @return Folder
+     */
+    public function addFile(\TimeBox\MainBundle\Entity\File $files)
+    {
+        $this->files[] = $files;
+
+        return $this;
+    }
+
+    /**
+     * Remove files
+     *
+     * @param \TimeBox\MainBundle\Entity\File $files
+     */
+    public function removeFile(\TimeBox\MainBundle\Entity\File $files)
+    {
+        $this->files->removeElement($files);
+    }
+
+    /**
+     * Get files
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getFiles()
+    {
+        return $this->files;
     }
 
     /**

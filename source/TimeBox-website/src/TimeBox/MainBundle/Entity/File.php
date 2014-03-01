@@ -3,6 +3,7 @@
 namespace TimeBox\MainBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -26,7 +27,7 @@ class File
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="TimeBox\MainBundle\Entity\Folder", cascade={"remove"})
+     * @ORM\ManyToOne(targetEntity="TimeBox\MainBundle\Entity\Folder", inversedBy="files", cascade={"remove"})
      */
     private $folder;
 
