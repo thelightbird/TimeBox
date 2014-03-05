@@ -322,13 +322,14 @@ table.file tr.selected {
 }
 table.file ul.version {
 	margin:0px;
+	margin-bottom:10px;
 	background-image: url('../img/version_ul_bg.png');
 	background-position: 11px center;
 	background-repeat: repeat-y;
 }
 table.file ul.version li {
 	background-image: url('../img/version_bullet.png');
-	background-position: left center;
+	background-position: left 13px;
 	background-repeat: no-repeat;
 	margin-left: 5px;
 	padding-left: 18px;
@@ -338,17 +339,31 @@ table.file ul.version li {
 table.file ul.version li.selected {
 	background-image: url('../img/version_bullet_selected.png');
 }
+table.file ul.version table {
+	position: relative;
+	width: 100%;
+	border: none;
+}
+table.file ul.version table tr {
+	border: none;
+}
+table.file ul.version table td {
+	padding: 10px 0px;
+	font-size: 13px;
+	font-family: "Ubuntu";
+	line-height: 18px;
+	height: 100%;
+	vertical-align: top;
+}
+table.file ul.version .versionId {
+	width: 34px;
+	padding-right: 5px;
+}
+table.file ul.version .description {
+	text-align: left;
+}
 table.file tr.version td {
-	padding-top: 0px;
-	padding-bottom: 0px;
-	padding-left: 0px;
-}
-table.file tr.version ul {
-	margin-bottom:10px;
-}
-table.file ul.versionInfos {
-	display: block;
-	line-height: 40px;
+	padding: 0px;
 }
 
 form.move div {
