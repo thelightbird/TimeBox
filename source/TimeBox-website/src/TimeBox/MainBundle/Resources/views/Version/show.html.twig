@@ -11,7 +11,12 @@
                             v{{ version.displayId }}
                         </td>
                         <td class="description">
-                            <a href="">{{ version.comment is not null ? version.comment : version.description }}</a>
+                            <a href="" data-toggle="tooltip" data-placement="top" title="{{ version.comment }}">
+                                {{ version.description }}
+                                {%- if version.comment is not null -%}
+                                    <img class="comment" src="{{ asset('img/icons/comment.png') }}" alt="comment icon">
+                                {%- endif -%}
+                            </a>
                         </td>
                         <td class="size">
                             {% if version.size > 1000000  %}
@@ -34,5 +39,10 @@
             </li>
         {% endfor %}
         </ul>
+        <script type="text/javascript">
+            $(function () {
+                $("a").tooltip();
+            });
+        </script>
     </td>
 </tr>

@@ -362,6 +362,11 @@ table.file ul.version .versionId {
 table.file ul.version .description {
 	text-align: left;
 }
+table.file ul.version .comment {
+	display: inline-block;
+	vertical-align: -5px;
+	padding: 0px 2px;
+}
 table.file tr.version td {
 	padding: 0px;
 }
