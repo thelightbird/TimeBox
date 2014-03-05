@@ -239,10 +239,9 @@ class FileController extends Controller
     {
         $user = $this->getConnectedUser();
 
-        $file = new File();
         $version = new Version();
         $form = $this->createFormBuilder($version)
-            ->add('file', new FileType)
+            ->add('uploadedFile')
             ->add('comment', 'textarea', array('required' => false))
             ->getForm();
 
@@ -251,31 +250,31 @@ class FileController extends Controller
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
-            $file = $version->getFile();
+            $filename = $version->getUploadName();
+            $filetype = $version->getUploadType();
+            $size = $version->getUploadSize();
 
+            $folder = null;
             $folderId = $request->request->get('folderId');
             if (is_numeric($folderId)) {
                 $folder = $em->getRepository('TimeBoxMainBundle:Folder')->findOneById($folderId);
-                if ($folderId) {
-                    $file->setFolder($folder);
-                }
             }
 
-            $file->setUser($user);
-            $file->setUploadName();
-            $file->setUploadType();
-            $size = $file->getUploadSize();
-
             $existingFile = $em->getRepository('TimeBoxMainBundle:File')->findOneBy(array(
-                'user' => $file->getUser(),
-                'folder' => $file->getFolder(),
-                'name' => $file->getName(),
-                'type' => $file->getType()
+                'user'   => $user,
+                'folder' => $folder,
+                'name' => $filename,
+                'type' => $filetype
             ));
 
-            $versionDisplayId = 0;
+            $versionDisplayId = 1;
 
-            if ($existingFile == null) {
+            if (!$existingFile) {
+                $file = new File();
+                $file->setUser($user);
+                $file->setName($filename);
+                $file->setType($filetype);
+                $file->setFolder($folder);
                 $file->setTotalSize($size);
                 $em->persist($file);
                 $em->flush();
@@ -287,7 +286,6 @@ class FileController extends Controller
                     array('file' => $file),
                     array('displayId' => 'DESC')
                 );
-
                 $versionDisplayId = $lastVersion->getDisplayId() + 1;
             }
 
