@@ -25,29 +25,31 @@ class FolderController extends Controller
     {
         $user = $this->getConnectedUser();
         $em = $this->getDoctrine()->getManager();
-
         $request = $this->get('request');
+    
         if ($request->getMethod() == 'POST') {
             $folderName = $request->request->get('folderName');
             $folderParent = $request->request->get('folderParent');
+            if(ereg("[a-zA-Z0-9]", $folderName)) {
+                $folder = new Folder();
+                $folder->setName($folderName);
+                $folder->setUser($user);
+                if (is_numeric($folderParent)) {
+                    $parent = $em->getRepository('TimeBoxMainBundle:Folder')->findOneBy(array(
+                        'id'   => $folderParent,
+                        'user' => $user
+                    ));
+                    $folder->setParent($parent);
+                }
 
-            $folder = new Folder();
-            $folder->setName($folderName);
-            $folder->setUser($user);
-            if (is_numeric($folderParent)) {
-                $parent = $em->getRepository('TimeBoxMainBundle:Folder')->findOneBy(array(
-                    'id'   => $folderParent,
-                    'user' => $user
-                ));
-                $folder->setParent($parent);
-            }
+                $em->persist($folder);
+                $em->flush();
 
-            $em->persist($folder);
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('time_box_main_file', array(
+                return $this->redirect($this->generateUrl('time_box_main_file', array(
                 'folderId' => $parentFolderId
-            )));
+                )));
+            }
+            return $this->render('TimeBoxMainBundle:Folder:newFolderError.html.twig');
         }
 
         return $this->render('TimeBoxMainBundle:Folder:new.html.twig', array(
