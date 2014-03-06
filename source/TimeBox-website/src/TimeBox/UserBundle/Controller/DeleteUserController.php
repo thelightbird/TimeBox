@@ -31,7 +31,6 @@ class DeleteUserController extends Controller
 
         foreach ($links as $link) {
             $em->remove($link);
-            $em->flush();
         }
 
         $files = $em->getRepository("TimeBoxMainBundle:File")->findByUser($user);
@@ -40,17 +39,14 @@ class DeleteUserController extends Controller
             $versions = $em->getRepository("TimeBoxMainBundle:Version")->findByFile($file);
             foreach ($versions as $version) {
                 $em->remove($version);
-                $em->flush();
             }
             $em->remove($file);
-            $em->flush();
         }
 
         $folders = $em->getRepository("TimeBoxMainBundle:Folder")->findByUser($user);
 
         foreach ($folders as $folder) {
             $em->remove($folder);
-            $em->flush();
         }
 
         $em->remove($user);
