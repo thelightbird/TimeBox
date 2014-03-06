@@ -323,7 +323,8 @@ public function renameAction()
                 'user'   => $user,
                 'folder' => $folder,
                 'name' => $filename,
-                'type' => $filetype
+                'type' => $filetype,
+                'isDeleted' => false
             ));
 
             $versionDisplayId = 1;
