@@ -18,19 +18,19 @@
             <li class="{{ hideAction }}">
                 <a href="{{ path('time_box_main_file_upload', { 'folderId':folderId }) }}"><img src="{{ asset('img/icons/file-upload.png') }}" alt="upload icon" />Upload a new file</a>
             </li>
-            <li class="FileRelatedAction download {{ hideAction }}">
+            <li class="FileRelatedAction FolderRelatedAction download {{ hideAction }}">
                 <a href=""><img src="{{ asset('img/icons/file-download.png') }}" alt="download icon" />Download</a>
             </li>
             <li class="FileRelatedAction {{ hideAction }}">
                 <a href=""><img src="{{ asset('img/icons/link.png') }}" alt="share icon" class="shareIcon" />Share</a>
             </li>
-            <li class="FileRelatedAction {{ hideAction }}">
+            <li class="FileRelatedAction FolderRelatedAction {{ hideAction }}">
                 <a href=""><img src="{{ asset('img/icons/file-edit.png') }}" alt="rename icon" />Rename</a>
             </li>
-            <li class="FileRelatedAction delete">
+            <li class="FileRelatedAction FolderRelatedAction delete">
                 <a href="{{ path('time_box_main_file' ~ fileDeleted, {'folderId':folderId}) }}"><img src="{{ asset('img/icons/file-delete.png') }}" alt="file delete icon" />Delete</a>
             </li>
-            <li class="FileRelatedAction move">
+            <li class="FileRelatedAction FolderRelatedAction move">
                 <a href=""><img src="{{ asset('img/icons/file-go.png') }}" alt="move icon" />
                     {%- if isDeleted -%}
                     Restore
@@ -270,8 +270,14 @@
         function selectedItemAction() {
             var nbSelectedItem = $('table.file tr.selected').length;
             var nbSelectedFile = $('table.file tr.file.selected').length;
+            var nbSelectedFolder = $('table.file tr.folder.selected').length;
             if (nbSelectedItem == 1) {
-                $( ".FileRelatedAction" ).stop(false, true).slideDown( "slow" );
+                if(nbSelectedFolder > 0){
+                     $( ".FileRelatedAction").hide();
+                     $( ".FolderRelatedAction" ).stop(false, true).slideDown( "slow" );
+                }
+                else
+                    $( ".FileRelatedAction" ).stop(false, true).slideDown( "slow" );
                 hideVersions();
 
                 if (nbSelectedFile == 1) {
@@ -295,7 +301,12 @@
                 }
             }
             else if (nbSelectedItem > 1) {
-                $( ".FileRelatedAction" ).stop(false, true).slideDown( "slow" );
+                if(nbSelectedFolder > 0){
+                     $( ".FileRelatedAction").hide();
+                     $( ".FolderRelatedAction" ).stop(false, true).slideDown( "slow" );
+                }
+                else
+                    $( ".FileRelatedAction" ).stop(false, true).slideDown( "slow" );
                 hideVersions();
             }
             else {
