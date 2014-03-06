@@ -1,45 +1,48 @@
 <tr class="version">
     <td class="fileCheckbox">
     </td>
-    <td colspan="2">
+    <td colspan="4">
         <ul class="version">
         {% for version in versions %}
-            {% if loop.first %}
-                <li class="selected">
-            {%- else -%}
-                <li>
-            {%- endif -%}
-            v{{ version.displayId }} - {{ version.comment is not null ? version.comment : version.description }}
+            <li {% if loop.first %} class="selected" {% endif %} >
+                <table>
+                    <tr>
+                        <td class="versionId">
+                            v{{ version.displayId }}
+                        </td>
+                        <td class="description">
+                            <a href="" data-toggle="tooltip" data-placement="top" title="{{ version.comment }}">
+                                {{ version.description }}
+                                {%- if version.comment is not null -%}
+                                    <img class="comment" src="{{ asset('img/icons/comment.png') }}" alt="comment icon">
+                                {%- endif -%}
+                            </a>
+                        </td>
+                        <td class="size">
+                            {% if version.size > 1000000  %}
+                                {{ version.size // 1000000 + 1 }} mo
+                            {% elseif version.size > 1000  %}
+                                {{ version.size // 1000 + 1 }} ko
+                            {% else %}
+                                {{ version.size }} o
+                            {% endif %}
+                        </td>
+                        <td class="lastEdit">
+                            {%- if "now"|date("Y/m/d") == version.date|date('Y/m/d') %}
+                                {{ version.date|date('H:i') }}
+                            {% else %}
+                                {{ version.date|date('Y/m/d') }}
+                            {% endif -%}
+                        </td>
+                    </tr>
+                </table>
             </li>
         {% endfor %}
         </ul>
-    </td>
-    <td class="size">
-        <ul class="versionInfos">
-        {% for version in versions %}
-            <li>
-                {% if version.size > 1000000  %}
-                    {{ version.size // 1000000 + 1 }} mo
-                {% elseif version.size > 1000  %}
-                    {{ version.size // 1000 + 1 }} ko
-                {% else %}
-                    {{ version.size }} o
-                {% endif %}
-            </li>
-        {% endfor %}
-        </ul>
-    </td>
-    <td class="lastEdit">
-        <ul class="versionInfos">
-        {% for version in versions %}
-            <li>
-                {%- if "now"|date("Y/m/d") == version.date|date('Y/m/d') %}
-                    {{ version.date|date('H:i') }}
-                {% else %}
-                    {{ version.date|date('Y/m/d') }}
-                {% endif -%}
-            </li>
-        {% endfor %}
-        </ul>
+        <script type="text/javascript">
+            $(function () {
+                $("a").tooltip();
+            });
+        </script>
     </td>
 </tr>

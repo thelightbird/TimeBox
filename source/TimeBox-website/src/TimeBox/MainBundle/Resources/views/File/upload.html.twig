@@ -7,9 +7,9 @@
         <form action="#" method="post" {{ form_enctype(form) }}>
 
             <div class="form-group">
-                {{ form_label(form.file.file, "File", { 'label_attr': { 'class': 'sr-only' } }) }}
-                {{ form_errors(form.file.file, { 'attr': {'class': 'alert alert-danger'} }) }}
-                {{ form_widget(form.file.file, { 'attr': {'placeholder': 'File'} }) }}
+                {{ form_label(form.uploadedFile, "File", { 'label_attr': { 'class': 'sr-only' } }) }}
+                {{ form_errors(form.uploadedFile, { 'attr': {'class': 'alert alert-danger'} }) }}
+                {{ form_widget(form.uploadedFile, { 'attr': {'placeholder': 'File'} }) }}
             </div>
             <div class="form-group">
                 {{ form_label(form.comment, "Comment", { 'label_attr': { 'class': 'sr-only' } }) }}

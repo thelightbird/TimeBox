@@ -3,12 +3,16 @@
 namespace TimeBox\MainBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * Version
  *
  * @ORM\Table()
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks
  * @ORM\Entity(repositoryClass="TimeBox\MainBundle\Entity\VersionRepository")
  */
 class Version
@@ -62,10 +66,134 @@ class Version
      */
     private $comment;
 
+    /**
+     * @Assert\File(maxSize="6000000")
+     */
+    private $uploadedFile;
+
+    private $temp;
+
 
     public function __construct()
     {
         $this->date = new \Datetime();
+        $this->displayId = 1;
+    }
+
+
+    /**
+     * Sets file.
+     *
+     * @param UploadedFile $uploadedFile
+     */
+    public function setUploadedFile(UploadedFile $uploadedFile = null)
+    {
+        $this->uploadedFile = $uploadedFile;
+    }
+
+    /**
+     * Get file.
+     *
+     * @return UploadedFile
+     */
+    public function getUploadedFile()
+    {
+        return $this->uploadedFile;
+    }
+
+    /**
+     * @ORM\PostPersist()
+     * @ORM\PostUpdate()
+     */
+    public function upload()
+    {
+        if (null === $this->getUploadedFile()) {
+            return;
+        }
+
+        // you must throw an exception here if the file cannot be moved
+        // so that the entity is not persisted to the database
+        // which the UploadedFile move() method does
+        $this->getUploadedFile()->move(
+            $this->getUploadRootDir(),
+            $this->id
+        );
+
+        $this->setUploadedFile(null);
+    }
+
+    /**
+     * @ORM\PreRemove()
+     */
+    public function storeFilenameForRemove()
+    {
+        $this->temp = $this->getAbsolutePath();
+    }
+
+    /**
+     * @ORM\PostRemove()
+     */
+    public function removeUpload()
+    {
+        if (isset($this->temp)) {
+            unlink($this->temp);
+        }
+    }
+
+    public function getAbsolutePath()
+    {
+        return $this->getUploadRootDir().'/'.$this->id;
+    }
+
+    public function getWebPath()
+    {
+        return $this->getUploadDir().'/'.$this->id;
+    }
+
+    protected function getUploadRootDir()
+    {
+        // the absolute directory path where uploaded
+        // documents should be saved
+        return __DIR__.'/../../../../web/'.$this->getUploadDir();
+    }
+
+    protected function getUploadDir()
+    {
+        // get rid of the __DIR__ so it doesn't screw up
+        // when displaying uploaded doc/image in the view.
+        return 'uploads/documents';
+    }
+
+    /**
+     * Get size
+     *
+     * @return string 
+     */
+    public function getUploadSize()
+    {
+        return $this->uploadedFile->getClientSize();
+    }
+
+    /**
+     * Get upload name
+     *
+     * @return string
+     */
+    public function getUploadName()
+    {
+        $ext = $this->uploadedFile->getClientOriginalExtension();
+        $filename = $this->uploadedFile->getClientOriginalName();
+        return basename($filename, '.'.$ext);
+    }
+
+    /**
+     * Get upload type
+     *
+     * @return string
+     */
+    public function getUploadType()
+    {
+        return $this->uploadedFile->getClientOriginalExtension();
     }
 
     /**

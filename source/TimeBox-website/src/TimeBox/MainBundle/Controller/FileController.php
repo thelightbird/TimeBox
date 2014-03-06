@@ -232,6 +232,65 @@ class FileController extends Controller
         return new Response('');
     }
 
+public function renameAction()
+    {
+        $user = $this->getConnectedUser();
+        $em = $this->getDoctrine()->getManager();
+
+        $request = $this->get('request');
+        if ($request->getMethod() == 'POST') {
+            $currentFolderId = $request->request->get('currentFolderId');
+            $newName = $request->request->get('newName');
+            $foldersId = $request->request->get('foldersId');
+            $foldersId = json_decode($foldersId);
+            $filesId = $request->request->get('filesId');
+            $filesId = json_decode($filesId);
+
+            if (!is_null($newName)) {
+
+                $files = $em->getRepository('TimeBoxMainBundle:File')->findBy(array(
+                    'user' => $user,
+                    'id' => $filesId
+                ));
+                $folders = $em->getRepository('TimeBoxMainBundle:Folder')->findBy(array(
+                    'user' => $user,
+                    'id' => $foldersId
+                ));
+
+                if (!is_null($files) && sizeof($files) > 0) {
+                    foreach ($files as $file) {
+                        $file->setName($newName);
+                        $file->setIsDeleted(false);
+                    }
+                }
+                if (!is_null($folders) && sizeof($folders) > 0) {
+                    foreach ($folders as $folder) {
+                        $folder->setName($newName);
+                        $this->manageFolderContent($folder, false);
+                    }
+                }
+
+                $em->flush();
+
+                return $this->redirect($this->generateUrl('time_box_main_file', array(
+                    'folderId' => $currentFolderId
+                )));
+            }
+
+            $filesId = json_encode($filesId);
+            $foldersId = json_encode($foldersId);
+
+
+            return $this->render('TimeBoxMainBundle:File:rename.html.twig', array(
+                'folderId'  => $currentFolderId,
+                'filesId'   => $filesId,
+                'foldersId' => $foldersId
+            ));
+        }
+        return new Response('');
+    }
+    
+
     /**
      * @Template()
      */
@@ -239,10 +298,9 @@ class FileController extends Controller
     {
         $user = $this->getConnectedUser();
 
-        $file = new File();
         $version = new Version();
         $form = $this->createFormBuilder($version)
-            ->add('file', new FileType)
+            ->add('uploadedFile')
             ->add('comment', 'textarea', array('required' => false))
             ->getForm();
 
@@ -251,31 +309,32 @@ class FileController extends Controller
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
-            $file = $version->getFile();
+            $filename = $version->getUploadName();
+            $filetype = $version->getUploadType();
+            $size = $version->getUploadSize();
 
+            $folder = null;
             $folderId = $request->request->get('folderId');
             if (is_numeric($folderId)) {
                 $folder = $em->getRepository('TimeBoxMainBundle:Folder')->findOneById($folderId);
-                if ($folderId) {
-                    $file->setFolder($folder);
-                }
             }
 
-            $file->setUser($user);
-            $file->setUploadName();
-            $file->setUploadType();
-            $size = $file->getUploadSize();
-
             $existingFile = $em->getRepository('TimeBoxMainBundle:File')->findOneBy(array(
-                'user' => $file->getUser(),
-                'folder' => $file->getFolder(),
-                'name' => $file->getName(),
-                'type' => $file->getType()
+                'user'   => $user,
+                'folder' => $folder,
+                'name' => $filename,
+                'type' => $filetype,
+                'isDeleted' => false
             ));
 
-            $versionDisplayId = 0;
+            $versionDisplayId = 1;
 
-            if ($existingFile == null) {
+            if (!$existingFile) {
+                $file = new File();
+                $file->setUser($user);
+                $file->setName($filename);
+                $file->setType($filetype);
+                $file->setFolder($folder);
                 $file->setTotalSize($size);
                 $em->persist($file);
                 $em->flush();
@@ -287,7 +346,6 @@ class FileController extends Controller
                     array('file' => $file),
                     array('displayId' => 'DESC')
                 );
-
                 $versionDisplayId = $lastVersion->getDisplayId() + 1;
             }
 
@@ -295,6 +353,7 @@ class FileController extends Controller
             $version->setFile($file);
             $version->setSize($size);
             $version->setDisplayId($versionDisplayId);
+            $version->setDescription("Uploaded file");
 
             $user->setStorage(max($user->getStorage() + $size, 0));
 
