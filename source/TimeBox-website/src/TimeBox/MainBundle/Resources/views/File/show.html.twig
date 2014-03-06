@@ -24,7 +24,7 @@
             <li class="FileRelatedAction {{ hideAction }}">
                 <a href=""><img src="{{ asset('img/icons/link.png') }}" alt="share icon" class="shareIcon" />Share</a>
             </li>
-            <li class="FileRelatedAction FolderRelatedAction {{ hideAction }}">
+            <li class="FileRelatedAction FolderRelatedAction rename {{ hideAction }}">
                 <a href=""><img src="{{ asset('img/icons/file-edit.png') }}" alt="rename icon" />Rename</a>
             </li>
             <li class="FileRelatedAction FolderRelatedAction delete">
@@ -231,6 +231,26 @@
                 return false;
             });
 
+            $(".rename").click(function() {
+                var itemSelectedId = getSelectedItemId();
+                var foldersId = itemSelectedId[0];
+                var filesId = itemSelectedId[1];
+
+                $.ajax({
+                    url: "{{ path('time_box_main_file_rename') }}",
+                    type: "POST",
+                    data: {
+                        'filesId': JSON.stringify(filesId),
+                        'foldersId': JSON.stringify(foldersId),
+                        'currentFolderId': '{{ folderId }}'
+                    },
+                    success: function( data ) {
+                        $(".container").html(data);
+                    }
+                });
+                return false;
+            });
+
             $(".download").click(function() {
                 {#
                 var itemSelectedId = getSelectedItemId();
@@ -248,6 +268,7 @@
                 return false;
                 #}
             });
+
 
         });
 

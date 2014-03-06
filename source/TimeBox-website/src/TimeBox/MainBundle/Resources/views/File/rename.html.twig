@@ -1,0 +1,22 @@
+{% import 'TimeBoxMainBundle:Macro:folderTree.html.twig' as macros %}
+
+<h3>Enter the new name</h3>
+
+<form class="move" action="{{ path('time_box_main_file_rename') }}" method="post">
+    
+
+    <input name="newName" value=""/>
+    <input type="hidden" name="filesId" value="{{ filesId }}"/>
+    <input type="hidden" name="foldersId" value="{{ foldersId }}"/>
+    <input type="hidden" name="currentFolderId" value="{{ folderId }}"/>
+    <input class="btn btn-primary" type="submit" value="Ok"/>
+</form>
+
+<script type="text/javascript">
+    $("form.move").submit(function() {
+        if ($("input[name=newName]").value().length() > 1) {
+            alert("Please type a name.");
+            return false;
+        }
+    });
+</script>

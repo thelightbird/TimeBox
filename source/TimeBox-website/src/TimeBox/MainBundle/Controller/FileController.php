@@ -232,6 +232,65 @@ class FileController extends Controller
         return new Response('');
     }
 
+public function renameAction()
+    {
+        $user = $this->getConnectedUser();
+        $em = $this->getDoctrine()->getManager();
+
+        $request = $this->get('request');
+        if ($request->getMethod() == 'POST') {
+            $currentFolderId = $request->request->get('currentFolderId');
+            $newName = $request->request->get('newName');
+            $foldersId = $request->request->get('foldersId');
+            $foldersId = json_decode($foldersId);
+            $filesId = $request->request->get('filesId');
+            $filesId = json_decode($filesId);
+
+            if (!is_null($newName)) {
+
+                $files = $em->getRepository('TimeBoxMainBundle:File')->findBy(array(
+                    'user' => $user,
+                    'id' => $filesId
+                ));
+                $folders = $em->getRepository('TimeBoxMainBundle:Folder')->findBy(array(
+                    'user' => $user,
+                    'id' => $foldersId
+                ));
+
+                if (!is_null($files) && sizeof($files) > 0) {
+                    foreach ($files as $file) {
+                        $file->setName($newName);
+                        $file->setIsDeleted(false);
+                    }
+                }
+                if (!is_null($folders) && sizeof($folders) > 0) {
+                    foreach ($folders as $folder) {
+                        $folder->setName($newName);
+                        $this->manageFolderContent($folder, false);
+                    }
+                }
+
+                $em->flush();
+
+                return $this->redirect($this->generateUrl('time_box_main_file', array(
+                    'folderId' => $currentFolderId
+                )));
+            }
+
+            $filesId = json_encode($filesId);
+            $foldersId = json_encode($foldersId);
+
+
+            return $this->render('TimeBoxMainBundle:File:rename.html.twig', array(
+                'folderId'  => $currentFolderId,
+                'filesId'   => $filesId,
+                'foldersId' => $foldersId
+            ));
+        }
+        return new Response('');
+    }
+    
+
     /**
      * @Template()
      */
