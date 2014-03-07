@@ -232,7 +232,7 @@ class FileController extends Controller
         return new Response('');
     }
 
-public function renameAction()
+    public function renameAction()
     {
         $user = $this->getConnectedUser();
         $em = $this->getDoctrine()->getManager();
