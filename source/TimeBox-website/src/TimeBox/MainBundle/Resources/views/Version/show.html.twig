@@ -4,20 +4,49 @@
     <td colspan="4">
         <ul class="version">
         {% for version in versions %}
-            <li {% if loop.first %} class="selected" {% endif %} >
+            <li {% if loop.first %} class="selected" {% endif %}>
                 <table>
                     <tr>
                         <td class="versionId">
                             v{{ version.displayId }}
                         </td>
-                        <td class="description">
-                            <a href="" data-toggle="tooltip" data-placement="top" title="{{ version.comment }}">
+                        <td class="description" data-toggle="modal" data-target="#modal{{version.id}}">
+                            <a href="javascript:void(0)" data-toggle="tooltip" data-placement="top" title="{{ version.comment }}">
                                 {{ version.description }}
                                 {%- if version.comment is not null -%}
                                     <img class="comment" src="{{ asset('img/icons/comment.png') }}" alt="comment icon">
                                 {%- endif -%}
                             </a>
                         </td>
+
+                        <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modal{{version.id}}">
+                          <div class="modal-dialog modal-sm">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h4 class="modal-title" id="myModalLabel">Version Management</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <ul>
+                                        <li>File: {{version.file.name}}.{{version.file.type}}</li>
+                                        <li>Version: {{version.displayId}}</li>
+                                        <li>Date: {%- if "now"|date("Y/m/d") == version.date|date('Y/m/d') %}
+                                                    {{ version.date|date('H:i') }}
+                                                  {% else %}
+                                                    {{ version.date|date('Y/m/d') }}
+                                                  {% endif -%}
+                                    </ul>
+                                    <button type="button" class="btn btn-default restore">Restore</button>
+                                    <button type="button" class="btn btn-default download">Download</button>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+
+
                         <td class="size">
                             {% if version.size > 1000000  %}
                                 {{ version.size // 1000000 + 1 }} mo
@@ -42,7 +71,9 @@
         <script type="text/javascript">
             $(function () {
                 $("a").tooltip();
+                $("#myModal").modal();
             });
         </script>
     </td>
 </tr>
+

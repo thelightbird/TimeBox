@@ -214,7 +214,8 @@ class FileController extends Controller
 
             $folders = $em->getRepository('TimeBoxMainBundle:Folder')->findBy(
                 array(
-                    'user' => $user
+                    'user' => $user,
+                    'isDeleted' => false
                 ),
                 array(
                     'parent' => 'ASC',
