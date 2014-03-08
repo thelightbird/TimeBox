@@ -14,6 +14,7 @@ use TimeBox\MainBundle\Entity\Folder;
 use TimeBox\MainBundle\Entity\Version;
 
 use TimeBox\MainBundle\Form\FileType;
+use \ZipArchive;
 
 class FileController extends Controller
 {
@@ -146,53 +147,82 @@ class FileController extends Controller
             $filesId = $request->request->get('filesId');
             $filesId = json_decode($filesId);
 
-            if (!is_null($filesId) && sizeof($filesId) > 0) {
-                $filesToDownload = $em->getRepository('TimeBoxMainBundle:File')->findBy(array(
-                    'id'   => $filesId,
-                    'user' => $user
-                ));
-
-                $host = $this->getRequest()->getHttpHost();
-                $uri = $this->getRequest()->getBaseUrl();
-
-                if (!is_null($filesToDownload)) {
-                    if (sizeof($filesToDownload) == 1) {
-                        $headers = array(
-                            'Content-Type' => $fileToDownload[0]->getMimeType(),
-                            'Content-Disposition' => 'attachment; filename="'.$fileToDownload[0]->getName().'"'
-                        );
-                        return new Response(file_get_contents($filesToDownload[0]));
-                    }
-
-                    $headers = array(
-                        'Content-type' => 'application/zip',
-                        'Content-Disposition' => 'attachment',
-                    );
-
-                    $zip = new ZipArchive();
-                    $zipName = 'TimeBoxDownloads-'.time().".zip";
-                    $zip->open($zipName, ZipArchive::CREATE);
-
-                    foreach ($filesToDownload as $f) {
-                        $zip->addFromString(basename($f), file_get_contents($f));
-                    }
-
-                    $zip->close(ZipArchive::CLOSE);
-
-                    return new Response($zip);
-                }
-
+/*
                 if (!is_null($foldersId) && sizeof($foldersId) > 0) {
                     $foldersToDownload = $em->getRepository('TimeBoxMainBundle:Folder')->findBy(array(
                         'id'   => $foldersId,
                         'user' => $user
                     ));
                     foreach ($foldersToDownload as $folder) {
-                        ;//TODO: implement folder downloading
+                        //TODO: implement folder downloading
                     }
+                }
+*/
+
+            if (!is_null($filesId) && sizeof($filesId) > 0) {
+                $filesToDownload = $em->getRepository('TimeBoxMainBundle:Version')->getLastestFileVersion($user, $filesId);
+
+                $host = $this->getRequest()->getHttpHost();
+                $uri = $this->getRequest()->getBaseUrl();
+
+                if (!is_null($filesToDownload)) {
+                    if (sizeof($filesToDownload) == 1) {
+                        $version = $filesToDownload[0][0];
+                        $file = $version->getFile();
+
+                        $filePath = $version->getAbsolutePath();
+                        $filename = $file->getName();
+                        $type = $file->getType();
+                        if (!is_null($type)) {
+                            $filename .= '.'.$type;
+                        }
+
+                        if (!file_exists($filePath)) {
+                            throw $this->createNotFoundException();
+                        }
+
+                        $response = new Response();
+                        $response->headers->set('Content-type', 'application/octet-stream');
+                        $response->headers->set('Content-Disposition', sprintf('attachment; filename="%s"', $filename));
+                        $response->setContent(file_get_contents($filePath));
+                        return $response;
+                    }
+
+                    $zipFolder = $this->get('kernel')->getRootDir() . '/../web/uploads/zip/';
+                    if (!file_exists($zipFolder)) {
+                        mkdir($zipFolder, 0755, true);
+                    }
+
+                    $zip = new ZipArchive();
+                    $zipName = 'TimeBoxDownloads-'.time().'.zip';
+                    $zipPath = $zipFolder . $zipName;
+                    $zip->open($zipPath, ZipArchive::CREATE);
+
+                    foreach ($filesToDownload as $f) {
+                        $version = $f[0];
+                        $file = $version->getFile();
+
+                        $filePath = $version->getAbsolutePath();
+                        $filename = $file->getName();
+                        $type = $file->getType();
+                        if (!is_null($type)) {
+                            $filename .= '.'.$type;
+                        }
+
+                        $zip->addFile($filePath, '/123/'.$filename);
+                    }
+
+                    $zip->close();
+
+                    $response = new Response();
+                    $response->headers->set('Content-type', 'application/octet-stream');
+                    $response->headers->set('Content-Disposition', sprintf('attachment; filename="%s"', $zipName));
+                    $response->setContent(file_get_contents($zipPath));
+                    return $response;
                 }
             }
         }
+        return new Response('An error has occured.');
     }
 
     /**
