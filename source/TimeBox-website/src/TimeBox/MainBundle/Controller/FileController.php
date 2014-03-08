@@ -132,6 +132,69 @@ class FileController extends Controller
         return new Response($url);
     }
 
+    public function downloadAction()
+    {
+        $user = $this->getConnectedUser();
+
+        $em = $this->getDoctrine()->getEntityManager();
+
+        $request = $this->get('request');
+
+        if ($request->getMethod() == 'POST') {
+            $foldersId = $request->request->get('foldersId');
+            $foldersId = json_decode($foldersId);
+            $filesId = $request->request->get('filesId');
+            $filesId = json_decode($filesId);
+
+            if (!is_null($filesId) && sizeof($filesId) > 0) {
+                $filesToDownload = $em->getRepository('TimeBoxMainBundle:File')->findBy(array(
+                    'id'   => $filesId,
+                    'user' => $user
+                ));
+
+                $host = $this->getRequest()->getHttpHost();
+                $uri = $this->getRequest()->getBaseUrl();
+
+                if (!is_null($filesToDownload)) {
+                    if (sizeof($filesToDownload) == 1) {
+                        $headers = array(
+                            'Content-Type' => $fileToDownload[0]->getMimeType(),
+                            'Content-Disposition' => 'attachment; filename="'.$fileToDownload[0]->getName().'"'
+                        );
+                        return new Response(file_get_contents($filesToDownload[0]));
+                    }
+
+                    $headers = array(
+                        'Content-type' => 'application/zip',
+                        'Content-Disposition' => 'attachment',
+                    );
+
+                    $zip = new ZipArchive();
+                    $zipName = 'TimeBoxDownloads-'.time().".zip";
+                    $zip->open($zipName, ZipArchive::CREATE);
+
+                    foreach ($filesToDownload as $f) {
+                        $zip->addFromString(basename($f), file_get_contents($f));
+                    }
+
+                    $zip->close(ZipArchive::CLOSE);
+
+                    return new Response($zip);
+                }
+
+                if (!is_null($foldersId) && sizeof($foldersId) > 0) {
+                    $foldersToDownload = $em->getRepository('TimeBoxMainBundle:Folder')->findBy(array(
+                        'id'   => $foldersId,
+                        'user' => $user
+                    ));
+                    foreach ($foldersToDownload as $folder) {
+                        ;//TODO: implement folder downloading
+                    }
+                }
+            }
+        }
+    }
+
     /**
      * Delete or restore folder contents.
      *
