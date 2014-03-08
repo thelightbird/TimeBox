@@ -1,0 +1,131 @@
+{% extends "TimeBoxMainBundle::layout.html.twig" %}
+
+{% block container %}
+    <table class="link">
+        <tbody class="selectable">
+            <tr>
+                <th class="fileCheckbox">{# Checkbox #}</th>
+                <th class="fileTitle">File</th>
+                <th class="size">Version</th>
+                <th class="center">URL</th>
+                <th class="size">Size</th>
+                <th class="lastEdit">Link Date</th>
+            </tr>
+            {% for link in links %}
+                {% if link.file is not null %}
+                    {% set linkFile = link.file %}
+                {% else %}
+                    {% set linkFile = link.version.file %}
+                {% endif %}
+            <tr data-id="{{ link.id }}" class="selectLink">
+                <td class="fileCheckbox checkboxImg"></td>
+                <td class="">
+                    {% if linkFile.type in types %}
+                        <img src="{{ asset('img/icons/file-' ~ linkFile.type ~ '.png') }}" alt="{{ linkFile.type }} icon" />
+                    {% else %}
+                        <img src="{{ asset('img/icons/file.png') }}" alt="{{ linkFile.type }} icon" title="{{ linkFile.type }}" />
+                    {% endif %}
+                    {{ linkFile.name }}{% if linkFile.type is not null %}.{{ linkFile.type }}{% endif %}
+                </td>
+                <td class="center">
+                    {% if link.file is not null %}
+                        Lastest
+                    {% else %}
+                        v{{ link.version.displayId }}
+                    {% endif %}
+                </td>
+                <td class="center">
+                    <a href="#">URL</a>
+                </td>
+                <td class="size">
+                    {% if link.file is null %}
+                        {% if linkFile.totalSize > 1000000  %}
+                            {{ linkFile.totalSize // 1000000 + 1 }} MB
+                        {% elseif linkFile.totalSize > 1000  %}
+                            {{ linkFile.totalSize // 1000 + 1 }} KB
+                        {% else %}
+                            {{ linkFile.totalSize }} B
+                        {% endif %}
+                    {% endif %}
+                </td>
+                <td class="lastEdit">
+                    {% if "now"|date("Y/m/d") == link.date|date('Y/m/d') %}
+                        {{ link.date|date('H:i') }}
+                    {% else %}
+                        {{ link.date|date('Y/m/d') }}
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function() {
+            $("td.checkboxImg").click(function(evt) {
+                if (evt.shiftKey) {
+                    var firstIndex = $('table.link tr.selected').first().index();
+                    var lastIndex = $(this).parent('tr').index();
+                    if (lastIndex < firstIndex) {
+                        firstIndex += lastIndex;
+                        lastIndex = Math.abs(firstIndex - lastIndex);
+                        firstIndex -= lastIndex;
+                    }
+                    $("table.link tr.selectLink").each(function() {
+                        var i = $(this).index();
+                        if (i >= firstIndex && i <= lastIndex) {
+                            $(this).addClass("selected");
+                        }
+                    });
+                }
+                else {
+                    $(this).parent().toggleClass("selected");
+                }
+                return false;
+            });
+
+            $("table.link tr.selectLink").click(function(evt) {
+                if (evt.target.nodeName == 'A') {
+                    return true;
+                }
+
+                var nbSelectedItem = $('tr.selected').length;
+
+                if (evt.ctrlKey) {
+                    $(this).toggleClass("selected");
+                }
+                else if (evt.shiftKey) {
+                    var firstIndex = $('table.link tr.selected').first().index();
+                    var lastIndex = $(this).index();
+                    if (lastIndex < firstIndex) {
+                        firstIndex += lastIndex;
+                        lastIndex = Math.abs(firstIndex - lastIndex);
+                        firstIndex -= lastIndex;
+                    }
+                    $("table.link tr.selectLink").each(function() {
+                        var i = $(this).index();
+                        if (i >= firstIndex && i <= lastIndex) {
+                            $(this).addClass("selected");
+                        }
+                    });
+                }
+                else {
+                    if (nbSelectedItem == 0) {
+                        $(this).toggleClass("selected");
+                    }
+                    else if (nbSelectedItem == 1) {
+                        $(this).siblings().removeClass("selected");
+                        $(this).toggleClass("selected");
+                    }
+                    else if (nbSelectedItem > 0) {
+                        $(this).siblings().removeClass("selected");
+                    }
+                }
+            });
+        });
+    </script>
+{% endblock %}

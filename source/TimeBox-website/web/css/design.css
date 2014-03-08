@@ -223,6 +223,9 @@ table.file {
 	width: 500px;
 	float: left;
 }
+table.link {
+	width: 100%;
+}
 table.file .driveBreadcrumb ul {
 	margin:0px;
 	padding:0px;
@@ -242,7 +245,8 @@ table.file .driveBreadcrumb a {
 table.file thead {
 	background-color: #cfe8f5;
 }
-table.file tr {
+table.file tr,
+table.link tr {
 	border: 1px solid #d1d1d1;
 	/* disable text selection */
 	-webkit-touch-callout: none;
@@ -252,16 +256,20 @@ table.file tr {
 	-ms-user-select: none;
 	user-select: none;
 }
-table.file tr:hover {
+table.file tr:hover,
+table.link tr:hover {
 	cursor: default;
 }
-table.file th {
+table.file th,
+table.link th {
 	font-weight: normal;
 	text-transform: uppercase;
 	border: 1px solid #d1d1d1;
 }
 table.file th,
-table.file td {
+table.file td,
+table.link td,
+table.link th {
 	padding: 10px;
 	font-size: 13px;
 	font-family: "Ubuntu";
@@ -277,46 +285,58 @@ table.file thead td {
 table.file img {
 	display:block;
 }
-table.file .fileType {
+table.file .fileType,
+table.link .fileType {
 	width: 20px;
 	padding: 0px;
 	padding-right: 6px;
 	border-right: none;
 	border-left: none;
 }
-table.file .fileCheckbox {
+table.file .fileCheckbox,
+table.link .fileCheckbox {
 	width: 30px;
 	text-align: center;
 	border-right: none;
 	vertical-align: middle;
 	height: 100%;
 }
-table.file td.checkboxImg {
+table.file td.checkboxImg,
+table.link td.checkboxImg {
 	background-image: url('../img/checkbox.png');
 	background-position: center center;
 	background-repeat: no-repeat;
 }
-table.file tr.selected td.checkboxImg {
+table.file tr.selected td.checkboxImg,
+table.link tr.selected td.checkboxImg {
 	background-image: url('../img/checkbox_checked.png');
 	cursor: pointer;
 }
-table.file .checkboxImg:hover {
+table.file .checkboxImg:hover,
+table.link .checkboxImg:hover {
 	background-image: url('../img/checkbox_hover.png');
 	cursor: pointer;
 }
-table.file tr.selected td.checkboxImg:hover {
+table.file tr.selected td.checkboxImg:hover,
+table.link tr.selected td.checkboxImg:hover {
 	background-image: url('../img/checkbox_checked_hover.png');
 }
 table.file .fileTitle {
 	padding-left: 0px;
 	border-left: none;
 }
+table.link .fileTitle {
+	border-left: none;
+}
 table.file .size,
-table.file .lastEdit {
+table.file .lastEdit,
+table.link .size,
+table.link .lastEdit {
 	width: 100px;
 	text-align: center;
 }
-table.file tr.selected {
+table.file tr.selected,
+table.link tr.selected {
 	background: #F4E0FF;
 	background: linear-gradient(to top, #F2DAFF 0%, #F6E7FF 100%);
 }

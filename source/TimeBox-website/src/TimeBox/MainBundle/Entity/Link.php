@@ -27,6 +27,11 @@ class Link
     private $version;
 
     /**
+     * @ORM\OneToOne(targetEntity="TimeBox\MainBundle\Entity\File")
+     */
+    private $file;
+
+    /**
      * @ORM\ManyToOne(targetEntity="TimeBox\UserBundle\Entity\User", cascade={"remove"})
      */
     private $user;
@@ -37,6 +42,13 @@ class Link
      * @ORM\Column(name="date", type="datetime")
      */
     private $date;
+
+    /**
+     * @var \String
+     *
+     * @ORM\Column(name="downloadHash", type="string")
+     */
+    private $downloadHash;
 
 
     public function __construct()
@@ -121,5 +133,51 @@ class Link
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * Set file
+     *
+     * @param \TimeBox\MainBundle\Entity\File $file
+     * @return Link
+     */
+    public function setFile(\TimeBox\MainBundle\Entity\File $file = null)
+    {
+        $this->file = $file;
+
+        return $this;
+    }
+
+    /**
+     * Get file
+     *
+     * @return \TimeBox\MainBundle\Entity\File 
+     */
+    public function getFile()
+    {
+        return $this->file;
+    }
+
+    /**
+     * Set downloadHash
+     *
+     * @param string $downloadHash
+     * @return Link
+     */
+    public function setDownloadHash($downloadHash)
+    {
+        $this->downloadHash = $downloadHash;
+
+        return $this;
+    }
+
+    /**
+     * Get downloadHash
+     *
+     * @return string 
+     */
+    public function getDownloadHash()
+    {
+        return $this->downloadHash;
     }
 }
