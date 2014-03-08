@@ -87,7 +87,7 @@ class VersionController extends Controller
             $restoredVersion->setDisplayId($versionDisplayId);
             $restoredVersion->setSize($size);
             $restoredVersion->setDate(new \DateTime);
-            $restoredVersion->setDescription("Restored file.");
+            $restoredVersion->setDescription("Restored file from version ".$previousVersion->getDisplayId());
             $restoredVersion->setComment($previousVersion->getComment());
 
             $user->setStorage(max($user->getStorage() + $size, 0));

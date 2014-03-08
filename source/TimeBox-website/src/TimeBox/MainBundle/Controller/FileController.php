@@ -354,7 +354,7 @@ class FileController extends Controller
             $version->setFile($file);
             $version->setSize($size);
             $version->setDisplayId($versionDisplayId);
-            $version->setDescription("Uploaded file.");
+            $version->setDescription("Uploaded file");
 
             $user->setStorage(max($user->getStorage() + $size, 0));
 
