@@ -36,8 +36,8 @@
                                                     {{ version.date|date('Y/m/d') }}
                                                   {% endif -%}
                                     </ul>
-                                    <button type="button" class="btn btn-default restore">Restore</button>
-                                    <button type="button" class="btn btn-default download">Download</button>
+                                    <button type="button" class="btn btn-default restore" id='{{version.id}}'>Restore</button>
+                                    <button type="button" class="btn btn-default download" id="{{version.id}}">Download</button>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
@@ -68,10 +68,31 @@
             </li>
         {% endfor %}
         </ul>
+
+        
         <script type="text/javascript">
             $(function () {
                 $("a").tooltip();
-                $("#myModal").modal();
+            });
+            $(document).ready(function() {
+                $("button.restore").click(function(evt) {
+                    var versionId = evt.target.id;    
+
+                    $.ajax({
+                        url: "{{ path('time_box_main_version_restore') }}",
+                        type: "POST",
+                        data: {
+                            'versionId': JSON.stringify(versionId),
+                        },
+                        success: function() {
+                            alert("Version restored!");
+                        },
+                        error: function (data) {
+                            alert("Restoration failed with message:\n"+data);
+                        }
+                    });
+                    return false;
+                });
             });
         </script>
     </td>

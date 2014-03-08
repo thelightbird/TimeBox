@@ -18,6 +18,11 @@ time_box_main_file_versions:
     requirements:
         _method:  POST
 
+time_box_main_version_restore:
+    pattern: /version/restore
+    defaults: { _controller: TimeBoxMainBundle:Version:restore}
+
+        
 time_box_main_file_delete:
     pattern: /file/delete
     defaults: { _controller: TimeBoxMainBundle:File:delete }
