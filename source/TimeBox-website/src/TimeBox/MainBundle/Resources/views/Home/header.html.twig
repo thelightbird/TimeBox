@@ -8,13 +8,13 @@
             <div class="storage">
                 <p>
                 {% if app.user.storage > 1000000  %}
-                    {{ app.user.storage // 1000000 + 1 }} mo
+                    {{ app.user.storage // 1000000 + 1 }} MB
                 {% elseif app.user.storage > 1000  %}
-                    {{ app.user.storage // 1000 + 1 }} ko
+                    {{ app.user.storage // 1000 + 1 }} KB
                 {% else %}
-                    {{ app.user.storage }} o
+                    {{ app.user.storage }} B
                 {% endif %}
-                     / 50 mo
+                     / 50 MB
                 </p>
                 <div class="bar">
                     <div style="width: {{ ( app.user.storage // 1000000 + 1 ) * 2 }}%;"></div>

@@ -93,11 +93,11 @@
                 <td class="fileTitle">{{ file.name }}{% if file.type is not null %}.{{ file.type }}{% endif %}</td>
                 <td class="size">
                 {% if file.totalSize > 1000000  %}
-                    {{ file.totalSize // 1000000 + 1 }} mo
+                    {{ file.totalSize // 1000000 + 1 }} MB
                 {% elseif file.totalSize > 1000  %}
-                    {{ file.totalSize // 1000 + 1 }} ko
+                    {{ file.totalSize // 1000 + 1 }} KB
                 {% else %}
-                    {{ file.totalSize }} o
+                    {{ file.totalSize }} B
                 {% endif %}
                 </td>
                 <td class="lastEdit">

@@ -49,11 +49,11 @@
 
                         <td class="size">
                             {% if version.size > 1000000  %}
-                                {{ version.size // 1000000 + 1 }} mo
+                                {{ version.size // 1000000 + 1 }} MB
                             {% elseif version.size > 1000  %}
-                                {{ version.size // 1000 + 1 }} ko
+                                {{ version.size // 1000 + 1 }} KB
                             {% else %}
-                                {{ version.size }} o
+                                {{ version.size }} B
                             {% endif %}
                         </td>
                         <td class="lastEdit">
