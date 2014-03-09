@@ -12,7 +12,7 @@ use Doctrine\ORM\EntityRepository;
  */
 class VersionRepository extends EntityRepository
 {
-	public function getFileVersions($user, $fileId)
+    public function getFileVersions($user, $fileId)
     {
         $query = $this->getEntityManager()
             ->createQuery('
@@ -25,6 +25,28 @@ class VersionRepository extends EntityRepository
             ')->setParameters(array(
                'user'   => $user,
                'fileId' => $fileId
+            ));
+        try {
+            return $query->getResult();
+        } catch (\Doctrine\ORM\NoResultException $e) {
+            return null;
+        }
+    }
+
+    public function getLastestFileVersion($user, $filesId)
+    {
+        $query = $this->getEntityManager()
+            ->createQuery('
+                SELECT v, MAX(v.date)
+                FROM TimeBoxMainBundle:Version v
+                JOIN v.file f
+                WHERE f.user = :user
+                AND v.file IN (:filesId)
+                GROUP BY v.file
+                ORDER BY v.date DESC
+            ')->setParameters(array(
+               'user'   => $user,
+               'filesId' => $filesId
             ));
         try {
             return $query->getResult();

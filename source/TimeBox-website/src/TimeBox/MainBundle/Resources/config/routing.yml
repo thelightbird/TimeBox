@@ -12,6 +12,10 @@ time_box_main_file_upload:
     requirements:
         folderId:  \d+
 
+time_box_main_file_download:
+    pattern:  /file/download
+    defaults: { _controller: TimeBoxMainBundle:File:download }
+
 time_box_main_file_versions:
     pattern: /file/versions
     defaults: { _controller: TimeBoxMainBundle:Version:index }

@@ -19,7 +19,11 @@
                 <a href="{{ path('time_box_main_file_upload', { 'folderId':folderId }) }}"><img src="{{ asset('img/icons/file-upload.png') }}" alt="upload icon" />Upload a new file</a>
             </li>
             <li class="FileRelatedAction FolderRelatedAction download {{ hideAction }}">
-                <a href=""><img src="{{ asset('img/icons/file-download.png') }}" alt="download icon" />Download</a>
+                <form target="_blank" action="{{ path('time_box_main_file_download') }}" method="post">
+                    <input type="hidden" name="foldersId" value=""/>
+                    <input type="hidden" name="filesId" value=""/>
+                    <a href="#"><img src="{{ asset('img/icons/file-download.png') }}" alt="download icon" />Download</a>
+                </form>
             </li>
             <li class="FileRelatedAction {{ hideAction }}">
                 <a href=""><img src="{{ asset('img/icons/link.png') }}" alt="share icon" class="shareIcon" />Share</a>
@@ -251,22 +255,13 @@
                 return false;
             });
 
-            $(".download").click(function() {
-                {#
+            $("li.download a").click(function() {
                 var itemSelectedId = getSelectedItemId();
                 var foldersId = itemSelectedId[0];
                 var filesId = itemSelectedId[1];
-
-                $.ajax({
-                    url: "{{ path('time_box_main_file_download') }}",
-                    type: "POST",
-                    data: {
-                        'filesId': JSON.stringify(filesId),
-                        'foldersId': JSON.stringify(foldersId)
-                    }
-                });
-                return false;
-                #}
+                $("li.download form input[name=foldersId]").val( JSON.stringify(foldersId) );
+                $("li.download form input[name=filesId]").val( JSON.stringify(filesId) );
+                $("li.download form").submit();
             });
 
 
