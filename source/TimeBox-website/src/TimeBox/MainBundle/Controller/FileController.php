@@ -255,7 +255,7 @@ class FileController extends Controller
                             $filename .= '.'.$type;
                         }
 
-                        $zip->addFile($filePath, '/123/'.$filename);
+                        $zip->addFile($filePath, $filename);
                     }
 
                     $zip->close();
