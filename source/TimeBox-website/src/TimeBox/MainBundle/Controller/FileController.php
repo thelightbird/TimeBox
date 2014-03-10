@@ -32,10 +32,10 @@ class FileController extends Controller
     public function showAction($folderId, $isDeleted)
     {
         $user = $this->getConnectedUser();
-
         $em = $this->getDoctrine()->getManager();
 
         $files = $em->getRepository('TimeBoxMainBundle:File')->getRootFiles($user, $folderId, $isDeleted);
+
         $folders = $em->getRepository('TimeBoxMainBundle:Folder')->findBy(array(
             'parent' => $folderId,
             'user' => $user,
@@ -451,7 +451,7 @@ class FileController extends Controller
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
-            $filename = $version->getUploadName();
+            $filename = $request->request->get('name');
             $filetype = $version->getUploadType();
             $size = $version->getUploadSize();
 
@@ -510,5 +510,29 @@ class FileController extends Controller
             'form' => $form->createView(),
             'folderId' => $folderId
         );
+    }
+
+     public function linkAction($fileId)
+    {
+        $user = $this->getConnectedUser();
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+
+            $fileId = $request->request->get('fileId');
+
+            $existingFile = $em->getRepository('TimeBoxMainBundle:File')->findOneBy(array(
+                'user'   => $user,
+                'fileId' => $filesId
+            ));
+
+            return $this->redirect($this->generateUrl('time_box_main_file'));
+        }
+
+        return $this->render('TimeBoxMainBundle:File:link.html.twig', array(
+            "fileId" => $fileId
+        ));
     }
 }
