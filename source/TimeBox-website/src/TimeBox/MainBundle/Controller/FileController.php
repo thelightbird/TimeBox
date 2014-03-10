@@ -148,6 +148,8 @@ class FileController extends Controller
         if($subdir != "")
             $folderPath = $subdir.'/'.$folder->getName();
 
+        $zip->addEmptyDir($folderPath);
+
         $contents = $folder->getFiles();
 
         $files = array();
