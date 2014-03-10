@@ -5,6 +5,9 @@ namespace TimeBox\MainBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+
 use TimeBox\MainBundle\Entity\Version;
 
 class VersionController extends Controller
@@ -90,12 +93,16 @@ class VersionController extends Controller
             $restoredVersion->setDescription("Restored file from version ".$previousVersion->getDisplayId());
             $restoredVersion->setComment($previousVersion->getComment());
 
+
+
             $user->setStorage(max($user->getStorage() + $size, 0));
 
             $previousVersionFile->setTotalSize($previousVersionFile->getTotalSize()+$size);
             $em->persist($restoredVersion);
             $em->persist($user);
             $em->flush();
+
+            copy($previousVersion->getAbsolutePath(), $restoredVersion->getAbsolutePath());
 
             return $this->redirect($this->generateUrl('time_box_main_file', array(
                     'folderId' => $previousVersionFile->getFolder()
@@ -105,5 +112,61 @@ class VersionController extends Controller
 
         return new Response('');
     }
+
+
+    public function downloadAction($versionId)
+    {
+        $user = $this->getConnectedUser();
+        $em = $this->getDoctrine()->getManager();
+
+        $versionRepository = $em->getRepository('TimeBoxMainBundle:Version');
+
+        if(is_null($versionRepository))
+                throw $this->createNotFoundException('Unable to find version repository.');
+
+        if(is_null($versionId))
+                throw $this->createNotFoundException('POST request corrupted.');
+
+        $version = $versionRepository->findOneBy(
+            array('id' => $versionId)
+            );
+
+        if(is_null($version))
+            throw $this->createNotFoundException("Unable to find version entity.".$versionId);
+
+        $file = $version->getFile();
+
+        if(is_null($file))
+            throw $this->createNotFoundException("Unable to find file entity.".$versionId);
+
+        $possessFile = $em->getRepository('TimeBoxMainBundle:File')->findOneBy(
+            array('id' => $file->getId(),
+                  'user' => $user)
+            );
+
+        if(is_null($possessFile))
+            return new Response('<html><body>You are not allowed to download this file</body></html>');
+
+
+        $filePath = $version->getAbsolutePath();
+        $filename = $file->getName();
+        $type = $file->getType();
+
+        if(!is_null($type))
+            $filename .= '.'.$type;
+
+        if(!file_exists($filePath))
+            throw $this->createNotFoundException("File not found");
+
+        $response = new Response();
+        $response->headers->set('Content-type', 'application/octet-stream');
+        $response->headers->set('Content-Disposition', sprintf('attachment;filename="%s', $filename));
+        $response->setContent(file_get_contents($filePath));
+
+        return $response;
+        
+    }
+
+
 
 }

@@ -37,7 +37,9 @@
                                                   {% endif -%}
                                     </ul>
                                     <button type="button" class="btn btn-default restore" id='{{version.id}}'>Restore</button>
-                                    <button type="button" class="btn btn-default download" id="{{version.id}}">Download</button>
+
+                                    <button type="button" class="btn btn-default download" id="{{version.id}}" onClick="self.location.href='{{ path('time_box_main_version_download', {'versionId': version.id}) }}'">Download</button>
+                                    
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>

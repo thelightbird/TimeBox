@@ -26,6 +26,12 @@ time_box_main_version_restore:
     pattern: /version/restore
     defaults: { _controller: TimeBoxMainBundle:Version:restore}
 
+time_box_main_version_download:
+    pattern: /version/download/{versionId}
+    defaults: { _controller: TimeBoxMainBundle:Version:download}
+    requirements:
+        versionId:  \d+
+
 time_box_main_file_delete:
     pattern: /file/delete
     defaults: { _controller: TimeBoxMainBundle:File:delete }
