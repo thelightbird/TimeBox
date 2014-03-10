@@ -25,7 +25,10 @@ class LinkController extends Controller
 
         $em = $this->getDoctrine()->getManager();
 
-        $links = $em->getRepository('TimeBoxMainBundle:Link')->findByUser($user);
+        $links = $em->getRepository('TimeBoxMainBundle:Link')->findByUser($user,
+            array(
+                "date" => "ASC"
+            ));
 
         $types = array(
             "avi", "bmp", "css", "doc", "gif", "htm", "jpg", "js", "mov", "mp3", "mp4",
@@ -36,5 +39,27 @@ class LinkController extends Controller
             "links" => $links,
             "types" => $types
         ));
+    }
+
+    public function newLinkFileAction($fileId)
+    {
+        $user = $this->getConnectedUser();
+
+        $em = $this->getDoctrine()->getManager();
+
+        $file = $em->getRepository('TimeBoxMainBundle:File')->findOneById($fileId);
+        if (!$file) {
+            throw $this->createNotFoundException('Unable to find File entity.');
+        }
+
+        $link = new Link();
+        $link->setUser($user);
+        $link->setFile($file);
+        $link->setDownloadHash("hash"); // TODO downloadHash
+
+        $em->persist($link);
+        $em->flush();
+
+        return $this->redirect($this->generateUrl('time_box_main_share'));
     }
 }

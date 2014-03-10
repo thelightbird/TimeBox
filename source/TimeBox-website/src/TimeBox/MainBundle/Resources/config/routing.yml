@@ -62,3 +62,9 @@ time_box_main_folder_new:
 time_box_main_share:
     pattern: /share
     defaults: { _controller: TimeBoxMainBundle:Link:show }
+
+time_box_main_link_file_new:
+    pattern:  /link/file/new/{fileId}
+    defaults: { _controller: TimeBoxMainBundle:Link:newLinkFile }
+    requirements:
+        fileId:  \d+

@@ -511,28 +511,4 @@ class FileController extends Controller
             'folderId' => $folderId
         );
     }
-
-     public function linkAction($fileId)
-    {
-        $user = $this->getConnectedUser();
-
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-
-            $fileId = $request->request->get('fileId');
-
-            $existingFile = $em->getRepository('TimeBoxMainBundle:File')->findOneBy(array(
-                'user'   => $user,
-                'fileId' => $filesId
-            ));
-
-            return $this->redirect($this->generateUrl('time_box_main_file'));
-        }
-
-        return $this->render('TimeBoxMainBundle:File:link.html.twig', array(
-            "fileId" => $fileId
-        ));
-    }
 }
