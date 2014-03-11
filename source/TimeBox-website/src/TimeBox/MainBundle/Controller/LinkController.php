@@ -62,4 +62,26 @@ class LinkController extends Controller
 
         return $this->redirect($this->generateUrl('time_box_main_share'));
     }
+
+     public function newLinkVersionAction($versionId)
+    {
+        $user = $this->getConnectedUser();
+
+        $em = $this->getDoctrine()->getManager();
+
+        $version = $em->getRepository('TimeBoxMainBundle:Version')->findOneById($version);
+        if (!$version) {
+            throw $this->createNotFoundException('Unable to find Version entity.');
+        }
+
+        $link = new Link();
+        $link->setUser($user);
+        $link->setVersion($version);
+        $link->setDownloadHash("hash"); // TODO downloadHash
+
+        $em->persist($link);
+        $em->flush();
+
+        return $this->redirect($this->generateUrl('time_box_main_share'));
+    }
 }
