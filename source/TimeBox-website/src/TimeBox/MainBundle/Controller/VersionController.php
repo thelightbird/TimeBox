@@ -26,7 +26,12 @@ class VersionController extends Controller
 
     public function indexAction()
     {
-        $user = $this->getConnectedUser();
+        try{
+            $user = $this->getConnectedUser();
+        }
+        catch(AccessDeniedException $e){
+            return $this->render('TimeBoxMainBundle:Version:error.html.twig');
+        }
 
         $em = $this->getDoctrine()->getManager();
 
