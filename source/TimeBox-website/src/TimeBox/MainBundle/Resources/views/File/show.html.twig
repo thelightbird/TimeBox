@@ -306,10 +306,15 @@
                         type: "POST",
                         data: {'fileId': fileId},
                         success: function( data ) {
-                            nbSelectedFile = $('table.file tr.file.selected').length;
-                            if (nbSelectedFile == 1) {
-                                $('tr.file.selected[data-id='+fileId+']').after( data );
-                                $("tr.version ul").hide().stop(false, true).slideDown();
+                            if (data == 'not logged') {
+                                window.location.replace("{{ path('time_box_main_homepage') }}");
+                            }
+                            else {
+                                nbSelectedFile = $('table.file tr.file.selected').length;
+                                if (nbSelectedFile == 1) {
+                                    $('tr.file.selected[data-id='+fileId+']').after( data );
+                                    $("tr.version ul").hide().stop(false, true).slideDown();
+                                }
                             }
                             ajaxRequest = null;
                         }

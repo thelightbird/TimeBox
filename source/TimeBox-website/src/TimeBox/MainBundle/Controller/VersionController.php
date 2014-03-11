@@ -26,7 +26,12 @@ class VersionController extends Controller
 
     public function indexAction()
     {
-        $user = $this->getConnectedUser();
+        try {
+            $user = $this->getConnectedUser();
+        }
+        catch(AccessDeniedException $e) {
+            return new Response('not logged');
+        }
 
         $em = $this->getDoctrine()->getManager();
 
@@ -43,8 +48,6 @@ class VersionController extends Controller
 
     public function restoreAction()
     {
-
-
         $user = $this->getConnectedUser();
         $em = $this->getDoctrine()->getManager();
 
@@ -53,7 +56,6 @@ class VersionController extends Controller
         if ($request->getMethod() == 'POST') {
             $versionId = json_decode($request->request->get('versionId'));
 
-        
             $versionRepository = $em->getRepository('TimeBoxMainBundle:Version');
 
             if(is_null($versionRepository))
@@ -76,7 +78,7 @@ class VersionController extends Controller
                     array('file' => $previousVersionFile),
                     array('displayId' => 'DESC')
                 );
-            
+
             if(is_null($lastVersion))
                 throw $this->createNotFoundException('Unable to find Version entity.');
 
@@ -106,13 +108,11 @@ class VersionController extends Controller
 
             return $this->redirect($this->generateUrl('time_box_main_file', array(
                     'folderId' => $previousVersionFile->getFolder()
-                )));
-        
+            )));
         }
 
         return new Response('');
     }
-
 
     public function downloadAction($versionId)
     {
@@ -164,9 +164,5 @@ class VersionController extends Controller
         $response->setContent(file_get_contents($filePath));
 
         return $response;
-        
     }
-
-
-
 }
