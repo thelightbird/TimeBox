@@ -2,12 +2,12 @@
 
 <h4>Enter the new name</h4>
 
-<form class="rename" action="{ { path('time_box_main_file_rename') }}" method="post">
+<form class="rename" action="{{ path('time_box_main_file_rename') }}" method="post">
     <div class="form-group">
         <input class="form-control" placeholder="Name" name="newName" value=""/>
-        <input type="hidden" name="filesId" value="{ { filesId }}"/>
-        <input type="hidden" name="foldersId" value="{ { foldersId }}"/>
-        <input type="hidden" name="currentFolderId" value="{ { folderId }}"/>
+        <input type="hidden" name="filesId" value="{{ filesId }}"/>
+        <input type="hidden" name="foldersId" value="{{ foldersId }}"/>
+        <input type="hidden" name="currentFolderId" value="{{ folderId }}"/>
     </div>
     <div class="form-group">
         <input class="btn btn-primary" type="submit" value="Ok"/>
