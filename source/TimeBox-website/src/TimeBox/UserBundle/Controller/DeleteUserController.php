@@ -28,7 +28,7 @@ class DeleteUserController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $links = $em->getRepository("TimeBoxMainBundle:Link")->findByUser($user);
-
+    
         foreach ($links as $link) {
             $em->remove($link);
         }

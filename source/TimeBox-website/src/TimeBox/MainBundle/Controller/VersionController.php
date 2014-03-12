@@ -107,7 +107,7 @@ class VersionController extends Controller
             copy($previousVersion->getAbsolutePath(), $restoredVersion->getAbsolutePath());
 
             return $this->redirect($this->generateUrl('time_box_main_file', array(
-                    'folderId' => $previousVersionFile->getFolder()->getId()
+                    'folderId' => $previousVersionFile->getFolder()
             )));
         }
 
