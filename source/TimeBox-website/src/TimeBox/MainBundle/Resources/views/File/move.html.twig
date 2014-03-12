@@ -6,14 +6,19 @@
     <div class="form-group">
         <ul class="folderTree">
             <li>/</li>
-        {% for folder in folders %}
-            {% if folder.parent is null and folder.id not in foldersId %}
-            <li data-id="{{ folder.id }}">
-                {{- folder.name -}}
-            </li>
-            {{ macros.folderTree(folders, foldersId, folder.id, loop.revindex, loop.revindex) }}
-            {% endif %}
-        {% endfor %}
+            {% for folder in folders %}
+                {% if folder.parent is null and folder.id not in foldersId %}
+                    <li data-id="{{ folder.id }}" id="collapseFolder"
+                        data-parent=".folderTree">
+                        {{- folder.name -}}
+                        {% if not folder.children.isEmpty %}
+                            <button type="button" class="btn btn-default btn-sm" data-toggle="collapse"
+                                data-target=".collapseFolder{{ folder.id }}">+</button>
+                        {% endif %}
+                    </li>
+                    {{ macros.folderTree(folders, foldersId, folder.id, loop.revindex, loop.revindex) }}
+                {% endif %}
+            {% endfor %}
         </ul>
     </div>
 
@@ -38,5 +43,9 @@
             alert("Please select a folder.");
             return false;
         }
+    });
+
+    $("[class^=collapseFolder]").on('hide.bs.collapse', function () {
+        //TODO: use ".collapse('hide');" on related collapseFolders
     });
 </script>
