@@ -70,10 +70,8 @@ time_box_main_share:
     defaults: { _controller: TimeBoxMainBundle:Link:show }
 
 time_box_main_link_file_new:
-    pattern:  /link/file/new/{fileId}
+    pattern:  /link/file/new/
     defaults: { _controller: TimeBoxMainBundle:Link:newLinkFile }
-    requirements:
-        fileId:  \d+
 
 time_box_main_link_version_new:
     pattern:  /link/version/new/{versionId}

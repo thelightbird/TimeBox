@@ -25,7 +25,7 @@
                     <a href="#"><img src="{{ asset('img/icons/file-download.png') }}" alt="download icon" />Download</a>
                 </form>
             </li>
-            <li class="FileRelatedAction {{ hideAction }}">
+            <li class="FileRelatedAction share {{ hideAction }}">
                 <a href=""><img src="{{ asset('img/icons/link.png') }}" alt="share icon" class="shareIcon" />Share</a>
             </li>
             <li class="FileRelatedAction FolderRelatedAction rename {{ hideAction }}">
@@ -288,6 +288,28 @@
                 });
                 return false;
             });
+
+            $(".share").click(function() {
+                var itemSelectedId = getSelectedItemId();
+                var filesId = itemSelectedId[1];
+
+                $.ajax({
+                    url: "{{path('time_box_main_link_file_new')}}",
+                    type: "POST",
+                    data: {
+                        'filesId': JSON.stringify(filesId)
+                    },
+                    success: function(data) {
+                        alert('Success!');
+                        window.location= "{{path('time_box_main_share')}}";
+                    },
+                    error: function(data) {
+                        alert(data);
+                    }
+                });
+                return false;
+            });
+
 
             $("li.download a").click(function() {
                 var itemSelectedId = getSelectedItemId();

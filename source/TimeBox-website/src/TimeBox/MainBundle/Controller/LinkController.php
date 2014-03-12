@@ -3,6 +3,8 @@
 namespace TimeBox\MainBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 use TimeBox\MainBundle\Entity\Link;
 
@@ -41,26 +43,53 @@ class LinkController extends Controller
         ));
     }
 
-    public function newLinkFileAction($fileId)
+    public function newLinkFileAction()
     {
         $user = $this->getConnectedUser();
 
         $em = $this->getDoctrine()->getManager();
 
-        $file = $em->getRepository('TimeBoxMainBundle:File')->findOneById($fileId);
-        if (!$file) {
-            throw $this->createNotFoundException('Unable to find File entity.');
+        $request = $this->get('request');
+        if ($request->getMethod() == 'POST') {
+            $filesId = $request->request->get('filesId');
+            $filesId = json_decode($filesId);
+
+
+            $files = $em->getRepository('TimeBoxMainBundle:File')->findBy(array(
+                'user' => $user,
+                'id' => $filesId
+            ));
+
+            if (!is_null($files) && sizeof($files) > 0) {
+                foreach ($files as $file) {
+                    $existingLinks = $em->getRepository('TimeBoxMainBundle:Link')->findBy(array(
+                        'user' => $user,
+                        'file' => $file
+                        ));
+
+                    if(sizeof($existingLinks) == 0){
+                        $link = new Link();
+                        $link->setUser($user);
+                        $link->setFile($file);
+                        $link->setDate(new \DateTime);
+                        $link->setDownloadHash("hash"); // TODO downloadHash
+
+                        $em->persist($link);
+                    }
+                }
+                $em->flush();
+            }
+
+
+
+            $response = 'File';
+            if(sizeof($files) != 1)
+                $response += 's';
+            $response += ' shared!';
+
+            return new Response($response);
         }
-
-        $link = new Link();
-        $link->setUser($user);
-        $link->setFile($file);
-        $link->setDownloadHash("hash"); // TODO downloadHash
-
-        $em->persist($link);
-        $em->flush();
-
-        return $this->redirect($this->generateUrl('time_box_main_share'));
+        return $this->renderText("Something went wrong");
     }
 
      public function newLinkVersionAction($versionId)
