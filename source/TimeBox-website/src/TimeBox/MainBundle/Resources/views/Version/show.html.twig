@@ -39,7 +39,7 @@
                                     <button type="button" class="btn btn-default restore" id='{{version.id}}'>Restore</button>
 
                                     <button type="button" class="btn btn-default download" id="{{version.id}}" onClick="self.location.href='{{ path('time_box_main_version_download', {'versionId': version.id}) }}'">Download</button>
-                                    
+
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
@@ -71,14 +71,14 @@
         {% endfor %}
         </ul>
 
-        
+
         <script type="text/javascript">
             $(function () {
                 $("a").tooltip();
             });
             $(document).ready(function() {
                 $("button.restore").click(function(evt) {
-                    var versionId = evt.target.id;    
+                    var versionId = evt.target.id;
 
                     $.ajax({
                         url: "{{ path('time_box_main_version_restore') }}",
@@ -87,7 +87,8 @@
                             'versionId': JSON.stringify(versionId),
                         },
                         success: function() {
-                            alert("Version restored!");
+                            $("#modal"+versionId+".modal").modal('toggle');
+                            window.location = "{{ path('time_box_main_file') }}";
                         },
                         error: function (data) {
                             alert("Restoration failed with message:\n"+data);
