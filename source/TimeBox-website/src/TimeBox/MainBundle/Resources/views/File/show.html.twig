@@ -46,6 +46,22 @@
         </ul>
     </div>
 
+    <!-- Rename Modal - -->
+    <div class="modal fade renamePopup" tabindex="-1" role="dialog"
+      aria-labelledby="mySmallModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"
+              aria-hidden="true">&times;</button>
+            <h3 class="modal-title">Rename</h3>
+          </div>
+          <div class="modal-body renamePopup">
+          </div>
+        </div>
+      </div>
+    </div>
+
     <table class="file">
         <thead>
             <tr>
@@ -249,7 +265,8 @@
                         'currentFolderId': '{{ folderId }}'
                     },
                     success: function( data ) {
-                        $(".container").html(data);
+                        $(".renamePopup.modal-body").html(data);
+                        $(".renamePopup.modal").modal('toggle');
                     }
                 });
                 return false;
