@@ -1,9 +1,9 @@
 {% import 'TimeBoxMainBundle:Macro:folderTree.html.twig' as macros %}
 
-<h3>Select the folder to move files</h3>
+<h4>Select the folder to move files</h4>
 
 <form class="move" action="{{ path('time_box_main_file_move') }}" method="post">
-    <div>
+    <div class="form-group">
         <ul class="folderTree">
             <li>/</li>
         {% for folder in folders %}
@@ -21,7 +21,10 @@
     <input type="hidden" name="filesId" value="{{ filesId }}"/>
     <input type="hidden" name="foldersId" value="{{ foldersId }}"/>
     <input type="hidden" name="currentFolderId" value="{{ folderId }}"/>
-    <input class="btn btn-primary" type="submit" value="Ok"/>
+
+    <div class="form-group">
+        <input class="btn btn-primary" type="submit" value="Ok"/>
+    </div>
 </form>
 
 <script type="text/javascript">

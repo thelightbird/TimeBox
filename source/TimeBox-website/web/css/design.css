@@ -397,8 +397,6 @@ form.move div {
 	margin: 20px;
 }
 ul.folderTree {
-	float: left;
-	min-width: 500px;
 	border: 1px solid #ddd;
 	border-top: none;
 }
