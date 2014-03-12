@@ -366,7 +366,8 @@
                             }
                             else {
                                 nbSelectedFile = $('table.file tr.file.selected').length;
-                                if (nbSelectedFile == 1) {
+                                nbSelectedFolder = $('table.file tr.folder.selected').length;
+                                if (nbSelectedFile == 1 && nbSelectedFolder == 0) {
                                     $('tr.file.selected[data-id='+fileId+']').after( data );
                                     $("tr.version ul").hide().stop(false, true).slideDown();
                                 }
