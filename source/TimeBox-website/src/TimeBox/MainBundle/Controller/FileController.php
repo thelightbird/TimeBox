@@ -140,27 +140,23 @@ class FileController extends Controller
      * @param Zip          $zip    The archive
      * @param Subdirectory $subdir The subdirectory (optional)
      */
-    private function addFolderToZip($folder, $zip, $subdir = ""){
+    private function addFolderToZip($folder, $zip, $subdir = "")
+    {
         $user = $this->getConnectedUser();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $folderPath = $folder->getName();
-        if($subdir != "")
+        if ($subdir != "")
             $folderPath = $subdir.'/'.$folder->getName();
 
         $zip->addEmptyDir($folderPath);
 
         $contents = $folder->getFiles();
-
-        $files = array();
         foreach ($contents as $content) {
-            array_push($files,
-                $em->getRepository('TimeBoxMainBundle:Version')
-                    ->getLastestFileVersion($user, $content));
-        }
+            $f = $em->getRepository('TimeBoxMainBundle:Version')
+                    ->getLastestFileVersion($user, $content);
 
-        foreach($files as $f){
-            $version = $f[0][0];
+            $version = $f[0];
             $file = $version->getFile();
 
             $filePath = $version->getAbsolutePath();
@@ -184,7 +180,7 @@ class FileController extends Controller
     {
         $user = $this->getConnectedUser();
 
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $request = $this->get('request');
 
@@ -208,7 +204,7 @@ class FileController extends Controller
                 if (!is_null($filesToDownload)) {
                     //One file and no folder is requested
                     if (sizeof($filesToDownload) == 1 && sizeof($foldersToDownload) == 0) {
-                        $version = $filesToDownload[0][0];
+                        $version = $filesToDownload[0];
                         $file = $version->getFile();
 
                         $filePath = $version->getAbsolutePath();
@@ -247,7 +243,7 @@ class FileController extends Controller
 
                     //Fill zip with files
                     foreach ($filesToDownload as $f) {
-                        $version = $f[0];
+                        $version = $f;
                         $file = $version->getFile();
 
                         $filePath = $version->getAbsolutePath();
@@ -431,7 +427,7 @@ class FileController extends Controller
         }
         return new Response('');
     }
-    
+
 
     /**
      * @Template()
