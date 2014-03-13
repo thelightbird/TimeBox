@@ -74,7 +74,5 @@ time_box_main_link_file_new:
     defaults: { _controller: TimeBoxMainBundle:Link:newLinkFile }
 
 time_box_main_link_version_new:
-    pattern:  /link/version/new/{versionId}
+    pattern:  /link/version/new/
     defaults: { _controller: TimeBoxMainBundle:Link:newLinkVersion }
-    requirements:
-        versionId:  \d+

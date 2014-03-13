@@ -92,25 +92,43 @@ class LinkController extends Controller
         return $this->renderText("Something went wrong");
     }
 
-     public function newLinkVersionAction($versionId)
+     public function newLinkVersionAction()
     {
         $user = $this->getConnectedUser();
 
         $em = $this->getDoctrine()->getManager();
 
-        $version = $em->getRepository('TimeBoxMainBundle:Version')->findOneById($version);
-        if (!$version) {
-            throw $this->createNotFoundException('Unable to find Version entity.');
+        $request = $this->get('request');
+        if ($request->getMethod() == 'POST') {
+            $versionId = $request->request->get('versionId');
+            $versionId = json_decode($versionId);
+
+
+            $version = $em->getRepository('TimeBoxMainBundle:Version')->findBy(array(
+                'user' => $user,
+                'id' => $versionId
+            ));
+
+            if (!is_null($version) && sizeof($version) > 0) {
+                foreach ($files as $file) {
+                    $existingLinks = $em->getRepository('TimeBoxMainBundle:Link')->findBy(array(
+                        'user' => $user,
+                        'version' => $version
+                        ));
+
+                    if(sizeof($existingLinks) == 0){
+                        $link = new Link();
+                        $link->setUser($user);
+                        $link->setVersion($version);
+                        $link->setDate(new \DateTime);
+                        $link->setDownloadHash("hash"); // TODO downloadHash
+
+                        $em->persist($link);
+                    }
+                }
+                $em->flush();
+            }
         }
-
-        $link = new Link();
-        $link->setUser($user);
-        $link->setVersion($version);
-        $link->setDownloadHash("hash"); // TODO downloadHash
-
-        $em->persist($link);
-        $em->flush();
-
         return $this->redirect($this->generateUrl('time_box_main_share'));
     }
 }

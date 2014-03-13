@@ -39,6 +39,8 @@
                                     <button type="button" class="btn btn-default restore" id='{{version.id}}'>Restore</button>
 
                                     <button type="button" class="btn btn-default download" id="{{version.id}}" onClick="self.location.href='{{ path('time_box_main_version_download', {'versionId': version.id}) }}'">Download</button>
+
+                                    <button type="button" class="btn btn-default share" id='{{version.id}}'>Share</button>
                                     
                                 </div>
                                 <div class="modal-footer">
@@ -95,8 +97,30 @@
                     });
                     return false;
                 });
+
+                $("button.share").click(function(evt) {
+                //var itemSelectedId = getSelectedItemId();
+               // var versionId = itemSelectedId[1];
+                var versionId = evt.target.id;
+
+                $.ajax({
+                    url: "{{path('time_box_main_link_version_new')}}",
+                    type: "POST",
+                    data: {
+                        'versionId': JSON.stringify(versionId)
+                    },
+                    success: function(data) {
+                        alert('Success!');
+                        //window.location= "{{path('time_box_main_share')}}";
+                    },
+                    error: function(data) {
+                        alert("failed!:\n"+data);
+                    }
+                });
+                return false;
+            });
+
             });
         </script>
     </td>
 </tr>
-

@@ -12,7 +12,7 @@
     <div class="actions">
         <ul {% if isDeleted %}class="FileRelatedAction"{% endif %}>
             <li>Actions:</li>
-            <li class="{{ hideAction }}">
+            <li class="{{ hideAction }} ">
                 <a href="{{ path('time_box_main_folder_new', { 'parentFolderId':folderId }) }}"><img src="{{ asset('img/icons/folder-add.png') }}" alt="folder add icon" />New folder</a>
             </li>
             <li class="{{ hideAction }}">
@@ -289,6 +289,7 @@
                 return false;
             });
 
+
             $(".share").click(function() {
                 var itemSelectedId = getSelectedItemId();
                 var filesId = itemSelectedId[1];
@@ -310,7 +311,6 @@
                 return false;
             });
 
-
             $("li.download a").click(function() {
                 var itemSelectedId = getSelectedItemId();
                 var foldersId = itemSelectedId[0];
@@ -319,8 +319,6 @@
                 $("li.download form input[name=filesId]").val( JSON.stringify(filesId) );
                 $("li.download form").submit();
             });
-
-
         });
 
         var ajaxRequest = null;
