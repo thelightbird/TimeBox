@@ -78,3 +78,9 @@ time_box_main_link_version_new:
     defaults: { _controller: TimeBoxMainBundle:Link:newLinkVersion }
     requirements:
         versionId:  \d+
+
+time_box_main_link_delete:
+    pattern:  /link/delete
+    defaults: { _controller: TimeBoxMainBundle:Link:delete }
+    requirements:
+        _method:  POST

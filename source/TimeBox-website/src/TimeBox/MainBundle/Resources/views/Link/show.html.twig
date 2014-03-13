@@ -1,6 +1,14 @@
 {% extends "TimeBoxMainBundle::layout.html.twig" %}
 
 {% block container %}
+    <div class="actions">
+        <ul>
+            <li>Actions:</li>
+            <li class="FileRelatedAction FolderRelatedAction delete">
+                <a href="{{ path('time_box_main_file') }}"><img src="{{ asset('img/icons/file-delete.png') }}" alt="file delete icon" />Delete</a>
+            </li>
+        </ul>
+    </div>
     <table class="link">
         <tbody class="selectable">
             <tr>
@@ -126,6 +134,35 @@
                     }
                 }
             });
+
+
+            $(".delete").click(function(evt){
+                var linksId = getSelectedItemId();
+
+                $.ajax({
+                    url: "{{path('time_box_main_link_delete')}}",
+                    type: "POST",
+                    data: {
+                        'linksId': JSON.stringify(linksId)
+                    },
+                    success: function(data) {
+                        window.location = "{{path('time_box_main_share')}}";
+                    },
+                    error: function(data) {
+                        alert(data);
+                    }
+                });
+                return false;
+            });
         });
+
+        function getSelectedItemId() {
+            var linksId = new Array();
+            $('tr.selected').each(function() {
+                linksId.push( $(this).attr('data-id') );
+            });
+            return linksId;
+        }
+
     </script>
 {% endblock %}
