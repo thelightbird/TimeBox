@@ -1,6 +1,14 @@
 {% extends "TimeBoxMainBundle::layout.html.twig" %}
 
 {% block container %}
+    <div class="actions linkActions">
+        <ul>
+            <li>Actions:</li>
+            <li class="FileRelatedAction FolderRelatedAction delete">
+                <a href="{{ path('time_box_main_file') }}"><img src="{{ asset('img/icons/file-delete.png') }}" alt="file delete icon" />Delete</a>
+            </li>
+        </ul>
+    </div>
     <table class="link">
         <tbody class="selectable">
             <tr>
@@ -66,6 +74,7 @@
     {{ parent() }}
     <script>
         $(document).ready(function() {
+            $(".linkActions").hide();
             $("td.checkboxImg").click(function(evt) {
                 if (evt.shiftKey) {
                     var firstIndex = $('table.link tr.selected').first().index();
@@ -85,6 +94,7 @@
                 else {
                     $(this).parent().toggleClass("selected");
                 }
+                showLinkAction();
                 return false;
             });
 
@@ -125,7 +135,46 @@
                         $(this).siblings().removeClass("selected");
                     }
                 }
+                showLinkAction();
+            });
+
+
+            $(".delete").click(function(evt){
+                var linksId = getSelectedItemId();
+
+                $.ajax({
+                    url: "{{path('time_box_main_link_delete')}}",
+                    type: "POST",
+                    data: {
+                        'linksId': JSON.stringify(linksId)
+                    },
+                    success: function(data) {
+                        window.location = "{{path('time_box_main_share')}}";
+                    },
+                    error: function(data) {
+                        alert(data);
+                    }
+                });
+                return false;
             });
         });
+
+        function getSelectedItemId() {
+            var linksId = new Array();
+            $('tr.selected').each(function() {
+                linksId.push( $(this).attr('data-id') );
+            });
+            return linksId;
+        }
+
+        function showLinkAction() {
+            if ($("tr.selected").length > 0) {
+                $(".linkActions").show("slow");
+            }
+            else {
+                $(".linkActions").hide("slow");
+            }
+        }
+
     </script>
 {% endblock %}

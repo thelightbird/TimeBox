@@ -218,7 +218,13 @@ div.actions ul li.FileRelatedAction {
 div.actions ul li a {
 	display: inline-block;
 }
-
+div.linkActions ul {
+	width: 100%;
+}
+div.linkActions ul li {
+	display: inline-block !important;
+	padding-left: 10px;
+}
 table.file {
 	width: 500px;
 	float: left;
@@ -406,7 +412,6 @@ ul.folderTree li {
 	padding: 10px 20px;
 	font-size: 12px;
 	font-family: 'Ubuntu';
-	display: block;
 }
 ul.folderTree li.selected {
 	background: #F4E0FF;

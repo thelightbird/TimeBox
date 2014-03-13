@@ -131,4 +131,35 @@ class LinkController extends Controller
         }
         return $this->redirect($this->generateUrl('time_box_main_share'));
     }
+
+    public function deleteAction()
+    {
+        $user = $this->getConnectedUser();
+
+        $em = $this->getDoctrine()->getManager();
+
+        $request = $this->get('request');
+        if ($request->getMethod() == 'POST') {
+            $linksId = $request->request->get('linksId');
+            $linksId = json_decode($linksId);
+
+            $links = $em->getRepository('TimeBoxMainBundle:Link')->findBy(array(
+                'user' => $user,
+                'id' => $linksId
+                ));
+
+            foreach ($links as $link) {
+                $link->setFile(null);   //to prevent SQL cascading errors
+                $link->setVersion(null);
+                $link->setUser(null);
+                $em->remove($link);
+            }
+
+            $em->flush();
+
+            return new Response('');
+        }
+
+        return new Response('');
+    }
 }
