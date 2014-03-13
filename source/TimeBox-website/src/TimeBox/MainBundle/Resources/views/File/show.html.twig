@@ -12,8 +12,8 @@
     <div class="actions">
         <ul {% if isDeleted %}class="FileRelatedAction"{% endif %}>
             <li>Actions:</li>
-            <li class="{{ hideAction }} ">
-                <a href="{{ path('time_box_main_folder_new', { 'parentFolderId':folderId }) }}"><img src="{{ asset('img/icons/folder-add.png') }}" alt="folder add icon" />New folder</a>
+            <li class="{{ hideAction }} newFolder">
+                <a href=""><img src="{{ asset('img/icons/folder-add.png') }}" alt="folder add icon" />New folder</a>
             </li>
             <li class="{{ hideAction }}">
                 <a href="{{ path('time_box_main_file_upload', { 'folderId':folderId }) }}"><img src="{{ asset('img/icons/file-upload.png') }}" alt="upload icon" />Upload a new file</a>
@@ -46,36 +46,18 @@
         </ul>
     </div>
 
-    <!-- Move Modal -->
-    <div class="modal fade movePopup" tabindex="-1" role="dialog"
-      aria-labelledby="mySmallModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal"
-              aria-hidden="true">&times;</button>
-            <h3 class="modal-title">Move</h3>
-          </div>
-          <div class="modal-body movePopup">
-          </div>
+    <div class="modal fade customPopup" tabindex="-1" role="dialog"
+        aria-labelledby="mySmallModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                    aria-hidden="true">&times;</button>
+                    <h3 class="modal-title"></h3>
+                </div>
+                <div class="modal-body"></div>
+            </div>
         </div>
-      </div>
-    </div>
-
-    <!-- Rename Modal -->
-    <div class="modal fade renamePopup" tabindex="-1" role="dialog"
-      aria-labelledby="mySmallModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal"
-              aria-hidden="true">&times;</button>
-            <h3 class="modal-title">Rename</h3>
-          </div>
-          <div class="modal-body renamePopup">
-          </div>
-        </div>
-      </div>
     </div>
 
     <table class="file">
@@ -95,6 +77,7 @@
                 </td>
             </tr>
         </thead>
+
         <tbody class="selectable">
             <tr>
                 <th class="fileCheckbox">{# Checkbox #}</th>
@@ -261,8 +244,9 @@
                         'currentFolderId': '{{ folderId }}'
                     },
                     success: function( data ) {
-                        $(".movePopup.modal-body").html(data);
-                        $(".movePopup.modal").modal('show');
+                        $(".customPopup .modal-title").text("Select the folder to move files");
+                        $(".customPopup .modal-body").html(data);
+                        $(".customPopup.modal").modal('show');
                     }
                 });
                 return false;
@@ -282,8 +266,9 @@
                         'currentFolderId': '{{ folderId }}'
                     },
                     success: function( data ) {
-                        $(".renamePopup.modal-body").html(data);
-                        $(".renamePopup.modal").modal('show');
+                        $(".customPopup .modal-title").text("Enter the new name");
+                        $(".customPopup .modal-body").html(data);
+                        $(".customPopup.modal").modal('show');
                     }
                 });
                 return false;
@@ -305,6 +290,26 @@
                     },
                     error: function(data) {
                         alert(data);
+                    }
+                });
+                return false;
+            });
+
+            $(".newFolder").click(function() {
+                var itemSelectedId = getSelectedItemId();
+                var foldersId = itemSelectedId[0];
+
+                $.ajax({
+                    url: "{{ path('time_box_main_folder_new') }}",
+                    type: "GET",
+                    data: {
+                        'foldersId': JSON.stringify(foldersId),
+                        'parentFolderId': '{{ folderId }}'
+                    },
+                    success: function( data ) {
+                        $(".customPopup .modal-title").text("Create a new folder");
+                        $(".customPopup .modal-body").html(data);
+                        $(".customPopup.modal").modal('show');
                     }
                 });
                 return false;
