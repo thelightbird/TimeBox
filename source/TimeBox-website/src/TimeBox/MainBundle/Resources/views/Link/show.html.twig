@@ -1,7 +1,7 @@
 {% extends "TimeBoxMainBundle::layout.html.twig" %}
 
 {% block container %}
-    <div class="actions">
+    <div class="actions linkActions">
         <ul>
             <li>Actions:</li>
             <li class="FileRelatedAction FolderRelatedAction delete">
@@ -74,6 +74,7 @@
     {{ parent() }}
     <script>
         $(document).ready(function() {
+            $(".linkActions").hide();
             $("td.checkboxImg").click(function(evt) {
                 if (evt.shiftKey) {
                     var firstIndex = $('table.link tr.selected').first().index();
@@ -93,6 +94,7 @@
                 else {
                     $(this).parent().toggleClass("selected");
                 }
+                showLinkAction();
                 return false;
             });
 
@@ -133,6 +135,7 @@
                         $(this).siblings().removeClass("selected");
                     }
                 }
+                showLinkAction();
             });
 
 
@@ -162,6 +165,15 @@
                 linksId.push( $(this).attr('data-id') );
             });
             return linksId;
+        }
+
+        function showLinkAction() {
+            if ($("tr.selected").length > 0) {
+                $(".linkActions").show("slow");
+            }
+            else {
+                $(".linkActions").hide("slow");
+            }
         }
 
     </script>
