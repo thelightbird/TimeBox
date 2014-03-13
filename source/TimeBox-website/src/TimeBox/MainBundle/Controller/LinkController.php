@@ -105,26 +105,23 @@ class LinkController extends Controller
 
 
             $version = $em->getRepository('TimeBoxMainBundle:Version')->findBy(array(
-                'user' => $user,
                 'id' => $versionId
             ));
 
-            if (!is_null($version) && sizeof($version) > 0) {
-                foreach ($files as $file) {
-                    $existingLinks = $em->getRepository('TimeBoxMainBundle:Link')->findBy(array(
-                        'user' => $user,
-                        'version' => $version
-                        ));
+            if (!is_null($version)) {
+                $existingLinks = $em->getRepository('TimeBoxMainBundle:Link')->findBy(array(
+                    'user' => $user,
+                    'version' => $version
+                    ));
 
-                    if(sizeof($existingLinks) == 0){
-                        $link = new Link();
-                        $link->setUser($user);
-                        $link->setVersion($version);
-                        $link->setDate(new \DateTime);
-                        $link->setDownloadHash("hash"); // TODO downloadHash
+                if(sizeof($existingLinks) == 0){
+                    $link = new Link();
+                    $link->setUser($user);
+                    $link->setVersion($version[0]);
+                    $link->setDate(new \DateTime);
+                    $link->setDownloadHash("hash"); // TODO downloadHash
 
-                        $em->persist($link);
-                    }
+                    $em->persist($link);
                 }
                 $em->flush();
             }
