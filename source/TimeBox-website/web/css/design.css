@@ -406,7 +406,6 @@ ul.folderTree li {
 	padding: 10px 20px;
 	font-size: 12px;
 	font-family: 'Ubuntu';
-	display: block;
 }
 ul.folderTree li.selected {
 	background: #F4E0FF;
