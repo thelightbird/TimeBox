@@ -7,7 +7,7 @@
         <form class="upload" action="#" method="post" {{ form_enctype(form) }}>
 
             <div class="form-group">
-                {{ form_label(form.uploadedFile, "File", { 'label_attr': { 'class': 'sr-only' } }) }}
+                {{ form_label(form.uploadedFile, "File", { 'label_attr': { 'class': 'sr-only' }} ) }}
                 {{ form_errors(form.uploadedFile, { 'attr': {'class': 'alert alert-danger'} }) }}
                 {{ form_widget(form.uploadedFile, { 'attr': {'placeholder': 'File'} }) }}
             </div>
@@ -34,12 +34,21 @@
 {{ parent() }}
 <script type="text/javascript">
     $("form.upload").submit(function() {
+
+        var uploadFile = $("#form_uploadedFile").val();
+        if(uploadFile == "") {
+            alert("Please select a file to upload.");
+            return false;
+        }
+
+
         var filename = $("input[name=name]").val();
         var pattern = new RegExp("^[a-zA-Z0-9_\-]+$") ;
         if (!pattern.test(filename)) {
             alert("Error in the file name !");
             return false;
         }
+
     });
 </script>
 {% endblock %}
