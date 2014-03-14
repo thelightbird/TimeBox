@@ -1,12 +1,15 @@
 {% macro folderTree(folders, foldersId, id, cpt, max) %}
     {%- for folder in folders -%}
         {%- if folder.parent is not null and folder.parent.id == id and folder.id not in foldersId -%}
-            <li data-id="{{ folder.id }}" style="padding-left: {{ 20 + 20 * (max - cpt + 1) }}px;"
+            <li id="collapseSubfolder-{{ id }}-{{ folder.id }}" data-id="{{ folder.id }}"
+                style="padding-left: {{ 20 + 20 * (max - cpt + 1) }}px;"
                 class="collapse collapseFolder{{ id }}" data-parent=".folderTree">
                 {{- folder.name -}}
                 {% if not folder.children.isEmpty %}
                     <button type="button" class="btn btn-default btn-sm" data-toggle="collapse"
-                        data-target=".collapseFolder{{ folder.id }}">+</button>
+                        id="collapseButton{{ folder.id }}" data-target=".collapseFolder{{ folder.id }}">
+                        +
+                    </button>
                 {% endif %}
             </li>
             {% if cpt > 0 -%}

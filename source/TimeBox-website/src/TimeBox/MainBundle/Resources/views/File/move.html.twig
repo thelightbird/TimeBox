@@ -10,7 +10,7 @@
                         data-parent=".folderTree">
                         {{- folder.name -}}
                         {% if not folder.children.isEmpty %}
-                            <button type="button" class="btn btn-default btn-sm" data-toggle="collapse"
+                            <button type="button" id="collapseButton{{ folder.id }}" class="btn btn-default btn-sm" data-toggle="collapse"
                                 data-target=".collapseFolder{{ folder.id }}">+</button>
                         {% endif %}
                     </li>
@@ -43,7 +43,14 @@
         }
     });
 
-    $("[class^=collapseFolder]").on('hide.bs.collapse', function () {
-        //TODO: use ".collapse('hide');" on related collapseFolders
+    $("[id^=collapseSubfolder]").on('show.bs.collapse', function () {
+        var foldersid = $(this).attr("id").split("-");
+        $("[id=collapseButton" +foldersid[1]+ "]").html("-");
+    });
+
+    $("[id^=collapseSubfolder]").on('hide.bs.collapse', function () {
+        var foldersid = $(this).attr("id").split("-");
+        $("[id=collapseButton" +foldersid[1]+ "]").html("+");
+        $("[id^=collapseSubfolder-" +foldersid[2]+ "-]").collapse('toggle');
     });
 </script>
