@@ -2,7 +2,9 @@
 
 {% block container %}
     <h3>Upload File</h3>
-
+    {% if app.user.storage + 8000000 > 50000000  %}
+        You reached the limit of your storage space, greedy user! Now you are punished, you cannot upload any file until you delete some files (maybe in your Recycle Bin?).
+    {% else %}
     <div class="col-xs-6 col-sm-4">
         <form class="upload" action="#" method="post" {{ form_enctype(form) }}>
 
@@ -27,8 +29,9 @@
             </div>
         </form>
     </div>
-
+    {% endif %}
 {% endblock %}
+
 
 {% block javascripts %}
 {{ parent() }}
@@ -41,6 +44,11 @@
             return false;
         }
 
+        var userStorageSize =  {{ app.user.storage }};
+        if ((userStorageSize + $("#form_uploadedFile").files[0].size) > 50000000) {
+            alert("You do not have enough storage space left for this file.");
+            return false;
+        }
 
         var filename = $("input[name=name]").val();
         var pattern = new RegExp("^[a-zA-Z0-9_\-]+$") ;

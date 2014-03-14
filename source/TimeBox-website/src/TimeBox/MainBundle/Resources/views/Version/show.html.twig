@@ -36,8 +36,12 @@
                                                     {{ version.date|date('Y/m/d') }}
                                                   {% endif -%}
                                     </ul>
-                                    <button type="button" class="btn btn-default restore" id='{{version.id}}'>Restore</button>
 
+                                    {% if app.user.storage + version.size > 50000000  %}
+                                        You do not have enough storage space to restore this file.
+                                    {% else %}
+                                    <button type="button" class="btn btn-default restore" id='{{version.id}}'>Restore</button>
+                                    {% endif %}
                                     <button type="button" class="btn btn-default download" id="{{version.id}}" onClick="self.location.href='{{ path('time_box_main_version_download', {'versionId': version.id}) }}'">Download</button>
 
 

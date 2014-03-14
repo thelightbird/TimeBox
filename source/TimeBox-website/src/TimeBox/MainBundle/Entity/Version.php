@@ -67,7 +67,7 @@ class Version
     private $comment;
 
     /**
-     * @Assert\File(maxSize="6000000")
+     * @Assert\File(maxSize="40000000")
      */
     private $uploadedFile;
 
@@ -167,7 +167,7 @@ class Version
     /**
      * Get size
      *
-     * @return string 
+     * @return string
      */
     public function getUploadSize()
     {
@@ -199,7 +199,7 @@ class Version
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -222,7 +222,7 @@ class Version
     /**
      * Get displayId
      *
-     * @return integer 
+     * @return integer
      */
     public function getDisplayId()
     {
@@ -245,7 +245,7 @@ class Version
     /**
      * Get size
      *
-     * @return integer 
+     * @return integer
      */
     public function getSize()
     {
@@ -268,7 +268,7 @@ class Version
     /**
      * Get date
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getDate()
     {
@@ -291,7 +291,7 @@ class Version
     /**
      * Get description
      *
-     * @return string 
+     * @return string
      */
     public function getDescription()
     {
@@ -314,7 +314,7 @@ class Version
     /**
      * Get comment
      *
-     * @return string 
+     * @return string
      */
     public function getComment()
     {
@@ -337,7 +337,7 @@ class Version
     /**
      * Get file
      *
-     * @return \TimeBox\MainBundle\Entity\File 
+     * @return \TimeBox\MainBundle\Entity\File
      */
     public function getFile()
     {
