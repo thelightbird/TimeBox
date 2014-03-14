@@ -2,19 +2,24 @@
 
 <form class="move" action="{{ path('time_box_main_file_move') }}" method="post">
     <div class="form-group">
-        <ul class="folderTree">
-            <li>/</li>
+        <div class="folderTree">
+            <div>
+                <p class="folder">/</p>
+            </div>
             {% for folder in folders %}
                 {% if folder.parent is null and folder.id not in foldersId %}
-                    <li data-id="{{ folder.id }}" id="collapseFolder"
+                    <div id="collapseFolder"
                         data-parent=".folderTree">
-                        {{- folder.name -}}
+                        <p class="folder" data-id="{{ folder.id }}">
+                            <img src="{{ asset('img/icons/folder.png') }}" alt="folder icon" />
+                            {{- folder.name -}}
+                        </p>
                         {% if not folder.children.isEmpty %}
                             <button type="button" id="collapseButton{{ folder.id }}" class="btn btn-default btn-sm" data-toggle="collapse"
                                 data-target=".collapseFolder{{ folder.id }}">+</button>
                         {% endif %}
-                    </li>
-                    {{ macros.folderTree(folders, foldersId, folder.id, loop.revindex, loop.revindex) }}
+                        {{ macros.folderTree(folders, foldersId, folder.id, loop.revindex, loop.revindex) }}
+                    </div>
                 {% endif %}
             {% endfor %}
         </ul>
@@ -31,26 +36,20 @@
 </form>
 
 <script type="text/javascript">
-    $("ul.folderTree li").click(function() {
-        $(this).siblings().removeClass("selected");
+    $("div.folderTree p.folder").click(function() {
+        $("div.folderTree p.folder").removeClass("selected");
         $(this).addClass("selected");
         $("input[name=moveFolderId]").val( $(this).attr('data-id') );
     });
     $("form.move").submit(function() {
-        if ($("ul.folderTree li.selected").length != 1) {
+        if ($("div.folderTree p.selected").length != 1) {
             alert("Please select a folder.");
             return false;
         }
     });
 
-    $("[id^=collapseSubfolder]").on('show.bs.collapse', function () {
-        var foldersid = $(this).attr("id").split("-");
-        $("[id=collapseButton" +foldersid[1]+ "]").html("-");
-    });
-
-    $("[id^=collapseSubfolder]").on('hide.bs.collapse', function () {
-        var foldersid = $(this).attr("id").split("-");
-        $("[id=collapseButton" +foldersid[1]+ "]").html("+");
-        $("[id^=collapseSubfolder-" +foldersid[2]+ "-]").collapse('toggle');
+    $("[id^=collapseButton]").click(function () {
+        if($(this).text() == "+") $(this).text("-");
+        else                      $(this).text("+");
     });
 </script>

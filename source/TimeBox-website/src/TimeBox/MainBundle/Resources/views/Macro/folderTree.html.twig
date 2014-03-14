@@ -1,20 +1,22 @@
 {% macro folderTree(folders, foldersId, id, cpt, max) %}
     {%- for folder in folders -%}
         {%- if folder.parent is not null and folder.parent.id == id and folder.id not in foldersId -%}
-            <li id="collapseSubfolder-{{ id }}-{{ folder.id }}" data-id="{{ folder.id }}"
-                style="padding-left: {{ 20 + 20 * (max - cpt + 1) }}px;"
+            <div id="collapseSubfolder-{{ id }}-{{ folder.id }}"
+                style="margin-left: {{ 20 + 10 * (max - cpt + 1) }}px;"
                 class="collapse collapseFolder{{ id }}" data-parent=".folderTree">
-                {{- folder.name -}}
+                <p class="folder" data-id="{{ folder.id }}">
+                    <img src="{{ asset('img/icons/folder.png') }}" alt="folder icon" />
+                    {{- folder.name -}}
+                </p>
                 {% if not folder.children.isEmpty %}
                     <button type="button" class="btn btn-default btn-sm" data-toggle="collapse"
-                        id="collapseButton{{ folder.id }}" data-target=".collapseFolder{{ folder.id }}">
-                        +
-                    </button>
+                        id="collapseButton{{ folder.id }}" data-target=".collapseFolder{{ folder.id }}">+</button>
                 {% endif %}
-            </li>
-            {% if cpt > 0 -%}
-                {{ _self.folderTree(folders, foldersId, folder.id, cpt-1, max) }}
-            {% endif -%}
+                <br>
+                {% if cpt > 0 -%}
+                    {{ _self.folderTree(folders, foldersId, folder.id, cpt-1, max) }}
+                {% endif -%}
+            </div>
         {%- endif -%}
     {%- endfor -%}
 {% endmacro %}
