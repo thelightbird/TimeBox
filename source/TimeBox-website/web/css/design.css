@@ -403,10 +403,10 @@ form.move div {
 }
 div.folderTree {
 	border: 1px solid #ddd;
-	border-top: none;
+	border-radius: 3px;
+	padding: 2px;
 }
 div.folderTree div {
-	border-top: 1px solid #ddd;
 	margin: 0;
 	font-size: 12px;
 	font-family: 'Ubuntu';
@@ -415,16 +415,22 @@ div.folderTree div.collapse {
     margin: 0;
 }
 div.folderTree p.folder {
+	border-radius: 3px;
 	float: left;
 	margin-bottom: 0;
 	min-width: 200px;
 	padding: 10px 20px;
 }
+div.folderTree p.folder:hover {
+	border: 1px solid #ddd;
+	padding: 9px 19px;
+}
 div.folderTree p.selected {
 	background: #F4E0FF;
 	background: linear-gradient(to top, #F2DAFF 0%, #F6E7FF 100%);
+	border: 1px solid #ddd;
+	padding: 9px 19px;
 }
 div.folderTree div .btn {
-	margin-top: 5px;
-	margin-bottom: 5px;
+	margin: 5px;
 }

@@ -52,4 +52,11 @@
         if($(this).text() == "+") $(this).text("-");
         else                      $(this).text("+");
     });
+
+    $("[id^=collapseSubfolder]").on('hide.bs.collapse', function () {
+        var selectedFolder = $(this).children().filter(".selected");
+        if(selectedFolder.length > 0){
+            selectedFolder.removeClass("selected");
+        }
+    });
 </script>
