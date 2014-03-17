@@ -60,10 +60,8 @@ time_box_main_file:
         folderId:  \d+
 
 time_box_main_folder_new:
-    pattern:  /folder/new/{parentFolderId}
-    defaults: { _controller: TimeBoxMainBundle:Folder:new, parentFolderId: null }
-    requirements:
-        parentFolderId:  \d+
+    pattern:  /folder/new
+    defaults: { _controller: TimeBoxMainBundle:Folder:new }
 
 time_box_main_share:
     pattern: /share

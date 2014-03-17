@@ -21,11 +21,12 @@ class FolderController extends Controller
         return $user;
     }
 
-    public function newAction($parentFolderId)
+    public function newAction()
     {
         $user = $this->getConnectedUser();
         $em = $this->getDoctrine()->getManager();
         $request = $this->get('request');
+        $parentFolderId = $request->query->get('parentFolderId');
 
         if ($request->getMethod() == 'POST') {
             $folderName = $request->request->get('folderName');
@@ -46,7 +47,7 @@ class FolderController extends Controller
             $em->flush();
 
             return $this->redirect($this->generateUrl('time_box_main_file', array(
-            'folderId' => $parentFolderId
+                'folderId' => $folderParent
             )));
         }
 
