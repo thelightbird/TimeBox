@@ -73,4 +73,43 @@ class VersionRepository extends EntityRepository
             return null;
         }
     }
+
+    public function getLastestFileVersionById($fileId)
+    {
+        $query = $this->getEntityManager()
+            ->createQuery('
+                SELECT MAX(v.id) as id, MAX(v.date) as date
+                FROM TimeBoxMainBundle:Version v
+                JOIN v.file f
+                WHERE v.file = :fileId
+                GROUP BY v.file
+                ORDER BY v.date DESC
+            ')->setParameters(array(
+               'fileId' => $fileId
+            ));
+        try {
+            $res = $query->getResult();
+        } catch (\Doctrine\ORM\NoResultException $e) {
+            return null;
+        }
+
+        $ids = array();
+        foreach ($res as $version) {
+            $ids[] = $version['id'];
+        }
+
+        $query = $this->getEntityManager()
+            ->createQuery('
+                SELECT v
+                FROM TimeBoxMainBundle:Version v
+                WHERE v.id = :id
+            ')->setParameters(array(
+               'id'   => $ids
+            ));
+        try {
+            return $query->getSingleResult();
+        } catch (\Doctrine\ORM\NoResultException $e) {
+            return null;
+        }
+    }
 }

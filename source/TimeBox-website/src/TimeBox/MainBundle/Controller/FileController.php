@@ -198,9 +198,6 @@ class FileController extends Controller
                     'user' => $user
                 ));
 
-                $host = $this->getRequest()->getHttpHost();
-                $uri = $this->getRequest()->getBaseUrl();
-
                 if (!is_null($filesToDownload)) {
                     //One file and no folder is requested
                     if (sizeof($filesToDownload) == 1 && sizeof($foldersToDownload) == 0) {
@@ -267,6 +264,47 @@ class FileController extends Controller
             }
         }
         return new Response('An error has occured.');
+    }
+
+
+    public function downloadFileAction($hash)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $link = $em->getRepository('TimeBoxMainBundle:Link')->findOneByDownloadHash($hash);
+        if (!$link) {
+            return $this->redirect($this->generateUrl('fos_user_registration_register'));
+        }
+
+        $file = $link->getFile();
+        $version = $link->getVersion();
+
+        if (!is_null($file)) {
+            $fileId = $file->getId();
+            $version = $em->getRepository('TimeBoxMainBundle:Version')->getLastestFileVersionById($fileId);
+        }
+
+        if (!is_null($version)) {
+            $file = $version->getFile();
+            $filename = $file->getName();
+            $type = $file->getType();
+            if (!is_null($type)) {
+                $filename .= '.'.$type;
+            }
+
+            $filePath = $version->getAbsolutePath();
+            if (!file_exists($filePath)) {
+                throw $this->createNotFoundException();
+            }
+
+            $response = new Response();
+            $response->headers->set('Content-type', 'application/octet-stream');
+            $response->headers->set('Content-Disposition', sprintf('attachment; filename="%s"', $filename));
+            $response->setContent(file_get_contents($filePath));
+            return $response;
+        }
+
+        return $this->redirect($this->generateUrl('fos_user_registration_register'));
     }
 
     /**

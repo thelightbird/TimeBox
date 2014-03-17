@@ -43,7 +43,7 @@
                     {% endif %}
                 </td>
                 <td class="center">
-                    <a href="#">URL</a>
+                    <a href="{{ path('time_box_main_download', {'hash': link.downloadHash }) }}">URL</a>
                 </td>
                 <td class="size">
                     {% if link.file is null %}

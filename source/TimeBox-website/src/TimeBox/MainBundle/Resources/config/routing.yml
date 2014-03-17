@@ -80,3 +80,7 @@ time_box_main_link_delete:
     defaults: { _controller: TimeBoxMainBundle:Link:delete }
     requirements:
         _method:  POST
+
+time_box_main_download:
+    pattern:  /download/{hash}
+    defaults: { _controller: TimeBoxMainBundle:File:downloadFile }

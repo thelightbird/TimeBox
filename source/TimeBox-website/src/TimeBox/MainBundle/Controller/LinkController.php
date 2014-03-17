@@ -72,7 +72,9 @@ class LinkController extends Controller
                         $link->setUser($user);
                         $link->setFile($file);
                         $link->setDate(new \DateTime);
-                        $link->setDownloadHash("hash"); // TODO downloadHash
+                        $time = time();
+                        $hash = md5($time + $user->getId()) . sha1($time + $user->getUsername());
+                        $link->setDownloadHash($hash);
 
                         $em->persist($link);
                     }
