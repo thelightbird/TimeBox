@@ -2,7 +2,7 @@
 
 <form class="rename" action="{{ path('time_box_main_file_rename') }}" method="post">
     <div class="form-group">
-        <input class="form-control" placeholder="Name" name="newName" value=""/>
+        <input class="form-control" placeholder="Name" name="newName" value="" required/>
         <input type="hidden" name="filesId" value="{{ filesId }}"/>
         <input type="hidden" name="foldersId" value="{{ foldersId }}"/>
         <input type="hidden" name="currentFolderId" value="{{ folderId }}"/>
