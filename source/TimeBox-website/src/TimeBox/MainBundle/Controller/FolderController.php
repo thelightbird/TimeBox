@@ -43,6 +43,20 @@ class FolderController extends Controller
                 $folder->setParent($parent);
             }
 
+            $folderExists=true;
+            $copyNumber = 1;
+            while(!is_null($folderExists)) {
+                $folderExists = $em->getRepository('TimeBoxMainBundle:Folder')->findOneBy(array(
+                    'parent' => $folder->getParent(),
+                    'name' => $folder->getName()
+                    ));
+
+                if(!is_null($folderExists))
+                    $folder->setName($folderName."_Copy(".$copyNumber.")");
+
+                $copyNumber += 1;
+            }
+
             $em->persist($folder);
             $em->flush();
 
