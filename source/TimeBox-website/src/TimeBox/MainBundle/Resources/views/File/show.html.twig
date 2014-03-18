@@ -269,6 +269,9 @@
                         $(".customPopup .modal-title").text("Enter the new name");
                         $(".customPopup .modal-body").html(data);
                         $(".customPopup.modal").modal('show');
+                        $(".customPopup.modal").on('shown.bs.modal', function (e) {
+                            $('[autofocus]:first').focus();
+                        });
                     }
                 });
                 return false;
@@ -310,6 +313,9 @@
                         $(".customPopup .modal-title").text("Create a new folder");
                         $(".customPopup .modal-body").html(data);
                         $(".customPopup.modal").modal('show');
+                        $(".customPopup.modal").on('shown.bs.modal', function (e) {
+                            $('[autofocus]:first').focus();
+                        });
                     }
                 });
                 return false;
