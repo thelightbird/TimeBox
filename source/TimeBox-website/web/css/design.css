@@ -39,28 +39,28 @@ header div.userInfos a {
 }
 
 div.storage {
-    width: 150px;
-    text-align: center;
-    line-height: 20px;
-    display: inline-block;
-    vertical-align: middle;
-    margin: 0 30px;
+	width: 150px;
+	text-align: center;
+	line-height: 20px;
+	display: inline-block;
+	vertical-align: middle;
+	margin: 0 30px;
 }
 div.storage .bar {
-    position: relative;
-    height: 7px;
-    background-color: #ddd;
+	position: relative;
+	height: 7px;
+	background-color: #ddd;
 }
 div.storage p {
-    margin: 0 0 3px 0;
+	margin: 0 0 3px 0;
 }
 div.storage .bar div {
-    top: 0px;
-    left: 0px;
-    position: absolute;
-    background-color: #56aae3;
-    width: 1%;
-    height: 7px;
+	top: 0px;
+	left: 0px;
+	position: absolute;
+	background-color: #56aae3;
+	width: 1%;
+	height: 7px;
 }
 
 
@@ -412,7 +412,7 @@ div.folderTree div {
 	font-family: 'Ubuntu';
 }
 div.folderTree div.collapse {
-    margin: 0;
+	margin: 0;
 }
 div.folderTree p.folder {
 	border-radius: 3px;
@@ -433,4 +433,23 @@ div.folderTree p.selected {
 }
 div.folderTree div .btn {
 	margin: 5px;
+}
+
+
+/* Copy clipboard
+-------------------------------------------------------------- */
+.copy {
+	position: relative;
+	display: inline-block;
+	height: 22px;
+}
+.hover {
+	text-decoration: none;
+    color: #333;
+    background-color: #ebebeb;
+    border-color: #adadad;
+}
+.zclip {
+	top: auto !important;
+	margin-top: -22px !important;
 }

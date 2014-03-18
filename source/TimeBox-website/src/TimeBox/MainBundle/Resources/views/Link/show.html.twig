@@ -43,7 +43,9 @@
                     {% endif %}
                 </td>
                 <td class="center">
-                    <a href="{{ path('time_box_main_download', {'hash': link.downloadHash }) }}">URL</a>
+                    <div>
+                        <a style="" class="btn btn-default btn-xs copy" href="#" data-copy="{{ path('time_box_main_download', {'hash': link.downloadHash }) }}">Copy to clipboard</a>
+                    </div>
                 </td>
                 <td class="size">
                     {% if link.file is null %}
@@ -80,8 +82,22 @@
 
 {% block javascripts %}
     {{ parent() }}
+    <script src="{{ asset('js/jquery.zclip.min.js') }}" type="text/javascript"></script>
     <script>
         $(document).ready(function() {
+            $('.copy').zclip({
+                path: "{{ asset('js/ZeroClipboard.swf') }}",
+                copy: function(){
+                    var copythis = $(this).attr('data-copy');
+                    return copythis;
+                },
+                afterCopy: function(){
+                    var copythis = $(this).attr('data-copy');
+                    alert("Copied text to clipboard:\n"+copythis);
+                    return false;
+                }
+            });
+
             $(".linkActions").hide();
             $("td.checkboxImg").click(function(evt) {
                 if (evt.shiftKey) {
