@@ -17,6 +17,11 @@
 	margin: 0 auto;
 }
 
+em {
+	font-style: italic;
+	color: #777;
+}
+
 /* Header
 -------------------------------------------------------------- */
 header {
@@ -28,23 +33,24 @@ header div img {
 	vertical-align: middle !important;
 }
 
+header div.userInfos {
+	border: 1px solid #eee;
+	height: 100px;
+	margin-bottom: 5px;
+	padding-bottom: 5px;
+}
 header div.userInfos span,
 header div.userInfos a {
-	display: inline-block;
 	margin-right: 30px;
 }
 
-.header_idbox {
-	float: right;
-}
-
 div.storage {
+	display: inline-block;
 	width: 150px;
 	text-align: center;
 	line-height: 20px;
-	display: inline-block;
 	vertical-align: middle;
-	margin: 0 30px;
+	margin: 15px 30px 0;
 }
 div.storage .bar {
 	position: relative;
@@ -61,6 +67,15 @@ div.storage .bar div {
 	background-color: #56aae3;
 	width: 1%;
 	height: 7px;
+}
+
+div.infos,
+div.buttons {
+	text-align: center;
+	line-height: 20px;
+	display: inline-block;
+	vertical-align: middle;
+	width: 100%;
 }
 
 
@@ -158,11 +173,6 @@ div.connection .loginForm a.headerLink {
 	margin: 20px;
 }
 
-#menu ul li {
-	float: left;
-	margin-right: -1px;
-}
-
 #menu ul li a {
 	border: 1px solid #DDD;
 	display: block;
@@ -192,10 +202,6 @@ table.userProfile {
 
 /* File
 -------------------------------------------------------------- */
-div.actions {
-	width: 200px;
-	float: left;
-}
 div.actions ul li {
 	font-family: "Ubuntu";
 	font-size: 12px;
@@ -224,10 +230,6 @@ div.linkActions ul {
 div.linkActions ul li {
 	display: inline-block !important;
 	padding-left: 10px;
-}
-table.file {
-	width: 500px;
-	float: left;
 }
 table.link {
 	width: 100%;

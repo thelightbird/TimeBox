@@ -1,27 +1,36 @@
 <header>
-    <div class="fLeft">
+    <div class="fLeft col-sm-6">
         <a href="{{ path('time_box_main_homepage') }}"><img src="{{ asset('img/logo.png') }}" class="img-responsive" alt="logo" /></a>
     </div>
-    <div class="fRight">
+    <div class="fRight col-xs-12 col-sm-6">
     {% if is_granted("IS_AUTHENTICATED_FULLY") %}
         <div class="userInfos">
-            <div class="storage">
-                <p>
-                {% if app.user.storage > 1000000  %}
-                    {{ app.user.storage // 1000000 + 1 }} MB
-                {% elseif app.user.storage > 1000  %}
-                    {{ app.user.storage // 1000 + 1 }} KB
-                {% else %}
-                    {{ app.user.storage }} B
-                {% endif %}
-                     / 50 MB
-                </p>
-                <div class="bar">
-                    <div style="width: {{ ( app.user.storage // 1000000 + 1 ) * 2 }}%;"></div>
+            <div class="col-sm-6">
+                <div class="infos">
+                    <span>Connected as <em>{{ app.user.username }}</em></span>
+                    <div class="storage">
+                        <p>
+                        {% if app.user.storage > 1000000  %}
+                            {{ app.user.storage // 1000000 + 1 }} MB
+                        {% elseif app.user.storage > 1000  %}
+                            {{ app.user.storage // 1000 + 1 }} KB
+                        {% else %}
+                            {{ app.user.storage }} B
+                        {% endif %}
+                             / 50 MB
+                        </p>
+                        <div class="bar">
+                            <div style="width: {{ ( app.user.storage // 1000000 + 1 ) * 2 }}%;"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <span>Logged in as {{ app.user.username }}</span>
-            <a class="btn btn-primary" href="{{ path('fos_user_security_logout') }}">Log out</a>
+            <div class="col-sm-6">
+                <div class="buttons">
+                    <a class="btn btn-block btn-default" href="{{ path('fos_user_profile_show') }}">Profile</a>
+                    <a class="btn btn-block btn-default" href="{{ path('fos_user_security_logout') }}">Log out</a>
+                </div>
+            </div>
         </div>
     </div>
     {% endif %}

@@ -9,7 +9,7 @@
         {% set hideAction = ' hide' %}
     {% endif %}
 
-    <div class="actions">
+    <div class="actions col-md-3">
         <ul {% if isDeleted %}class="FileRelatedAction"{% endif %}>
             <li>Actions:</li>
             <li class="{{ hideAction }} newFolder">
@@ -60,7 +60,7 @@
         </div>
     </div>
 
-    <table class="file">
+    <table class="file col-md-9 col-xs-12 row">
         <thead>
             <tr>
                 <td colspan="5" class="driveBreadcrumb">
