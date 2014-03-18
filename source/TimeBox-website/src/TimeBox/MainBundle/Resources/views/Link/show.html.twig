@@ -47,12 +47,20 @@
                 </td>
                 <td class="size">
                     {% if link.file is null %}
-                        {% if linkFile.totalSize > 1000000  %}
-                            {{ linkFile.totalSize // 1000000 + 1 }} MB
-                        {% elseif linkFile.totalSize > 1000  %}
-                            {{ linkFile.totalSize // 1000 + 1 }} KB
+                        {% if link.version.size > 1000000  %}
+                            {{ link.version.size // 1000000 + 1 }} MB
+                        {% elseif link.version.size > 1000  %}
+                            {{ link.version.size // 1000 + 1 }} KB
                         {% else %}
-                            {{ linkFile.totalSize }} B
+                            {{ link.version.size }} B
+                        {% endif %}
+                    {% else %}
+                        {% if linkFile.lastSize > 1000000  %}
+                            {{ linkFile.lastSize // 1000000 + 1 }} MB
+                        {% elseif linkFile.lastSize > 1000  %}
+                            {{ linkFile.lastSize // 1000 + 1 }} KB
+                        {% else %}
+                            {{ linkFile.lastSize }} B
                         {% endif %}
                     {% endif %}
                 </td>

@@ -35,6 +35,7 @@ class File
 
     /**
      * @ORM\OneToMany(targetEntity="TimeBox\MainBundle\Entity\Version", mappedBy="file", cascade={"remove"})
+     * @ORM\OrderBy({"date" = "ASC"})
      */
     private $version;
 
@@ -76,7 +77,7 @@ class File
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -99,7 +100,7 @@ class File
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -122,7 +123,7 @@ class File
     /**
      * Get type
      *
-     * @return string 
+     * @return string
      */
     public function getType()
     {
@@ -145,7 +146,7 @@ class File
     /**
      * Get isDeleted
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getIsDeleted()
     {
@@ -168,7 +169,7 @@ class File
     /**
      * Get folder
      *
-     * @return \TimeBox\MainBundle\Entity\Folder 
+     * @return \TimeBox\MainBundle\Entity\Folder
      */
     public function getFolder()
     {
@@ -191,7 +192,7 @@ class File
     /**
      * Get user
      *
-     * @return \TimeBox\UserBundle\Entity\User 
+     * @return \TimeBox\UserBundle\Entity\User
      */
     public function getUser()
     {
@@ -224,7 +225,7 @@ class File
     /**
      * Get version
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getVersion()
     {
@@ -247,10 +248,21 @@ class File
     /**
      * Get totalSize
      *
-     * @return integer 
+     * @return integer
      */
     public function getTotalSize()
     {
         return $this->totalSize;
     }
+
+    /**
+     * Get lastSize
+     *
+     * @return integer
+     */
+    public function getlastSize()
+    {
+        return $this->getVersion()->last()->getSize();
+    }
+
 }
