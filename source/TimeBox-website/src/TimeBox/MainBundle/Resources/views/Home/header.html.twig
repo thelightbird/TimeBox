@@ -5,7 +5,7 @@
     <div class="fRight col-xs-12 col-sm-6">
     {% if is_granted("IS_AUTHENTICATED_FULLY") %}
         <div class="userInfos">
-            <div class="col-sm-6">
+            <div class="col-sm-6 col-xs-12">
                 <div class="infos">
                     <span>Connected as <em>{{ app.user.username }}</em></span>
                     <div class="storage">
@@ -25,7 +25,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-6 col-xs-12">
                 <div class="buttons">
                     <a class="btn btn-block btn-default" href="{{ path('fos_user_profile_show') }}">Profile</a>
                     <a class="btn btn-block btn-default" href="{{ path('fos_user_security_logout') }}">Log out</a>

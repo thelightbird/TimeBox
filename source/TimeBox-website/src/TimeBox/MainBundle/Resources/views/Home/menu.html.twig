@@ -1,12 +1,13 @@
 <div id="menu">
-    <ul class="row">
-        <li class="col-sm-4 col-xs-12">
+    <ul class="nav nav-tabs nav-justified">
+        {% set currentRoute =  app.request.attributes.get('_route') %}
+        <li class="{{ currentRoute ==  'time_box_main_file' ? "active" }}">
             <a href="{{ path('time_box_main_file') }}">Files</a>
         </li>
-        <li class="col-sm-4 col-xs-12">
+        <li class="{{ currentRoute ==  'time_box_main_file_deleted' ? "active" }}">
             <a href="{{ path('time_box_main_file_deleted') }}">Recycle Bin</a>
         </li>
-        <li class="col-sm-4 col-xs-12">
+        <li class="{{ currentRoute ==  'time_box_main_share' ? "active" }}">
             <a href="{{ path('time_box_main_share') }}">Links</a>
         </li>
     </ul>

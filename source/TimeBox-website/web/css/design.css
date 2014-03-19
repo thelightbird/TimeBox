@@ -39,6 +39,11 @@ header div.userInfos {
 	margin-bottom: 5px;
 	padding-bottom: 5px;
 }
+@media screen and (max-width: 799px) {
+	header div.userInfos{
+		height: 200px;
+	}
+}
 header div.userInfos span,
 header div.userInfos a {
 	margin-right: 30px;
@@ -46,7 +51,7 @@ header div.userInfos a {
 
 div.storage {
 	display: inline-block;
-	width: 150px;
+	width: 75%;
 	text-align: center;
 	line-height: 20px;
 	vertical-align: middle;
@@ -174,21 +179,16 @@ div.connection .loginForm a.headerLink {
 }
 
 #menu ul li a {
-	border: 1px solid #DDD;
 	display: block;
 	color: black;
 	font-family: "Ubuntu";
 	font-size: 1em;
-	padding: 10px 20px;
 }
 
 #menu ul li a:hover {
-	background: #EEE;
-	text-decoration: none;
 }
 
 #menu ul li a:active {
-	color: #AAA;
 }
 
 
