@@ -25,8 +25,11 @@ em {
 /* Header
 -------------------------------------------------------------- */
 header {
-	height: 100px;
+	background-color: #e4f2f9;
+	border-radius: 5px;
 	line-height: 100px;
+	margin-bottom: 30px;
+	padding: 10px;
 }
 header div img {
 	display: inline-block !important;
@@ -34,12 +37,14 @@ header div img {
 }
 
 header div.userInfos {
+	background-color: #cfe8f5;
+	border-radius: 5px;
 	border: 1px solid #eee;
 	height: 100px;
 	margin-bottom: 5px;
 	padding-bottom: 5px;
 }
-@media screen and (max-width: 799px) {
+@media screen and (max-width: 767px) {
 	header div.userInfos{
 		height: 200px;
 	}
@@ -86,12 +91,21 @@ div.buttons {
 
 /* Home page
 -------------------------------------------------------------- */
+@media screen and (max-width : 480px) {
+	header div.fLeft,
+	header div.fRight {
+		text-align: center;
+		width: 100%;
+	}
+}
+
 div.titleContainer {
 	width: 100%;
 	height: 300px;
 	background-image: url('../img/background1.png');
 	background-repeat: repeat-x;
 	background-position: center;
+	margin-bottom: 30px;
 }
 div.titleContainer h1 {
 	margin: 0px;
@@ -104,15 +118,18 @@ div.titleContainer h1 {
 	color: white;
 }
 
+@media screen and (max-width: 320px){
+	ul.functionality {
+		display: none;
+	}
+}
 ul.functionality {
-	margin: 30px auto;
+	margin: 0 auto 30px;
 	text-align: center;
 }
 ul.functionality li {
 	display: inline-block;
 	vertical-align: top;
-	width: 150px;
-	margin: 10px 50px;
 }
 ul.functionality li img {
 	display: block;
@@ -132,23 +149,10 @@ ul.functionality li p {
 	font-size: 12px;
 }
 div.connection {
-	width: 42%;
-	min-width: 300px;
-	display: inline-block;
 	vertical-align: top;
 	border: 1px solid #e6e6e6;
-	margin: 10px;
 	text-align: center;
-}
-@media screen and (max-width: 799px) {
-	div.connection {
-		width: auto;
-		margin: 0px 10px;
-		display: block;
-		border: 1px solid #e6e6e6;
-		margin: 10px;
-		text-align: center;
-	}
+	margin-bottom: 30px;
 }
 div.connection h3 {
 	text-align: center;
@@ -161,7 +165,7 @@ div.connection .registerForm {
 div.connection .loginForm div.form-group,
 div.connection .registerForm div.form-group {
 	margin: 15px auto;
-	width: 240px;
+	width: 75%;
 }
 div.connection .loginForm a.headerLink {
 	font-size: 12px;
@@ -195,12 +199,23 @@ table.userProfile {
 
 /* File
 -------------------------------------------------------------- */
+div.actions ul {
+	border: 1px solid #e4f2f9;
+	border-radius: 5px;
+	margin-bottom: 10px;
+	padding: 5px 10px 5px;
+}
 div.actions ul li {
 	font-family: "Ubuntu";
 	font-size: 12px;
 	display: block;
 	height: 26px;
 	line-height: 26px;
+}
+div.actions ul .title {
+	color: #999;
+	font-size: 15px;
+	text-shadow: #EEE 0.1em 0.1em 0.2em;
 }
 div.actions ul li img {
 	vertical-align: -5px;
@@ -227,6 +242,11 @@ div.linkActions ul li {
 table.link {
 	width: 100%;
 }
+table.file {
+	border-radius: 5px;
+	overflow: hidden;
+	width: 100%;
+}
 table.file .driveBreadcrumb ul {
 	margin:0px;
 	padding:0px;
@@ -246,9 +266,12 @@ table.file .driveBreadcrumb a {
 table.file thead {
 	background-color: #cfe8f5;
 }
+table.file thead tr {
+	border-bottom: none;
+}
 table.file tr,
 table.link tr {
-	border: 1px solid #d1d1d1;
+	border-bottom: 1px solid #d1d1d1;
 	/* disable text selection */
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
@@ -294,6 +317,12 @@ table.link .fileType {
 	border-right: none;
 	border-left: none;
 }
+@media screen and (max-width: 320px){
+	table.file .fileType,
+	table.link .fileType {
+		display: none;
+	}
+}
 table.file .fileCheckbox,
 table.link .fileCheckbox {
 	width: 30px;
@@ -338,8 +367,8 @@ table.link .lastEdit {
 }
 table.file tr.selected,
 table.link tr.selected {
-	background: #F4E0FF;
-	background: linear-gradient(to top, #F2DAFF 0%, #F6E7FF 100%);
+	background: #cfe8f5;
+	background: linear-gradient(to top, #cfe8f5 0%, #e4f2f9 100%);
 }
 table.file ul.version {
 	margin:0px;

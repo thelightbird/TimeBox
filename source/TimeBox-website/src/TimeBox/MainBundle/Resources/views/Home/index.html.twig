@@ -7,7 +7,7 @@
             <a href="{{ path('time_box_main_homepage') }}"><img src="{{ asset('img/logo.png') }}" class="img-responsive" alt="logo" /></a>
         </div>
         <div class="fRight">
-            <a id="connectionButton" href="#connection" class="btn btn-primary">Register / Login</a>
+            <a id="connectionButton" href="#connection" class="btn btn-primary btn-lg">Register / Login</a>
         </div>
         <div class="clear"></div>
     </header>
@@ -18,41 +18,43 @@
 </div>
 
 <div class="container">
-    <ul class="functionality">
-        <li>
+    <ul class="functionality row">
+        <li class="col-sm-3 col-xs-6">
             <img src="{{ asset('img/upload.png') }}" alt="upload" />
             <span>Upload</span>
             <p>Add files to your account.</p>
         </li>
-        <li>
+        <li class="col-sm-3 col-xs-6">
             <img src="{{ asset('img/versions.png') }}" alt="versions" />
             <span>Versions</span>
             <p>Use revision history to restore a previous version of a file</p>
         </li>
-        <li>
+        <li class="col-sm-3 col-xs-6">
             <img src="{{ asset('img/manage.png') }}" alt="manage" />
             <span>Manage</span>
             <p>Create folders and download, move, rename or delete your files</p>
         </li>
-        <li>
+        <li class="col-sm-3 col-xs-6">
             <img src="{{ asset('img/share.png') }}" alt="share" />
             <span>Share</span>
             <p>Create links to share your files with anyone</p>
         </li>
     </ul>
 
-    <div class="center">
+    <div class="col-sm-4 col-sm-offset-2">
         <div id="connection" class="connection">
             <h3>Register</h3>
             {% block registration %}
             {% endblock %}
         </div>
+    </div>
+    <div class="col-sm-4">
         <div class="connection">
             <h3>Login</h3>
             {{ render(controller("FOSUserBundle:Security:login")) }}
         </div>
-        <div class="clear bottom"></div>
     </div>
+    <div class="clear bottom"></div>
 </div>
 {% endblock %}
 
