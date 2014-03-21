@@ -16,8 +16,8 @@
             <li class="{{ hideAction }} newFolder">
                 <a href=""><img src="{{ asset('img/icons/folder-add.png') }}" alt="folder add icon" />New folder</a>
             </li>
-            <li class="{{ hideAction }}">
-                <a href="{{ path('time_box_main_file_upload', { 'folderId':folderId }) }}"><img src="{{ asset('img/icons/file-upload.png') }}" alt="upload icon" />Upload a new file</a>
+            <li class="{{ hideAction }} upload">
+                <a href=""><img src="{{ asset('img/icons/file-upload.png') }}" alt="upload icon" />Upload a new file</a>
             </li>
             <li class="FileRelatedAction FolderRelatedAction download {{ hideAction }}">
                 <form target="_blank" action="{{ path('time_box_main_file_download') }}" method="post">
@@ -315,6 +315,25 @@
                     },
                     success: function( data ) {
                         $(".customPopup .modal-title").text("Create a new folder");
+                        $(".customPopup .modal-body").html(data);
+                        $(".customPopup.modal").modal('show');
+                        $(".customPopup.modal").on('shown.bs.modal', function (e) {
+                            $('[autofocus]:first').focus();
+                        });
+                    }
+                });
+                return false;
+            });
+
+            $("li.upload a").click(function() {
+                $.ajax({
+                    url: "{{ path('time_box_main_file_upload') }}",
+                    type: "GET",
+                    data: {
+                        'folderId': '{{ folderId }}'
+                    },
+                    success: function( data ) {
+                        $(".customPopup .modal-title").text("Upload a file");
                         $(".customPopup .modal-body").html(data);
                         $(".customPopup.modal").modal('show');
                         $(".customPopup.modal").on('shown.bs.modal', function (e) {

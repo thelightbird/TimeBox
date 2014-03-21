@@ -1,40 +1,30 @@
-{% extends "TimeBoxMainBundle::layout.html.twig" %}
+{% if app.user.storage + 8000000 > 50000000  %}
+    You reached the limit of your storage space, greedy user! Now you are punished, you cannot upload any file until you delete some files (maybe in your Recycle Bin?).
+{% else %}
+<form class="upload" action="{{ path('time_box_main_file_upload') }}" method="post" {{ form_enctype(form) }}>
 
-{% block container %}
-    <h3>Upload File</h3>
-    {% if app.user.storage + 8000000 > 50000000  %}
-        You reached the limit of your storage space, greedy user! Now you are punished, you cannot upload any file until you delete some files (maybe in your Recycle Bin?).
-    {% else %}
-    <div class="col-xs-6 col-sm-4">
-        <form class="upload" action="#" method="post" {{ form_enctype(form) }}>
-
-            <div class="form-group">
-                {{ form_label(form.uploadedFile, "File", { 'label_attr': { 'class': 'sr-only' }} ) }}
-                {{ form_errors(form.uploadedFile, { 'attr': {'class': 'alert alert-danger'} }) }}
-                {{ form_widget(form.uploadedFile, { 'attr': {'placeholder': 'File', 'required': ''} }) }}
-            </div>
-            <div class="form-group">
-                <label class="sr-only" for="form_name">Comment</label>
-                <input id="form_name" class="form-control" type="text" name="name" placeholder="Name" required autofocus />
-            </div>
-            <div class="form-group">
-                {{ form_label(form.comment, "Comment", { 'label_attr': { 'class': 'sr-only' } }) }}
-                {{ form_errors(form.comment, { 'attr': {'class': 'alert alert-danger'} }) }}
-                {{ form_widget(form.comment, { 'attr': {'class': 'form-control', 'placeholder': 'Comment'} }) }}
-            </div>
-            <div class="form-group">
-                {{ form_widget(form) }}
-                <input type="hidden" name="folderId" value="{{ folderId }}" />
-                <input class="btn btn-primary" type="submit" value="Upload Media" />
-            </div>
-        </form>
+    <div class="form-group">
+        {{ form_label(form.uploadedFile, "File", { 'label_attr': { 'class': 'sr-only' }} ) }}
+        {{ form_errors(form.uploadedFile, { 'attr': {'class': 'alert alert-danger'} }) }}
+        {{ form_widget(form.uploadedFile, { 'attr': {'placeholder': 'File', 'required': ''} }) }}
     </div>
-    {% endif %}
-{% endblock %}
+    <div class="form-group">
+        <label class="sr-only" for="form_name">Comment</label>
+        <input id="form_name" class="form-control" type="text" name="name" placeholder="Name" required autofocus />
+    </div>
+    <div class="form-group">
+        {{ form_label(form.comment, "Comment", { 'label_attr': { 'class': 'sr-only' } }) }}
+        {{ form_errors(form.comment, { 'attr': {'class': 'alert alert-danger'} }) }}
+        {{ form_widget(form.comment, { 'attr': {'class': 'form-control', 'placeholder': 'Comment'} }) }}
+    </div>
+    <div class="form-group">
+        {{ form_widget(form) }}
+        <input type="hidden" name="folderId" value="{{ folderId }}" />
+        <input class="btn btn-primary" type="submit" value="Upload Media" />
+    </div>
+</form>
+{% endif %}
 
-
-{% block javascripts %}
-{{ parent() }}
 <script type="text/javascript">
     $("form.upload").submit(function() {
 
@@ -59,4 +49,3 @@
 
     });
 </script>
-{% endblock %}
