@@ -22,13 +22,18 @@ em {
 	color: #777;
 }
 
+body {
+	background-color: #e4f2f9;
+	background: linear-gradient(to bottom, white 50%, #e4f2f9 100%);
+}
+
 /* Header
 -------------------------------------------------------------- */
 header {
-	background-color: #e4f2f9;
-	border-radius: 5px;
+	background-color: whitesmoke;
+	background: linear-gradient(to bottom, #e4f2f9 0%, white 100%);
 	line-height: 100px;
-	margin-bottom: 30px;
+	margin: 0 -15px 30px;
 	padding: 10px;
 }
 header div img {
@@ -37,7 +42,8 @@ header div img {
 }
 
 header div.userInfos {
-	background-color: #cfe8f5;
+	background-color: #e4f2f9;
+	background: linear-gradient(to bottom, whitesmoke 0%, white 100%);
 	border-radius: 5px;
 	border: 1px solid #eee;
 	height: 100px;
@@ -286,9 +292,9 @@ table.link tr:hover {
 }
 table.file th,
 table.link th {
-	font-weight: normal;
+	font-weight: lighter;
 	text-transform: uppercase;
-	border: 1px solid #d1d1d1;
+	color: #aaa;
 }
 table.file th,
 table.file td,
