@@ -10,19 +10,18 @@
 {% endblock %}
 
 {% block body %}
-    {% include "TimeBoxMainBundle:Home:header.html.twig" %}
+    <div class="container wrapper">
+        {% include "TimeBoxMainBundle:Home:header.html.twig" %}
 
-    <div class="container">
         {% block menu %}
             {% include "TimeBoxMainBundle:Home:menu.html.twig" %}
         {% endblock %}
 
-        <div class="container">
-            {% block container %}
-            {% endblock %}
-        </div>
+        {% block container %}
+        {% endblock %}
+
+        <div class="clear bottom"></div>
     </div>
-    <div class="clear bottom"></div>
 {% endblock %}
 
 {% block javascripts %}

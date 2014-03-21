@@ -40,7 +40,7 @@
             <p>Create links to share your files with anyone</p>
         </li>
     </ul>
-    <div class="row">
+    <div class="row frame">
         <div class="col-sm-4 col-sm-offset-2">
             <div id="connection" class="connection">
                 <h3>Register</h3>
@@ -68,4 +68,16 @@
         return false;
     });
 </script>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style type="text/css">
+    html, body {
+        background-color: #f5f8fa;
+    }
+    header {
+        background: #f5f8fa;
+    }
+    </style>
 {% endblock %}
