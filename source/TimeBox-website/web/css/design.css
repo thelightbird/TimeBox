@@ -22,16 +22,18 @@ em {
 	color: #777;
 }
 
-body {
+html {
 	background-color: #e4f2f9;
-	background: linear-gradient(to bottom, white 50%, #e4f2f9 100%);
+	background: linear-gradient(to bottom, #e4f2f9 0%, white 50%);
+}
+
+body {
+	background: inherit;
 }
 
 /* Header
 -------------------------------------------------------------- */
 header {
-	background-color: whitesmoke;
-	background: linear-gradient(to bottom, #e4f2f9 0%, white 100%);
 	line-height: 100px;
 	margin: 0 -15px 30px;
 	padding: 10px;
