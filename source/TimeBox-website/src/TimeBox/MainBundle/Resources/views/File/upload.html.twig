@@ -6,11 +6,12 @@
     <div class="form-group">
         {{ form_label(form.uploadedFile, "File", { 'label_attr': { 'class': 'sr-only' }} ) }}
         {{ form_errors(form.uploadedFile, { 'attr': {'class': 'alert alert-danger'} }) }}
-        {{ form_widget(form.uploadedFile, { 'attr': {'placeholder': 'File', 'required': ''} }) }}
+        {{ form_widget(form.uploadedFile, { 'attr': {'placeholder': 'File', 'required': '', 'autofocus': ''} }) }}
     </div>
-    <div class="form-group">
+    <div class="form-group input-group">
+        <input id="form_name" class="form-control" type="text" name="name" placeholder="Name" required disabled />
+        <span id="form_name_ext" class="input-group-addon">.extension</span>
         <label class="sr-only" for="form_name">Comment</label>
-        <input id="form_name" class="form-control" type="text" name="name" placeholder="Name" required autofocus />
     </div>
     <div class="form-group">
         {{ form_label(form.comment, "Comment", { 'label_attr': { 'class': 'sr-only' } }) }}
@@ -27,11 +28,18 @@
 
 <script type="text/javascript">
     $("#form_uploadedFile").change(function() {
-        $("#form_name").val(
-            $("#form_uploadedFile").val()
-            .replace(/^.*[\\\/]/, '')
-            .replace(/\..*$/, '')
-            );
+        if($("#form_uploadedFile").val() == ""){
+            $("#form_name").addAttr("disabled");
+            $("#form_name_ext").html(".extension");
+            return false;
+        }
+
+        $("#form_name").removeAttr("disabled");
+        var filename = $("#form_uploadedFile").val().replace(/^.*[\\\/]/, '');
+        var shortname = filename.replace(/\.[A-z0-9]*$/, '');
+        var extension = filename.replace(/^.*\./, '');
+        $("#form_name").val(shortname);
+        $("#form_name_ext").html("."+extension);
     });
 
     $("form.upload").submit(function() {
