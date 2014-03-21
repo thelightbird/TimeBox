@@ -2,14 +2,14 @@
 
 {% block container %}
 
-    {% set fileDeleted = '' %}
-    {% set hideAction = '' %}
-    {% if isDeleted %}
-        {% set fileDeleted = '_deleted' %}
-        {% set hideAction = ' hide' %}
-    {% endif %}
+{% set fileDeleted = '' %}
+{% set hideAction = '' %}
+{% if isDeleted %}
+    {% set fileDeleted = '_deleted' %}
+    {% set hideAction = ' hide' %}
+{% endif %}
 
-    <div class="row">
+<div class="row">
     <div class="actions col-md-3">
         <ul {% if isDeleted %}class="FileRelatedAction"{% endif %}>
             <li class="title">Actions</li>
@@ -133,7 +133,7 @@
         </tbody>
     </table>
     </div>
-    </div>
+</div>
 {% endblock %}
 
 

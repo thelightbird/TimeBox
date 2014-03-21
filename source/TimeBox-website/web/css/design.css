@@ -23,20 +23,22 @@ em {
 }
 
 html {
-	background-color: #e4f2f9;
-	background: linear-gradient(to bottom, #e4f2f9 0%, white 50%);
+	background-color: #fff;
 }
-
 body {
-	background: inherit;
+	min-width: 380px;
 }
 
 /* Header
 -------------------------------------------------------------- */
 header {
 	line-height: 100px;
-	margin: 0 -15px 30px;
-	padding: 10px;
+	border-bottom: 1px solid #e3e2e8;
+	background-color: #edeef3;
+	background: -webkit-linear-gradient(#e8ebf2, #eeeff4);
+	background: -o-linear-gradient(#e8ebf2, #eeeff4);
+	background: -moz-linear-gradient(#e8ebf2, #eeeff4);
+	background: linear-gradient(#e8ebf2, #eeeff4);
 }
 header div img {
 	display: inline-block !important;
@@ -44,13 +46,9 @@ header div img {
 }
 
 header div.userInfos {
-	background-color: #e4f2f9;
-	background: linear-gradient(to bottom, whitesmoke 0%, white 100%);
-	border-radius: 5px;
-	border: 1px solid #eee;
 	height: 100px;
-	margin-bottom: 5px;
 	padding-bottom: 5px;
+	border-left: 3px solid #d9dce8;
 }
 @media screen and (max-width: 767px) {
 	header div.userInfos{
@@ -59,7 +57,8 @@ header div.userInfos {
 }
 header div.userInfos span,
 header div.userInfos a {
-	margin-right: 30px;
+	margin-left: 15px;
+	margin-right: 15px;
 }
 
 div.storage {
@@ -100,6 +99,8 @@ div.buttons .btn {
 	max-width: 55%;
 	opacity: 0.8;
 	padding: 5px 10px;
+	margin-top: 8px;
+	margin-bottom: 8px;
 }
 
 
@@ -376,13 +377,13 @@ table.file .size,
 table.file .lastEdit,
 table.link .size,
 table.link .lastEdit {
-	width: 100px;
+	width: 180px;
 	text-align: center;
 }
 table.file tr.selected,
 table.link tr.selected {
-	background: #cfe8f5;
-	background: linear-gradient(to top, #cfe8f5 0%, #e4f2f9 100%);
+	background: #feefb5;
+	background: linear-gradient(to top, #feedaa 0%, #fef1bd 100%);
 }
 table.file ul.version {
 	margin:0px;
