@@ -12,36 +12,46 @@
 .fLeft {
 	float: left;
 }
+.defaultPadding {
+	padding: 0px 20px;
+}
 .wrapper {
-	width: 1000px;
 	margin: 0 auto;
+	padding: 0px;
+	background-color: #eef2f5;
+	min-height: 100%;
+    -webkit-box-shadow: 0px 1px 3px rgba(34, 34, 34,0.3);
+    box-shadow: 0px 1px 3px rgba(34, 34, 34,0.3);
 }
 
 em {
 	font-style: italic;
-	color: #777;
+	color: #6B9EBB;
+}
+
+html, body {
+	height: 100%;
+	background-color: #cad5d7;
+}
+body {
+	min-width: 380px;
 }
 
 /* Header
 -------------------------------------------------------------- */
 header {
-	background-color: #e4f2f9;
-	border-radius: 5px;
 	line-height: 100px;
-	margin-bottom: 30px;
-	padding: 10px;
+	background-color: #142B41;
 }
 header div img {
 	display: inline-block !important;
 	vertical-align: middle !important;
+	margin-left: 10px;
+	color: #fff;
 }
 
 header div.userInfos {
-	background-color: #cfe8f5;
-	border-radius: 5px;
-	border: 1px solid #eee;
 	height: 100px;
-	margin-bottom: 5px;
 	padding-bottom: 5px;
 }
 @media screen and (max-width: 767px) {
@@ -51,7 +61,12 @@ header div.userInfos {
 }
 header div.userInfos span,
 header div.userInfos a {
-	margin-right: 30px;
+	margin-left: 15px;
+	margin-right: 15px;
+}
+header div.userInfos span,
+header div.userInfos div.storage p {
+	color: #7E828F;
 }
 
 div.storage {
@@ -86,6 +101,14 @@ div.buttons {
 	display: inline-block;
 	vertical-align: middle;
 	width: 100%;
+}
+div.buttons .btn {
+	min-width: 35%;
+	max-width: 55%;
+	opacity: 0.8;
+	padding: 5px 10px;
+	margin-top: 8px;
+	margin-bottom: 8px;
 }
 
 
@@ -171,6 +194,9 @@ div.connection .loginForm a.headerLink {
 	font-size: 12px;
 }
 
+div.frame > div > div {
+	background-color: #fff;
+}
 
 .bottom {
 	margin-bottom: 300px;
@@ -179,14 +205,30 @@ div.connection .loginForm a.headerLink {
 /* Navigation menu
 -------------------------------------------------------------- */
 #menu {
-	margin: 20px;
+	margin-bottom: 20px;
+	padding: 30px 10px 0px 10px;
+	border-bottom: 1px solid #ddd;
+	background-color: #F5EEEA;
 }
 
+#menu ul {
+	margin-bottom: -1px;
+}
+#menu ul li.active a {
+	background-color: #eef2f5 !important;
+	border-bottom: 1px solid #eef2f5;
+}
 #menu ul li a {
 	display: block;
 	color: black;
 	font-family: "Ubuntu";
 	font-size: 1em;
+}
+#menu ul li a:hover {
+	color: #2A4B5C;
+	border-top:1px solid #ddd;
+	border-left:1px solid #ddd;
+	border-right:1px solid #ddd;
 }
 
 /* User profile
@@ -194,6 +236,11 @@ div.connection .loginForm a.headerLink {
 table.userProfile {
 	border: 1px solid #ddd;
 	width: 500px;
+}
+table.userProfile tr,
+table.userProfile td,
+table.userProfile th {
+	background-color: #fff;
 }
 
 
@@ -215,7 +262,19 @@ div.actions ul li {
 div.actions ul .title {
 	color: #999;
 	font-size: 15px;
-	text-shadow: #EEE 0.1em 0.1em 0.2em;
+}
+div.actions ul li:not(.title) {
+	padding-left: 10px;
+}
+
+@media screen and (max-width: 991px){
+	div.actions ul li:not(.title) {
+		display: inline-block;
+		float: left;
+	}
+	div.actions {
+		margin-bottom:28px;
+	}
 }
 div.actions ul li img {
 	vertical-align: -5px;
@@ -286,9 +345,9 @@ table.link tr:hover {
 }
 table.file th,
 table.link th {
-	font-weight: normal;
+	font-weight: lighter;
 	text-transform: uppercase;
-	border: 1px solid #d1d1d1;
+	color: #719DAB;
 }
 table.file th,
 table.file td,
@@ -362,13 +421,13 @@ table.file .size,
 table.file .lastEdit,
 table.link .size,
 table.link .lastEdit {
-	width: 100px;
+	width: 180px;
 	text-align: center;
 }
 table.file tr.selected,
 table.link tr.selected {
-	background: #cfe8f5;
-	background: linear-gradient(to top, #cfe8f5 0%, #e4f2f9 100%);
+	background: #feefb5;
+	background: linear-gradient(to top, #feedaa 0%, #fef1bd 100%);
 }
 table.file ul.version {
 	margin:0px;
@@ -459,6 +518,11 @@ div.folderTree div .btn {
 	margin: 5px;
 }
 
+.modal-header {
+	background-color: #F7F7F9;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+}
 
 /* Copy clipboard
 -------------------------------------------------------------- */

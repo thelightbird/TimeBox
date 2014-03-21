@@ -8,19 +8,21 @@
 
 {% trans_default_domain 'FOSUserBundle' %}
 
-<h3>Profile</h3>
+<div class="defaultPadding">
+    <h3>Profile</h3>
 
-<div>
-	<table class="table userProfile">
-		<tr>
-			<td>{{ 'profile.show.username'|trans }}</td>
-			<td>{{ user.username }}</td>
-		</tr>
-		<tr>
-			<td>{{ 'profile.show.email'|trans }}</td>
-			<td>{{ user.email }}</td>
-		</tr>
-	<table>
+    <div>
+        <table class="table userProfile">
+            <tr>
+                <td>{{ 'profile.show.username'|trans }}</td>
+                <td>{{ user.username }}</td>
+            </tr>
+            <tr>
+                <td>{{ 'profile.show.email'|trans }}</td>
+                <td>{{ user.email }}</td>
+            </tr>
+        <table>
+    </div>
 </div>
 
 {% endblock fos_user_content %}

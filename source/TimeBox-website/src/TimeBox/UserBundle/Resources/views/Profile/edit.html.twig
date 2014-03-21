@@ -4,30 +4,32 @@
 
 {% trans_default_domain 'FOSUserBundle' %}
 
-<h3>Edit profile</h3>
+<div class="defaultPadding">
+    <h3>Edit profile</h3>
 
-<div class="col-xs-6 col-sm-4">
-    <form action="{{ path('fos_user_profile_edit') }}" {{ form_enctype(form) }} method="POST" class="fos_user_profile_edit">
-        <div class="form-group">
-            {{ form_label(form.username, "Username", { 'label_attr': { 'class': 'sr-only' } }) }}
-            {{ form_errors(form.username) }}
-            {{ form_widget(form.username, { 'attr': {'class': 'form-control', 'placeholder': 'Username'} }) }}
-        </div>
-        <div class="form-group">
-            {{ form_label(form.email, "Email", { 'label_attr': { 'class': 'sr-only' } }) }}
-            {{ form_errors(form.email) }}
-            {{ form_widget(form.email, { 'attr': {'class': 'form-control', 'placeholder': 'Email'} }) }}
-        </div>
-        <div class="form-group">
-            {{ form_label(form.current_password, "Current password", { 'label_attr': { 'class': 'sr-only' } }) }}
-            {{ form_errors(form.current_password) }}
-            {{ form_widget(form.current_password, { 'attr': {'class': 'form-control', 'placeholder': 'Current password'} }) }}
-        </div>
-        {{ form_widget(form) }}
-        <div>
-            <input class="btn btn-primary" type="submit" value="{{ 'profile.edit.submit'|trans }}" />
-        </div>
-    </form>
+    <div class="col-xs-6 col-sm-4">
+        <form action="{{ path('fos_user_profile_edit') }}" {{ form_enctype(form) }} method="POST" class="fos_user_profile_edit">
+            <div class="form-group">
+                {{ form_label(form.username, "Username", { 'label_attr': { 'class': 'sr-only' } }) }}
+                {{ form_errors(form.username) }}
+                {{ form_widget(form.username, { 'attr': {'class': 'form-control', 'placeholder': 'Username'} }) }}
+            </div>
+            <div class="form-group">
+                {{ form_label(form.email, "Email", { 'label_attr': { 'class': 'sr-only' } }) }}
+                {{ form_errors(form.email) }}
+                {{ form_widget(form.email, { 'attr': {'class': 'form-control', 'placeholder': 'Email'} }) }}
+            </div>
+            <div class="form-group">
+                {{ form_label(form.current_password, "Current password", { 'label_attr': { 'class': 'sr-only' } }) }}
+                {{ form_errors(form.current_password) }}
+                {{ form_widget(form.current_password, { 'attr': {'class': 'form-control', 'placeholder': 'Current password'} }) }}
+            </div>
+            {{ form_widget(form) }}
+            <div>
+                <input class="btn btn-primary" type="submit" value="{{ 'profile.edit.submit'|trans }}" />
+            </div>
+        </form>
+    </div>
 </div>
 
 {% endblock %}

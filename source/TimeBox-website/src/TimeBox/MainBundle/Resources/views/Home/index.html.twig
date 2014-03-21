@@ -1,8 +1,8 @@
 {% extends "TimeBoxMainBundle::layout.html.twig" %}
 
 {% block body %}
-<div class="container">
-    <header>
+<header>
+    <div class="container">
         <div class="fLeft">
             <a href="{{ path('time_box_main_homepage') }}"><img src="{{ asset('img/logo.png') }}" class="img-responsive" alt="logo" /></a>
         </div>
@@ -10,8 +10,8 @@
             <a id="connectionButton" href="#connection" class="btn btn-primary btn-lg">Register / Login</a>
         </div>
         <div class="clear"></div>
-    </header>
-</div>
+    </div>
+</header>
 
 <div class="titleContainer">
     <h1>Online file storage with version control</h1>
@@ -40,21 +40,21 @@
             <p>Create links to share your files with anyone</p>
         </li>
     </ul>
-
-    <div class="col-sm-4 col-sm-offset-2">
-        <div id="connection" class="connection">
-            <h3>Register</h3>
-            {% block registration %}
-            {% endblock %}
+    <div class="row frame">
+        <div class="col-sm-4 col-sm-offset-2">
+            <div id="connection" class="connection">
+                <h3>Register</h3>
+                {% block registration %}
+                {% endblock %}
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="connection">
+                <h3>Login</h3>
+                {{ render(controller("FOSUserBundle:Security:login")) }}
+            </div>
         </div>
     </div>
-    <div class="col-sm-4">
-        <div class="connection">
-            <h3>Login</h3>
-            {{ render(controller("FOSUserBundle:Security:login")) }}
-        </div>
-    </div>
-    <div class="clear bottom"></div>
 </div>
 {% endblock %}
 
@@ -68,4 +68,16 @@
         return false;
     });
 </script>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style type="text/css">
+    html, body {
+        background-color: #f5f8fa;
+    }
+    header {
+        background: #f5f8fa;
+    }
+    </style>
 {% endblock %}
