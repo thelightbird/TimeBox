@@ -26,6 +26,14 @@
 {% endif %}
 
 <script type="text/javascript">
+    $("#form_uploadedFile").change(function() {
+        $("#form_name").val(
+            $("#form_uploadedFile").val()
+            .replace(/^.*[\\\/]/, '')
+            .replace(/\..*$/, '')
+            );
+    });
+
     $("form.upload").submit(function() {
 
         var uploadFile = $("#form_uploadedFile").val();
