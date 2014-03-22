@@ -500,8 +500,8 @@ div.folderTree div.collapse {
 }
 div.folderTree p.folder {
 	border-radius: 3px;
-	float: left;
-	margin-bottom: 0;
+	display: inline-block;
+	margin: 2px;
 	min-width: 200px;
 	padding: 10px 20px;
 }

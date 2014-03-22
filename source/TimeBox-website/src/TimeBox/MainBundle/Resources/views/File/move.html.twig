@@ -10,14 +10,17 @@
                 {% if folder.parent is null and folder.id not in foldersId %}
                     <div id="collapseFolder"
                         data-parent=".folderTree">
-                        <p class="folder" data-id="{{ folder.id }}">
-                            <img src="{{ asset('img/icons/folder.png') }}" alt="folder icon" />
-                            {{- folder.name -}}
-                        </p>
+                        {% set noButton = "" %}
                         {% if not folder.children.isEmpty %}
                             <button type="button" id="collapseButton{{ folder.id }}" class="btn btn-default btn-sm" data-toggle="collapse"
                                 data-target=".collapseFolder{{ folder.id }}">+</button>
+                        {% else %}
+                            {% set noButton = "margin-left: 40px;" %}
                         {% endif %}
+                        <p class="folder" data-id="{{ folder.id }}" style="{{ noButton }}">
+                            <img src="{{ asset('img/icons/folder.png') }}" alt="folder icon" />
+                            {{- folder.name -}}
+                        </p>
                         {{ macros.folderTree(folders, foldersId, folder.id, loop.revindex, loop.revindex) }}
                     </div>
                 {% endif %}

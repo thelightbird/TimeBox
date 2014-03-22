@@ -2,16 +2,19 @@
     {%- for folder in folders -%}
         {%- if folder.parent is not null and folder.parent.id == id and folder.id not in foldersId -%}
             <div id="collapseSubfolder-{{ id }}-{{ folder.id }}"
-                style="margin-left: {{ 20 + 10 * (max - cpt + 1) }}px;"
+                style="margin-left: 40px;"
                 class="collapse collapseFolder{{ id }}" data-parent=".folderTree">
-                <p class="folder" data-id="{{ folder.id }}">
-                    <img src="{{ asset('img/icons/folder.png') }}" alt="folder icon" />
-                    {{- folder.name -}}
-                </p>
+                {% set noButton = "" %}
                 {% if not folder.children.isEmpty %}
                     <button type="button" class="btn btn-default btn-sm" data-toggle="collapse"
                         id="collapseButton{{ folder.id }}" data-target=".collapseFolder{{ folder.id }}">+</button>
+                {% else %}
+                    {% set noButton = "margin-left: 40px;" %}
                 {% endif %}
+                <p class="folder" data-id="{{ folder.id }}" style="{{ noButton }}">
+                    <img src="{{ asset('img/icons/folder.png') }}" alt="folder icon" />
+                    {{- folder.name -}}
+                </p>
                 <br>
                 {% if cpt > 0 -%}
                     {{ _self.folderTree(folders, foldersId, folder.id, cpt-1, max) }}
