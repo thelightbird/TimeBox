@@ -127,7 +127,7 @@ class FileController extends Controller
             }
         }
 
-        $url = $this->get('router')->generate('time_box_main_file', array(
+        $url = $this->get('router')->generate('time_box_main_file_deleted', array(
             'folderId' => $currentFolderId
         ));
         return new Response($url);

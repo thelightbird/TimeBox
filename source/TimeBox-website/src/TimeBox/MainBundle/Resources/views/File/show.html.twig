@@ -11,7 +11,7 @@
 
 <div class="row">
     <div class="actions col-md-3">
-        <ul {% if isDeleted %}class="FileRelatedAction"{% endif %}>
+        <ul {% if isDeleted %}class="FileRelatedAction FolderRelatedAction"{% endif %}>
             <li class="title">Actions</li>
             <li class="{{ hideAction }} newFolder">
                 <a href=""><img src="{{ asset('img/icons/folder-add.png') }}" alt="folder add icon" />New folder</a>
@@ -375,12 +375,13 @@
             var nbSelectedFile = $('table.file tr.file.selected').length;
             var nbSelectedFolder = $('table.file tr.folder.selected').length;
             if (nbSelectedItem == 1) {
-                if(nbSelectedFolder > 0){
-                     $( ".FileRelatedAction").hide();
-                     $( ".FolderRelatedAction" ).stop(false, true).slideDown( "slow" );
+                if (nbSelectedFolder > 0) {
+                    $( ".FileRelatedAction").hide();
+                    $( ".FolderRelatedAction" ).stop(false, true).slideDown( "slow" );
                 }
-                else
+                else {
                     $( ".FileRelatedAction" ).stop(false, true).slideDown( "slow" );
+                }
                 hideVersions();
 
                 if (nbSelectedFile == 1) {

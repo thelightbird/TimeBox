@@ -39,7 +39,7 @@ class Folder
     private $files;
 
     /**
-     * @ORM\ManyToOne(targetEntity="TimeBox\UserBundle\Entity\User", cascade={"remove"})
+     * @ORM\ManyToOne(targetEntity="TimeBox\UserBundle\Entity\User")
      */
     private $user;
 
@@ -77,7 +77,7 @@ class Folder
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -100,7 +100,7 @@ class Folder
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -123,7 +123,7 @@ class Folder
     /**
      * Get date
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getDate()
     {
@@ -146,7 +146,7 @@ class Folder
     /**
      * Get isDeleted
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getIsDeleted()
     {
@@ -179,7 +179,7 @@ class Folder
     /**
      * Get children
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getChildren()
     {
@@ -202,7 +202,7 @@ class Folder
     /**
      * Get parent
      *
-     * @return \TimeBox\MainBundle\Entity\Folder 
+     * @return \TimeBox\MainBundle\Entity\Folder
      */
     public function getParent()
     {
@@ -235,7 +235,7 @@ class Folder
     /**
      * Get files
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getFiles()
     {
@@ -258,7 +258,7 @@ class Folder
     /**
      * Get user
      *
-     * @return \TimeBox\UserBundle\Entity\User 
+     * @return \TimeBox\UserBundle\Entity\User
      */
     public function getUser()
     {
