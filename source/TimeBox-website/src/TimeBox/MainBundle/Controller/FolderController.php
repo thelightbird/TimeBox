@@ -52,6 +52,7 @@ class FolderController extends Controller
                 $folder->setParent($parent);
             }
 
+            // Append _copy(n) to folder name if it already exist.
             $folderExists=true;
             $copyNumber = 1;
             while (!is_null($folderExists)) {

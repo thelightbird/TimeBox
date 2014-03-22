@@ -80,7 +80,7 @@ class VersionController extends Controller
 
             $previousVersion = $versionRepository->findOneBy(
                 array('id' => $versionId)
-                );
+            );
 
             if(is_null($previousVersion))
                 throw $this->createNotFoundException("Unable to find previous version entity.".$versionId);
@@ -89,9 +89,9 @@ class VersionController extends Controller
 
 
             $lastVersion = $versionRepository->findOneBy(
-                    array('file' => $previousVersionFile),
-                    array('displayId' => 'DESC')
-                );
+                array('file' => $previousVersionFile),
+                array('displayId' => 'DESC')
+            );
 
             if(is_null($lastVersion))
                 throw $this->createNotFoundException('Unable to find Version entity.');
@@ -117,7 +117,7 @@ class VersionController extends Controller
             copy($previousVersion->getAbsolutePath(), $restoredVersion->getAbsolutePath());
 
             return $this->redirect($this->generateUrl('time_box_main_file', array(
-                    'folderId' => $previousVersionFile->getFolder()
+                'folderId' => $previousVersionFile->getFolder()
             )));
         }
 
@@ -145,7 +145,7 @@ class VersionController extends Controller
 
         $version = $versionRepository->findOneBy(
             array('id' => $versionId)
-            );
+        );
 
         if(is_null($version))
             throw $this->createNotFoundException("Unable to find version entity.".$versionId);
@@ -155,10 +155,10 @@ class VersionController extends Controller
         if(is_null($file))
             throw $this->createNotFoundException("Unable to find file entity.".$versionId);
 
-        $possessFile = $em->getRepository('TimeBoxMainBundle:File')->findOneBy(
-            array('id' => $file->getId(),
-                  'user' => $user)
-            );
+        $possessFile = $em->getRepository('TimeBoxMainBundle:File')->findOneBy(array(
+            'id'   => $file->getId(),
+            'user' => $user
+        ));
 
         if(is_null($possessFile))
             return new Response('<html><body>You are not allowed to download this file</body></html>');
@@ -173,11 +173,11 @@ class VersionController extends Controller
         if(!file_exists($filePath))
             throw $this->createNotFoundException("File not found");
 
+        // Trigger file download
         $response = new Response();
         $response->headers->set('Content-type', 'application/octet-stream');
         $response->headers->set('Content-Disposition', sprintf('attachment;filename="%s', $filename));
         $response->setContent(file_get_contents($filePath));
-
         return $response;
     }
 }

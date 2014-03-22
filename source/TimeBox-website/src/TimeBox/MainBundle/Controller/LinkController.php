@@ -42,6 +42,7 @@ class LinkController extends Controller
                 "date" => "ASC"
             ));
 
+        // types that have an icon
         $types = array(
             "avi", "bmp", "css", "doc", "gif", "htm", "jpg", "js", "mov", "mp3", "mp4",
             "mpg", "pdf", "php", "png", "ppt", "rar", "txt", "xls", "xml", "zip"
@@ -137,7 +138,9 @@ class LinkController extends Controller
                     $link->setUser($user);
                     $link->setVersion($version[0]);
                     $link->setDate(new \DateTime);
-                    $link->setDownloadHash("hash"); // TODO downloadHash
+                    $time = time();
+                    $hash = md5($time + $user->getId()) . sha1($time + $user->getUsername());
+                    $link->setDownloadHash($hash);
 
                     $em->persist($link);
                 }

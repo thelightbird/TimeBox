@@ -53,6 +53,8 @@ class FileController extends Controller
             'isDeleted' => $isDeleted
         ));
 
+        // generate breadcrumb for current folder
+        // retrieve sorted folders parents list in an array
         $breadcrumb = array();
         if (!is_null($folderId)) {
             $currentFolder = $em->getRepository('TimeBoxMainBundle:Folder')->find($folderId);
@@ -67,6 +69,7 @@ class FileController extends Controller
             }
         }
 
+        // types that have an icon
         $types = array(
             "avi", "bmp", "css", "doc", "gif", "htm", "jpg", "js", "mov", "mp3", "mp4",
             "mpg", "pdf", "php", "png", "ppt", "rar", "txt", "xls", "xml", "zip"
@@ -221,7 +224,7 @@ class FileController extends Controller
                 ));
 
                 if (!is_null($filesToDownload)) {
-                    //One file and no folder is requested
+                    // One file and no folder is requested
                     if (sizeof($filesToDownload) == 1 && sizeof($foldersToDownload) == 0) {
                         $version = $filesToDownload[0];
                         $file = $version->getFile();
@@ -237,6 +240,7 @@ class FileController extends Controller
                             throw $this->createNotFoundException();
                         }
 
+                        // Trigger file download
                         $response = new Response();
                         $response->headers->set('Content-type', 'application/octet-stream');
                         $response->headers->set('Content-Disposition', sprintf('attachment; filename="%s"', $filename));
@@ -244,23 +248,24 @@ class FileController extends Controller
                         return $response;
                     }
 
-                    //Create zip
+                    // Create zip folder on server if not exist
                     $zipFolder = $this->get('kernel')->getRootDir() . '/../web/uploads/zip/';
                     if (!file_exists($zipFolder)) {
                         mkdir($zipFolder, 0755, true);
                     }
 
+                    // Create zip archive
                     $zip = new ZipArchive();
                     $zipName = 'TimeBoxDownloads-'.time().'.zip';
                     $zipPath = $zipFolder . $zipName;
                     $zip->open($zipPath, ZipArchive::CREATE);
 
-                    //Fill zip with folders
+                    // Fill zip with folders
                     foreach($foldersToDownload as $folder){
                         $this->addFolderToZip($folder, $zip);
                     }
 
-                    //Fill zip with files
+                    // Fill zip with files
                     foreach ($filesToDownload as $f) {
                         $version = $f;
                         $file = $version->getFile();
@@ -277,6 +282,7 @@ class FileController extends Controller
 
                     $zip->close();
 
+                    // Trigger file download
                     $response = new Response();
                     $response->headers->set('Content-type', 'application/octet-stream');
                     $response->headers->set('Content-Disposition', sprintf('attachment; filename="%s"', $zipName));
@@ -324,6 +330,7 @@ class FileController extends Controller
                 throw $this->createNotFoundException();
             }
 
+            // Trigger file download
             $response = new Response();
             $response->headers->set('Content-type', 'application/octet-stream');
             $response->headers->set('Content-Disposition', sprintf('attachment; filename="%s"', $filename));
@@ -336,7 +343,7 @@ class FileController extends Controller
 
 
     /**
-     * Delete or restore folder contents.
+     * Delete or restore folder contents recursively.
      *
      * @param Folder  $folder The entity
      * @param Boolean $bool   true:  delete
