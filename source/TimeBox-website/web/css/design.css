@@ -124,6 +124,7 @@ div.buttons .btn {
 
 #connectionButton {
 	margin-right: 10px;
+	opacity: 0.8;
 }
 
 div.titleContainer {
@@ -177,9 +178,32 @@ ul.functionality li p {
 }
 div.connection {
 	vertical-align: top;
-	border: 1px solid #e6e6e6;
+	border: 1px solid #dee6eb;
+	background-color: #f6f8fa;
 	text-align: center;
+	max-width: 70%;
+	margin: auto;
 	margin-bottom: 30px;
+}
+div.registerBlock {
+	margin-left: 20%;
+}
+div.loginBlock {
+	margin-left: 10%;
+}
+@media screen and (max-width : 767px) {
+	div.registerBlock,
+	div.loginBlock {
+		margin-left: 20%;
+		margin-right: 20%;
+	}
+}
+@media screen and (max-width : 480px) {
+	div.registerBlock,
+	div.loginBlock {
+		margin-left: auto;
+		margin-right: auto;
+	}
 }
 div.connection h3 {
 	text-align: center;
@@ -196,10 +220,6 @@ div.connection .registerForm div.form-group {
 }
 div.connection .loginForm a.headerLink {
 	font-size: 12px;
-}
-
-div.frame > div > div {
-	background-color: #fff;
 }
 
 .bottom {
@@ -428,6 +448,30 @@ table.link .size,
 table.link .lastEdit {
 	width: 180px;
 	text-align: center;
+}
+@media screen and (max-width : 480px) {
+	table.file .size,
+	table.file .lastEdit,
+	table.link .size,
+	table.link .lastEdit {
+		width: auto;
+	}
+}
+@media screen and (max-width : 640px) {
+	table.file .size,
+	table.file .lastEdit,
+	table.link .size,
+	table.link .lastEdit {
+		width: 100px;
+	}
+}
+@media screen and (max-width : 767px) {
+	table.file .size,
+	table.file .lastEdit,
+	table.link .size,
+	table.link .lastEdit {
+		width: 130px;
+	}
 }
 table.file tr.selected,
 table.link tr.selected {
