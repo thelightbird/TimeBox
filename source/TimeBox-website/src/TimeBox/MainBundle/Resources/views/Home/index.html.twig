@@ -1,6 +1,7 @@
 {% extends "TimeBoxMainBundle::layout.html.twig" %}
 
 {% block body %}
+<div class="container wrapper">
 <header>
     <div class="container">
         <div class="fLeft">
@@ -56,6 +57,7 @@
         </div>
     </div>
 </div>
+</div>
 {% endblock %}
 
 {% block javascripts %}
@@ -68,16 +70,4 @@
         return false;
     });
 </script>
-{% endblock %}
-
-{% block stylesheets %}
-    {{ parent() }}
-    <style type="text/css">
-    html, body {
-        background-color: #f5f8fa;
-    }
-    header {
-        background: #f5f8fa;
-    }
-    </style>
 {% endblock %}
