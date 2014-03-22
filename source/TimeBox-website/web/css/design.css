@@ -413,6 +413,7 @@ table.link tr.selected td.checkboxImg:hover {
 table.file .fileTitle {
 	padding-left: 0px;
 	border-left: none;
+	word-break: break-all;
 }
 table.link .fileTitle {
 	border-left: none;
