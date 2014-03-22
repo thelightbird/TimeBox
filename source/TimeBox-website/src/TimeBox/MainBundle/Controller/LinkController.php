@@ -11,6 +11,10 @@ use TimeBox\MainBundle\Entity\Link;
 
 class LinkController extends Controller
 {
+    /**
+     * Get current logged user.
+     *
+     */
     public function getConnectedUser()
     {
         $user = $this->container->get('security.context')->getToken()->getUser();
@@ -22,6 +26,11 @@ class LinkController extends Controller
         return $user;
     }
 
+
+    /**
+     * Show shared links for current logged user.
+     *
+     */
     public function showAction()
     {
         $user = $this->getConnectedUser();
@@ -44,6 +53,11 @@ class LinkController extends Controller
         ));
     }
 
+
+    /**
+     * Create a new shared link for lastest version of a file.
+     *
+     */
     public function newLinkFileAction()
     {
         $user = $this->getConnectedUser();
@@ -54,7 +68,6 @@ class LinkController extends Controller
         if ($request->getMethod() == 'POST') {
             $filesId = $request->request->get('filesId');
             $filesId = json_decode($filesId);
-
 
             $files = $em->getRepository('TimeBoxMainBundle:File')->findBy(array(
                 'user' => $user,
@@ -83,8 +96,6 @@ class LinkController extends Controller
                 $em->flush();
             }
 
-
-
             $response = 'File';
             if(sizeof($files) != 1)
                 $response += 's';
@@ -95,7 +106,12 @@ class LinkController extends Controller
         return $this->renderText("Something went wrong");
     }
 
-     public function newLinkVersionAction()
+
+    /**
+     * Create a new shared link for a specific version of a file.
+     *
+     */
+    public function newLinkVersionAction()
     {
         $user = $this->getConnectedUser();
 
@@ -105,7 +121,6 @@ class LinkController extends Controller
         if ($request->getMethod() == 'POST') {
             $versionId = $request->request->get('versionId');
             $versionId = json_decode($versionId);
-
 
             $version = $em->getRepository('TimeBoxMainBundle:Version')->findBy(array(
                 'id' => $versionId
@@ -132,6 +147,11 @@ class LinkController extends Controller
         return $this->redirect($this->generateUrl('time_box_main_share'));
     }
 
+
+    /**
+     * Delete one or more shared links.
+     *
+     */
     public function deleteAction()
     {
         $user = $this->getConnectedUser();
@@ -156,8 +176,6 @@ class LinkController extends Controller
             }
 
             $em->flush();
-
-            return new Response('');
         }
 
         return new Response('');

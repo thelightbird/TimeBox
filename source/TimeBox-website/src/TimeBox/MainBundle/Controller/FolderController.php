@@ -10,6 +10,10 @@ use TimeBox\MainBundle\Entity\Folder;
 class FolderController extends Controller
 {
 
+    /**
+     * Get current logged user.
+     *
+     */
     public function getConnectedUser()
     {
         $user = $this->container->get('security.context')->getToken()->getUser();
@@ -21,6 +25,11 @@ class FolderController extends Controller
         return $user;
     }
 
+
+    /**
+     * Create a new folder.
+     *
+     */
     public function newAction()
     {
         $user = $this->getConnectedUser();

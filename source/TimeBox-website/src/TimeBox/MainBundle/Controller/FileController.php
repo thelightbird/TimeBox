@@ -18,6 +18,10 @@ use \ZipArchive;
 
 class FileController extends Controller
 {
+    /**
+     * Get current logged user.
+     *
+     */
     public function getConnectedUser()
     {
         $user = $this->container->get('security.context')->getToken()->getUser();
@@ -29,6 +33,13 @@ class FileController extends Controller
         return $user;
     }
 
+
+    /**
+     * Show files for current logged user.
+     *
+     * @param Folder   $folderId   The current folder id.
+     * @param Boolean  $isDeleted  Switch view between deleted files and files not deleted.
+     */
     public function showAction($folderId, $isDeleted)
     {
         $user = $this->getConnectedUser();
@@ -72,6 +83,11 @@ class FileController extends Controller
         ));
     }
 
+
+    /**
+     * Delete one or more files or folders.
+     *
+     */
     public function deleteAction()
     {
         $user = $this->getConnectedUser();
@@ -133,6 +149,7 @@ class FileController extends Controller
         return new Response($url);
     }
 
+
     /**
      * Add a folder, its contents and children to a zip archive's subdirectory.
      *
@@ -176,6 +193,11 @@ class FileController extends Controller
         }
     }
 
+
+    /**
+     * Download a file, or a zip archive with all files when user is logged.
+     *
+     */
     public function downloadAction()
     {
         $user = $this->getConnectedUser();
@@ -267,6 +289,11 @@ class FileController extends Controller
     }
 
 
+    /**
+     * Download a file with a shared download link without being logged.
+     *
+     * @param String $hash The download hash
+     */
     public function downloadFileAction($hash)
     {
         $em = $this->getDoctrine()->getManager();
@@ -307,6 +334,7 @@ class FileController extends Controller
         return $this->redirect($this->generateUrl('fos_user_registration_register'));
     }
 
+
     /**
      * Delete or restore folder contents.
      *
@@ -332,6 +360,11 @@ class FileController extends Controller
         }
     }
 
+
+    /**
+     * Move one or more files or folders to another folder.
+     *
+     */
     public function moveAction()
     {
         $user = $this->getConnectedUser();
@@ -408,6 +441,11 @@ class FileController extends Controller
         return new Response('');
     }
 
+
+    /**
+     * Rename a file or a folder.
+     *
+     */
     public function renameAction()
     {
         $user = $this->getConnectedUser();
@@ -456,7 +494,6 @@ class FileController extends Controller
             $filesId = json_encode($filesId);
             $foldersId = json_encode($foldersId);
 
-
             return $this->render('TimeBoxMainBundle:File:rename.html.twig', array(
                 'folderId'  => $currentFolderId,
                 'filesId'   => $filesId,
@@ -468,7 +505,11 @@ class FileController extends Controller
 
 
     /**
+     * Upload a new file.
      * @Template()
+     *
+     * @param Request  $request    The request.
+     * @param Folder   $folderId   The current folder id.
      */
     public function uploadAction(Request $request, $folderId)
     {

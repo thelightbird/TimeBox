@@ -13,6 +13,10 @@ use TimeBox\MainBundle\Entity\Version;
 class VersionController extends Controller
 {
 
+    /**
+     * Get current logged user.
+     *
+     */
     public function getConnectedUser()
     {
         $user = $this->container->get('security.context')->getToken()->getUser();
@@ -24,6 +28,11 @@ class VersionController extends Controller
         return $user;
     }
 
+
+    /**
+     * Called by an ajax request, display all versions of a file.
+     *
+     */
     public function indexAction()
     {
         try {
@@ -46,6 +55,11 @@ class VersionController extends Controller
         ));
     }
 
+
+    /**
+     * Restore a version of a file.
+     *
+     */
     public function restoreAction()
     {
         $user = $this->getConnectedUser();
@@ -85,8 +99,6 @@ class VersionController extends Controller
             $versionDisplayId = $lastVersion->getDisplayId() + 1;
             $size = $previousVersion->getSize();
 
-
-
             $restoredVersion = new Version();
             $restoredVersion->setFile($previousVersionFile);
             $restoredVersion->setDisplayId($versionDisplayId);
@@ -94,8 +106,6 @@ class VersionController extends Controller
             $restoredVersion->setDate(new \DateTime);
             $restoredVersion->setDescription("Restored file from version ".$previousVersion->getDisplayId());
             $restoredVersion->setComment($previousVersion->getComment());
-
-
 
             $user->setStorage(max($user->getStorage() + $size, 0));
 
@@ -114,6 +124,12 @@ class VersionController extends Controller
         return new Response('');
     }
 
+
+    /**
+     * Download a specific version of a file.
+     *
+     * @param Version  $versionId  The version id.
+     */
     public function downloadAction($versionId)
     {
         $user = $this->getConnectedUser();
@@ -146,7 +162,6 @@ class VersionController extends Controller
 
         if(is_null($possessFile))
             return new Response('<html><body>You are not allowed to download this file</body></html>');
-
 
         $filePath = $version->getAbsolutePath();
         $filename = $file->getName();

@@ -6,6 +6,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class HomeController extends Controller
 {
+    /**
+     * Redirect user to user's files page or registration page if user is logged or not.
+     *
+     */
     public function indexAction()
     {
         if ($this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY')) {
