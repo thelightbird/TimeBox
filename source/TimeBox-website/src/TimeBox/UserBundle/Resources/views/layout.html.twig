@@ -7,26 +7,28 @@
 
 {% block container %}
 
-        {% for type, messages in app.session.flashbag.all() %}
-            {% for message in messages %}
-                <div class="flash-{{ type }}">
-                    {{ message }}
-                </div>
-            {% endfor %}
+<div class="defaultPadding">
+    {% for type, messages in app.session.flashbag.all() %}
+        {% for message in messages %}
+            <div class="flash-{{ type }}">
+                {{ message }}
+            </div>
         {% endfor %}
+    {% endfor %}
 
-        <div>
-            {% block fos_user_content %}
-            {% endblock fos_user_content %}
-        </div>
+    <div>
+        {% block fos_user_content %}
+        {% endblock fos_user_content %}
+    </div>
 
-        <div>
-            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                <a class="btn btn-primary" href="{{ path('fos_user_profile_edit') }}">Edit profile</a>
+    <div>
+        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+            <a class="btn btn-primary" href="{{ path('fos_user_profile_edit') }}">Edit profile</a>
 
-                <a class="btn btn-primary" href="{{ path('fos_user_change_password') }}">Change password</a>
+            <a class="btn btn-primary" href="{{ path('fos_user_change_password') }}">Change password</a>
 
-                <a class="btn btn-danger" href="{{ path('time_box_user_delete') }}" onclick="return confirm('Are you sure to permanently delete your account?');">Delete account</a>
-            {% endif %}
-        </div>
+            <a class="btn btn-danger" href="{{ path('time_box_user_delete') }}" onclick="return confirm('Are you sure to permanently delete your account?');">Delete account</a>
+        {% endif %}
+    </div>
+</div>
 {% endblock container %}
