@@ -13,7 +13,7 @@
 <script type="text/javascript">
     $("form.new").submit(function() {
         var folderName = $("input[name=folderName]").val();
-        var pattern = new RegExp("^[a-zA-Z0-9_\\-\\(\\)]+$");
+        var pattern = new RegExp("^[a-zA-Z0-9_\\-\\(\\)\\.]+$");
         if (!pattern.test(folderName)) {
             alert("Error in the folder name !");
             return false;

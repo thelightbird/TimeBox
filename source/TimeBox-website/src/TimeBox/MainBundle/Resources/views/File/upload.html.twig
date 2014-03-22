@@ -51,13 +51,13 @@
         }
 
         var userStorageSize =  {{ app.user.storage }};
-        if ((userStorageSize + $("#form_uploadedFile").files[0].size) > 50000000) {
+        if ((userStorageSize + $("#form_uploadedFile")[0].files[0].size) > 50000000) {
             alert("You do not have enough storage space left for this file.");
             return false;
         }
 
         var filename = $("input[name=name]").val();
-        var pattern = new RegExp("^[a-zA-Z0-9_\\-\\(\\)]+$");
+        var pattern = new RegExp("^[a-zA-Z0-9_\\-\\(\\)\\.]+$");
         if (!pattern.test(filename)) {
             alert("Error in the file name !");
             return false;
