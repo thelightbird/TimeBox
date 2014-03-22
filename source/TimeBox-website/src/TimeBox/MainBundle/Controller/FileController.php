@@ -516,9 +516,8 @@ class FileController extends Controller
      * @Template()
      *
      * @param Request  $request    The request.
-     * @param Folder   $folderId   The current folder id.
      */
-    public function uploadAction(Request $request, $folderId)
+    public function uploadAction(Request $request)
     {
         $user = $this->getConnectedUser();
 
@@ -590,7 +589,7 @@ class FileController extends Controller
 
         return array(
             'form' => $form->createView(),
-            'folderId' => $folderId
+            'folderId' => $request->request->get('folderId')
         );
     }
 }

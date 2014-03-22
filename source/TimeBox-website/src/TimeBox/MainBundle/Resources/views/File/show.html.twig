@@ -328,7 +328,7 @@
             $("li.upload a").click(function() {
                 $.ajax({
                     url: "{{ path('time_box_main_file_upload') }}",
-                    type: "GET",
+                    type: "POST",
                     data: {
                         'folderId': '{{ folderId }}'
                     },

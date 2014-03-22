@@ -7,10 +7,8 @@ time_box_main_login:
     defaults: { _controller: TimeBoxMainBundle:Home:index }
 
 time_box_main_file_upload:
-    pattern:  /file/upload/{folderId}
-    defaults: { _controller: TimeBoxMainBundle:File:upload, folderId: null }
-    requirements:
-        folderId:  \d+
+    pattern:  /file/upload
+    defaults: { _controller: TimeBoxMainBundle:File:upload }
 
 time_box_main_file_download:
     pattern:  /file/download
